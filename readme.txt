@@ -4,7 +4,7 @@ Tags: yachts, boats, brokerage, brokers
 Donate link: http://www.smart-broker.co.uk
 Requires at least: 3.3.0
 Tested up to: 3.3.1
-Stable tag: 1.0
+Stable tag: 1.1
 
 Embeds yacht listings from the SmartBroker service into your WordPress site. Requires a SmartBroker subscription.
 
@@ -14,13 +14,37 @@ This plugin embeds yacht brokerage listings from the SmartBroker service
 ([http://www.smart-broker.co.uk](http://www.smart-broker.co.uk/ "A web-based sales tool for yacht and boat brokers"))
 into your WordPress site.
 
+In order to use this plugin, you’ll require a paid-for account with SmartBroker – please see our 
+[pricing page](http://www.smart-broker.co.uk/?page_id=95 "Pricing information for SmartBroker") for more details. 
+
 Once you have followed the installation instructions, you can also add the following shortcodes anywhere on your site:
 
 * `[sb_featured]` - a scrolling carousel feature highlighting some of your listings
 * `[sb_search_box]` - a stand-alone listings search box (similar to that found on the left hand side of the search page)
+* `[sb_search_box_small]` – a simple size-type search box
+* `[sb_search_by_ref]` – a small search-by-reference-number box
 
+**Options**
 
+The following options can be set with [sb_search_box] and [sb_search_box_small]:
 
+* size_low – the pre-set value of the lower size slider, in feet (default: 28, integers only)
+* size_high – the pre-set value of the upper size slider, in feet (default: 45, integers only)
+
+For example, the following shortcode will produced a small search box with a pre-set size range of 30-40ft:
+
+*[sb_search_box_small size_low="30" size_high="40"]*
+
+In addition, the following options can be set for [sb_search_box] only:
+
+* price_low - the pre-set value of the lower price slider, in GBP (default: 30,000, integers only)
+* price_high - the pre-set value of the upper price slider, in GBP (default: 150,000, integers only)
+
+For example, the following shortcode will produced a search box with a pre-set size range of 40-50ft and a price range of 100,000 – 200,000 GBP:
+
+*[sb_search_box size_low="40" size_high="50" price_low="100000" price_high="200000"]*
+
+The options available for [sb_search_box] can also be used on [sb_listing] (see installation instructions) to set default values if none are passed to it from elsewhere (e.g. from a get request).
 
 == Installation ==
 
@@ -41,17 +65,19 @@ Once you have followed the installation instructions, you can also add the follo
 
 A brief overview of the service is available at [http://www.smart-broker.co.uk](http://www.smart-broker.co.uk/ "A web-based sales tool for yacht and boat brokers") 
 
-== Screenshots ==
-
-1. This screen shot description corresponds to screenshot-1.(png|jpg|jpeg|gif). Note that the screenshot is taken from
-the directory of the stable readme.txt, so in this case, `/tags/4.3/screenshot-1.png` (or jpg, jpeg, gif)
-
 == Changelog ==
+= 1.1 =
+
+* Changed xml requests to use https
+* Added [sb_search_box_small] & [sb_search_by_ref] shortcodes
+* Added optional settings for [sb_search_box] and [sb_search_box_small]
 
 = 1.0 =
 * Initial release
 
 == Upgrade Notice ==
+= 1.1 =
+This upgrade secures the data feed from WordPress to SmartBroker. Users of v1.0 should upgrade as soon as possible.
 
 = 1.0 =
-* Initial release
+Initial release
