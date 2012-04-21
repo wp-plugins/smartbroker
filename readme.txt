@@ -1,4 +1,4 @@
-=== SmartBroker ===
+﻿=== SmartBroker ===
 Contributors: phuvf
 Tags: yachts, boats, brokerage, brokers
 Donate link: http://www.smart-broker.co.uk
