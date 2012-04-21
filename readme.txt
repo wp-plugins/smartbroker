@@ -54,7 +54,7 @@ In addition, the following options can be set for [sb_search_box] only:
 * price_low - the pre-set value of the lower price slider, in GBP (default: 30,000, integers only)
 * price_high - the pre-set value of the upper price slider, in GBP (default: 150,000, integers only)
 
-For example, the following shortcode will produced a search box with a pre-set size range of 40-50ft and a price range of 100,000 ?200,000 GBP:
+For example, the following shortcode will produced a search box with a pre-set size range of 40-50ft and a price range of 100,000 - 200,000 GBP:
 
 *[sb_search_box size_low="40" size_high="50" price_low="100000" price_high="200000"]*
 
@@ -62,7 +62,9 @@ The options available for [sb_search_box] can also be used on [sb_listing] (see 
 
 **Theming**
 
-This plugin uses the *jQuery UI* themeing framework, and the full set of themes are available to use. For theme samples, please go to [http://jqueryui.com/themeroller/#themegallery] (http://jqueryui.com/themeroller/#themegallery "The jQuery UI theme gallery"). The theme is set in Admin->Settings->SmartBroker.
+This plugin uses the *jQuery UI* themeing framework, and the full set of themes are available to use. For theme samples, please go to the [jQuery UI theme gallery](http://jqueryui.com/themeroller/#themegallery "The jQuery UI theme gallery").
+
+The theme is set in Admin->Settings->SmartBroker.
 
 == Frequently Asked Questions ==
 
