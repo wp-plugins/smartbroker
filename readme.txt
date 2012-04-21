@@ -54,17 +54,30 @@ In addition, the following options can be set for [sb_search_box] only:
 * price_low - the pre-set value of the lower price slider, in GBP (default: 30,000, integers only)
 * price_high - the pre-set value of the upper price slider, in GBP (default: 150,000, integers only)
 
-For example, the following shortcode will produced a search box with a pre-set size range of 40-50ft and a price range of 100,000 ֠200,000 GBP:
+For example, the following shortcode will produced a search box with a pre-set size range of 40-50ft and a price range of 100,000 ?200,000 GBP:
 
 *[sb_search_box size_low="40" size_high="50" price_low="100000" price_high="200000"]*
 
 The options available for [sb_search_box] can also be used on [sb_listing] (see installation instructions) to set default values if none are passed to it from elsewhere (e.g. from a get request).
+
+**Theming**
+
+This plugin uses the *jQuery UI* themeing framework, and the full set of themes are available to use. For theme samples, please go to [http://jqueryui.com/themeroller/#themegallery] (http://jqueryui.com/themeroller/#themegallery "The jQuery UI theme gallery"). The theme is set in Admin->Settings->SmartBroker.
 
 == Frequently Asked Questions ==
 
 = Huh, what, SmartBroker? - never heard of it! =
 
 A brief overview of the service is available at [http://www.smart-broker.co.uk](http://www.smart-broker.co.uk/ "A web-based sales tool for yacht and boat brokers") 
+
+== Screenshots ==
+
+1. A sample boat listing with broker's notes, specifications, photos, videos and contact form, using theme 'start'.
+2. The search box and results page using theme 'start'.
+3. The featured boats shortcode using theme 'ui-darkness'.
+4. A drop-in search box, using theme 'ui-darkness'.
+5. A small search box, using theme 'ui-darkness'.
+6. A search-by-reference number box, using theme 'ui-darkness'
 
 == Changelog ==
 = 1.1 =
