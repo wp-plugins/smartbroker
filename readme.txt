@@ -6,7 +6,7 @@ Requires at least: 3.3.0
 Tested up to: 3.3.1
 Stable tag: 1.1
 
-Embeds yacht listings from the SmartBroker service into your WordPress site. Requires a SmartBroker subscription.
+This plugin embeds yacht listings from the SmartBroker service into your WordPress site. Requires a SmartBroker subscription.
 
 == Description ==
 
