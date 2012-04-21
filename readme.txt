@@ -33,10 +33,10 @@ In order to use this plugin, you'll require a paid-for account with SmartBroker 
 
 Once you have followed the installation instructions, you can also add the following shortcodes anywhere on your site:
 
-* `[sb_featured]` - a scrolling carousel feature highlighting some of your listings
-* `[sb_search_box]` - a stand-alone listings search box (similar to that found on the left hand side of the search page)
-* `[sb_search_box_small]` - a simple size-type search box
-* `[sb_search_by_ref]` - a small search-by-reference-number box
+* [sb_featured] - a scrolling carousel feature highlighting some of your listings
+* [sb_search_box] - a stand-alone listings search box (similar to that found on the left hand side of the search page)
+* [sb_search_box_small] - a simple size-type search box
+* [sb_search_by_ref] - a small search-by-reference-number box
 
 **Options**
 
