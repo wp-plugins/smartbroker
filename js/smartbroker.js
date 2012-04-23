@@ -28,10 +28,12 @@
  //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
  //slider size code
 	var sizeLow = $('#size_low_get').html();
-	if (sizeLow == null) {sizeLow = 28;} 
+	if (sizeLow == null) {sizeLow = $('#size_low').val();}
+	if ((sizeLow == '')||(sizeLow == undefined)) {sizeLow = 28;}	
  	var sizeHigh = $('#size_high_get').html();
-	if (sizeHigh == null) {sizeHigh = 45;} 
-
+	if (sizeHigh == null) {sizeHigh = $('#size_high').val();}
+	if ((sizeHigh == '')||(sizeHigh == undefined)) {sizeHigh = 45;}
+	
 	$("#size_low").val(sizeLow);//set hidden field values
 	$("#size_high").val(sizeHigh);
 	sizeLowM = sigFigs(sizeLow * 0.3048,2);//set text
@@ -65,9 +67,11 @@
  //-----------------------------------------------------------------------------------------------------------------------------------------------------
  //slider price code
 	var priceLow = $('#price_low_get').html();
-	if (priceLow == null) {priceLow = 30000;} 
+	if (priceLow == null) {priceLow = $('#price_low').val();}
+	if ((priceLow == '')||(priceLow == undefined)) {priceLow = 30000;}	
  	var priceHigh = $('#price_high_get').html();
-	if (priceHigh == null) {priceHigh = 150000;}
+	if (priceHigh == null) {priceHigh = $('#price_high').val();}
+	if ((priceHigh == '')||(priceHigh == undefined)) {priceHigh = 150000;}
 		
 	$("#price_low").val(priceLow);//set hidden field values
 	$("#price_high").val(priceHigh);
