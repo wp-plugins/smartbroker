@@ -187,8 +187,7 @@ add_action('wp_enqueue_scripts','sb_styles');
 
 function sb_styles() {
 	global $sb_config;
-	$theme_url = plugins_url("themes/".$sb_config['theme'].'/jquery-ui-1.8.17.custom.css', __FILE__);
-	wp_register_style('sb_jquery_ui_theme', $theme_url);
+	wp_register_style('sb_jquery_ui_theme', "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/$sb_config[theme]/jquery-ui.css");
 	wp_enqueue_style('sb_jquery_ui_theme');
 	wp_register_style('sb_theme', plugins_url('css/smartbroker.css', __FILE__));
 	wp_enqueue_style('sb_theme');
