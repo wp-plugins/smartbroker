@@ -70,13 +70,14 @@ function sb_server_section_text() {echo "";}
 function sb_server_address_string() {
 	global $sb_config;
 	echo "<input id='server_address' name='sb_plugin_options[server_address]' size='40' type='text' value='".$sb_config['server_address']."' />
-	<p>e.g. <i>http://mybrokerage.smart-broker.co.uk</i> - always include the <i>'http://'</i> part.</p>";
+	<p>e.g. <i>http://mybrokerage.smart-broker.co.uk</i> - always include the <i>'http://'</i> part.</p>
+	<p>Use <em>demo.smart-broker.co.uk</em> if you don't yet have a SmartBroker system and just wish to test your site with placeholder data.";
 	}
 	
 function sb_auth_string() {
 	global $sb_config;
 	echo "<input id='sb_auth' name='sb_plugin_options[auth]' size='40' type='text' value='".$sb_config['auth']."' />
-	<p>This will be provided for you by SmartBroker.</p>";
+	<p>This will be provided for you by SmartBroker.</p><p>If you are using the <em>demo.smart-broker.co.uk</em> server, no authentication token is required.</p>";
 	}
 	
 function sb_search_page_string() {
