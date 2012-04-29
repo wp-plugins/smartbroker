@@ -20,7 +20,8 @@
 	
 	$("a[rel^='prettyPhoto']").prettyPhoto();
 	
-	var euroRate = $('#ex_rate').html();
+	var euroRate = $('.ex_rate').first().html();
+
  //-------------------------------------------------------------------------------------------------------------------------------------------------------------
  //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	var showAdvanced = false;
@@ -28,19 +29,19 @@
  //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
  //slider size code
 	var sizeLow = $('#size_low_get').html();
-	if (sizeLow == null) {sizeLow = $('#size_low').val();}
+	if (sizeLow == null) {sizeLow = $('.size_low').val();}
 	if ((sizeLow == '')||(sizeLow == undefined)) {sizeLow = 28;}	
  	var sizeHigh = $('#size_high_get').html();
-	if (sizeHigh == null) {sizeHigh = $('#size_high').val();}
+	if (sizeHigh == null) {sizeHigh = $('.size_high').val();}
 	if ((sizeHigh == '')||(sizeHigh == undefined)) {sizeHigh = 45;}
 	
-	$("#size_low").val(sizeLow);//set hidden field values
-	$("#size_high").val(sizeHigh);
+	$(".size_low").val(sizeLow);//set hidden field values
+	$(".size_high").val(sizeHigh);
 	sizeLowM = sigFigs(sizeLow * 0.3048,2);//set text
 	sizeHighM= sigFigs(sizeHigh * 0.3048,2);
-	$('#sizedesc').html("<span id='sb_size_low'>"+sigFigs(sizeLow,2) + "</span> - <span id='sb_size_high'>" + sigFigs(sizeHigh,2) + "</span> feet | " + sizeLowM + " - " + sizeHighM + " m");
+	$('.sizedesc').html("<span id='sb_size_low'>"+sigFigs(sizeLow,2) + "</span> - <span id='sb_size_high'>" + sigFigs(sizeHigh,2) + "</span> feet | " + sizeLowM + " - " + sizeHighM + " m");
 	
-	$('#slider_size').slider({
+	$('.slider_size').slider({
 		animate: true,
 		max: 120,
 		min: 6,
@@ -52,12 +53,13 @@
 				sizeLow = ui.values[0];
 				sizeHigh = ui.values[1];
 				//set hidden field values
-				$("#size_low").val(sizeLow);
-				$("#size_high").val(sizeHigh);
+				$(".size_low").val(sizeLow);
+				$(".size_high").val(sizeHigh);
+				$('.slider_size').slider({values: [sizeLow, sizeHigh]});
 				//set text
 				sizeLowM = sigFigs(sizeLow * 0.3048,2);
 				sizeHighM= sigFigs(sizeHigh * 0.3048,2);
-				$('#sizedesc').html(sigFigs(sizeLow,2) + " - " + sigFigs(sizeHigh,2) + " feet | " + sizeLowM + " - " + sizeHighM + " m");
+				$('.sizedesc').html(sigFigs(sizeLow,2) + " - " + sigFigs(sizeHigh,2) + " feet | " + sizeLowM + " - " + sizeHighM + " m");
 				}
 		});
 	
@@ -67,19 +69,19 @@
  //-----------------------------------------------------------------------------------------------------------------------------------------------------
  //slider price code
 	var priceLow = $('#price_low_get').html();
-	if (priceLow == null) {priceLow = $('#price_low').val();}
+	if (priceLow == null) {priceLow = $('.price_low').val();}
 	if ((priceLow == '')||(priceLow == undefined)) {priceLow = 30000;}	
  	var priceHigh = $('#price_high_get').html();
-	if (priceHigh == null) {priceHigh = $('#price_high').val();}
+	if (priceHigh == null) {priceHigh = $('.price_high').val();}
 	if ((priceHigh == '')||(priceHigh == undefined)) {priceHigh = 150000;}
 		
-	$("#price_low").val(priceLow);//set hidden field values
-	$("#price_high").val(priceHigh);
+	$(".price_low").val(priceLow);//set hidden field values
+	$(".price_high").val(priceHigh);
 	priceLowEuro = sigFigs(priceLow * euroRate,2); //set text
 	priceHighEuro = sigFigs(priceHigh * euroRate,2);
-	$('#pricedesc').html("&euro;" + TS(priceLowEuro) + " - &euro;" + TS(priceHighEuro) + " | &pound;" + TS(priceLow) + " - &pound;" + TS(priceHigh));
+	$('.pricedesc').html("&euro;" + TS(priceLowEuro) + " - &euro;" + TS(priceHighEuro) + " | &pound;" + TS(priceLow) + " - &pound;" + TS(priceHigh));
 
-	$('#slider_price').slider({
+	$('.slider_price').slider({
 		animate: true,
 		max: 13815, // ln 1,000,000 * 1000
 		min: 5703, // ln 500 * 1000
@@ -90,13 +92,14 @@
 					priceLow = sigFigs(Math.exp((ui.values[0]/1000)),2);
 					priceHigh = sigFigs(Math.exp((ui.values[1]/1000)),2);
 					//set hidden field values
-					$("#price_low").val(priceLow);
-					$("#price_high").val(priceHigh);
+					$(".price_low").val(priceLow);
+					$(".price_high").val(priceHigh);
+					$('.slider_price').slider({values: [Math.log(priceLow)*1000, Math.log(priceHigh)*1000]});
 					//calculate euro values (for display only)
 					priceLowEuro = sigFigs(priceLow * euroRate,2);
 					priceHighEuro = sigFigs(priceHigh * euroRate,2);
 					//set text
-					$('#pricedesc').html("&euro;" + TS(priceLowEuro) + " - &euro;" + TS(priceHighEuro) + " | &pound;" + TS(priceLow) + " - &pound;" + TS(priceHigh));
+					$('.pricedesc').html("&euro;" + TS(priceLowEuro) + " - &euro;" + TS(priceHighEuro) + " | &pound;" + TS(priceLow) + " - &pound;" + TS(priceHigh));
 			}
 		});
 	
@@ -108,22 +111,22 @@
 	if ($('#size_low_get').html() == null){showAdvanced = false;}
 
 	if (!(showAdvanced)) {
-		$('#advanced_search').hide();
+		$('.advanced_search').hide();
 		}
 	else {
-		$('#advanced_search_icon').addClass('ui-icon-circle-triangle-n');
-		$('#advanced_search_icon').removeClass('ui-icon-circle-triangle-s')
+		$('.advanced_search_icon').addClass('ui-icon-circle-triangle-n');
+		$('.advanced_search_icon').removeClass('ui-icon-circle-triangle-s')
 		}
-	$('#advanced_search_handle').click(function() {
-		   if ($('#advanced_search').is(":hidden"))
+	$('.advanced_search_handle').click(function() {
+		   if ($('.advanced_search').is(":hidden"))
                {
-                    $('#advanced_search').slideDown("slow");
-					$('#advanced_search_icon').addClass('ui-icon-circle-triangle-n');
-					$('#advanced_search_icon').removeClass('ui-icon-circle-triangle-s');
+                    $('.advanced_search').slideDown("slow");
+					$('.advanced_search_icon').addClass('ui-icon-circle-triangle-n');
+					$('.advanced_search_icon').removeClass('ui-icon-circle-triangle-s');
                } else {
-                    $('#advanced_search').slideUp("slow");
-					$('#advanced_search_icon').addClass('ui-icon-circle-triangle-s');
-					$('#advanced_search_icon').removeClass('ui-icon-circle-triangle-n');
+                    $('.advanced_search').slideUp("slow");
+					$('.advanced_search_icon').addClass('ui-icon-circle-triangle-s');
+					$('.advanced_search_icon').removeClass('ui-icon-circle-triangle-n');
 
                }
 		});
@@ -234,10 +237,10 @@
 	function filter_results(){
 		$('tr.sb_search_result').hide();
 		//get search paramaters
-		var size_low = parseFloat($('#size_low').val());
-		var size_high = $('#size_high').val();
-		var price_low = $('#price_low').val();
-		var price_high = $('#price_high').val();
+		var size_low = parseFloat($('.size_low').val());
+		var size_high = $('.size_high').val();
+		var price_low = $('.price_low').val();
+		var price_high = $('.price_high').val();
 		var type = $('select[name="type"] option').filter(':selected').val();
 		var country = $('#country option').filter(':selected').val();
 		var built = $('select[name="built"] option').filter(':selected').val();

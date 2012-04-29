@@ -587,7 +587,7 @@ function sb_search_page_func($atts){
 		$a .= "<div style='display: none;' id='country_get'>$_GET[country]</div>\n";
 		}
 	$a .= "<div class='sb_wrapper'><table style='width: 100%;'><tr><td class='sb_search_box' style='width: 40%'>
-	<div id='ex_rate' style='display:none;'>".$sb_config['euro_rate']."</div>
+	<div class='ex_rate' style='display:none;'>".$sb_config['euro_rate']."</div>
 
 	<div class='ui-widget ui-widget-header ui-corner-top header'><p>Search for boats</p></div>
 	<div class='ui-widget ui-widget-content ui-corner-bottom content'>
@@ -618,10 +618,10 @@ function sb_search_page_func($atts){
 	</p>
 		
 		
-		<p>Boat size: <span id='sizedesc'></span></p>
-		<div class='slider_container' title='Drag handles to set boat size'><div id='slider_size' class='slider'></div></div>
-		<p><br/>Price: <span id='pricedesc'></span></p>
-		<div class='slider_container' title='Drag handles to set boat price'><div id='slider_price' class='slider'></div></div>
+		<p>Boat size: <span class='sizedesc'></span></p>
+		<div class='slider_container' title='Drag handles to set boat size'><div class='slider_size slider'></div></div>
+		<p><br/>Price: <span class='pricedesc'></span></p>
+		<div class='slider_container' title='Drag handles to set boat price'><div class='slider_price slider'></div></div>
 		<p><br/>Show boats located in: <select id='country' name='country' title='Boats are available in the countries listed.'>
 		<option value='any'>(show all)</option>
 		$country_options
@@ -655,10 +655,10 @@ function sb_search_page_func($atts){
 		</div>
 
 		<div style='display: none;'>
-			<input type='hidden' name='price_low' id='price_low' value='".intval($price_low)."'/>
-			<input type='hidden' name='price_high' id='price_high' value='".intval($price_high)."'/>
-			<input type='hidden' name='size_low' id='size_low' value='".intval($size_low)."'/>
-			<input type='hidden' name='size_high' id='size_high' value='".intval($size_high)."'/>
+			<input type='hidden' name='price_low' class='price_low' value='".intval($price_low)."'/>
+			<input type='hidden' name='price_high' class='price_high' value='".intval($price_high)."'/>
+			<input type='hidden' name='size_low' class='size_low' value='".intval($size_low)."'/>
+			<input type='hidden' name='size_high' class='size_high' value='".intval($size_high)."'/>
 			<input type='hidden' name='order' value='phl' />
 		</div>
 		<div><button type='submit' class='button'><p>Search</p></button></div>
@@ -796,51 +796,51 @@ function sb_search_box_func($atts) {
 		
 	$a = "
 	<div class='sb_wrapper' style='max-width: 400px;'>
-	<div id='ex_rate' style='display:none;'>".$sb_config['euro_rate']."</div>
+	<div class='ex_rate' style='display:none;'>".$sb_config['euro_rate']."</div>
 
 	<div class='ui-widget ui-widget-header ui-corner-top header'><p>Search for boats</p></div>
-	<div class='ui-widget ui-widget-content ui-corner-bottom content'>
+	<div class='ui-widget ui-widget-content ui-corner-bottom content' style='padding: .5em;'>
 
-		<form method='get' id='boat_search_box' action='/'>
+		<form method='get' action='/'>
 		<input type='hidden' name='page_id' value='".$sb_config['search_page']."'/>
 		<p>Boat type&nbsp;
 		<select name='type'>
 			<option value='any' selected='selected'>(show all types)</option>
 			<optgroup label='&nbsp;Sail'>
 				<option value='sail' class='bold'>(all sail)</option>
-				<option value='1' title='Sailing yacht with accommodation and weighted keel'>Sail cruiser</option>
-				<option value='2' title='Sailing yacht with keel but no accommodation'>Sail dayboat</option>
-				<option value='3' title='Sail boat without ballast or accommodation'>Sailing dinghy</option>
-				<option value='4' title='Sailing catamaran with accommodation'>Cruising sail catamaran</option>
-				<option value='5' title='Sailing catamaran with no accomodation'>Day sailing catamaran</option>
+				<option value='1' title='Sailing yacht with accommodation and weighted keel'>Cruiser</option>
+				<option value='2' title='Sailing yacht with keel but no accommodation'>Dayboat</option>
+				<option value='3' title='Sail boat without ballast or accommodation'>Dinghy</option>
+				<option value='4' title='Sailing catamaran with accommodation'>Cruising catarmaran</option>
+				<option value='5' title='Sailing catamaran with no accomodation'>Day sail catarmaran</option>
 			</optgroup>
 			<optgroup label='&nbsp;Power'>
 				<option value='power' class='bold'>(all power)</option>
 				<option value='6' title='Fibreglass or metal hulled boat with inflatable collar; no cabin'>Open RIB</option>
 				<option value='7' title='Fibreglass or metal hull power boat with inflatable collar and cabin'>Closed RIB</option>
-				<option value='8' title='Power boat with no accomodation'>Power day boat</option>
-				<option value='9' title='Fast cruising power boat with cabin'>Cruising power boat - planing</option>
-				<option value='10' title='Displacement power boat with cabin'>Cruising power boat - displacement</option>
+				<option value='8' title='Power boat with no accomodation'>Day boat</option>
+				<option value='9' title='Fast cruising power boat with cabin'>Cruiser - planing</option>
+				<option value='10' title='Displacement power boat with cabin'>Cruiser - displacement</option>
 				<option value='11' title='Jetdrive personal watercraft (PWC)'>Jetski</option>
 			</optgroup>
 		</select>
 	</p>
 		
 		
-		<p>Boat size: <span id='sizedesc'></span></p>
-		<div class='slider_container' title='Drag handles to set boat size'><div id='slider_size' class='slider'></div></div>
-		<p><br/>Price: <span id='pricedesc'></span></p>
-		<div class='slider_container' title='Drag handles to set boat price'><div id='slider_price' class='slider'></div></div>
-		<p><br/>Show boats located in: <select id='country' name='country' title='Boats are available in the countries listed.'>
+		<p>Boat size: <span class='sizedesc'></span></p>
+		<div class='slider_container' title='Drag handles to set boat size'><div class='slider_size slider'></div></div>
+		<p><br/>Price: <span class='pricedesc'></span></p>
+		<div class='slider_container' title='Drag handles to set boat price'><div class='slider_price slider'></div></div>
+		<p><br/>Show boats located in: <select class='country' name='country' title='Boats are available in the countries listed.'>
 		<option value='any'>(show all)</option>
 		$country_options
 		</select>&nbsp;<span class='ui-icon ui-icon-info search_icon' title='Boats are available in the countries listed.'>&nbsp;</span></p>
-		<div id='advanced_search_container'>
-			<div id='advanced_search_handle'><h3><a>Advanced search options </a>
-			<span class='ui-icon ui-icon-circle-triangle-s search_icon' id='advanced_search_icon'>
+		<div>
+			<div class='advanced_search_handle'><h3><a>Advanced options</a>
+			<span class='ui-icon ui-icon-circle-triangle-s search_icon advanced_search_icon'>
 			&nbsp;</span></h3></div>
 			
-			<div id='advanced_search'>
+			<div class='advanced_search'>
 			
 				<!--<p><span id='country_label'>Select region: </span><select name='region' id='region' style='width: 120px;' disabled='disabled'>
 				<option>&nbsp;</option>
@@ -864,10 +864,10 @@ function sb_search_box_func($atts) {
 		</div>
 
 		<div style='display: none;'>
-			<input type='hidden' name='price_low' id='price_low' value='".intval($price_low)."' />
-			<input type='hidden' name='price_high' id='price_high' value='".intval($price_high)."' />
-			<input type='hidden' name='size_low' id='size_low' value='".intval($size_low)."' />
-			<input type='hidden' name='size_high' id='size_high' value='".intval($size_high)."' />
+			<input type='hidden' name='price_low' class='price_low' value='".intval($price_low)."' />
+			<input type='hidden' name='price_high' class='price_high' value='".intval($price_high)."' />
+			<input type='hidden' name='size_low' class='size_low' value='".intval($size_low)."' />
+			<input type='hidden' name='size_high' class='size_high' value='".intval($size_high)."' />
 			<input type='hidden' name='order' value='phl' />
 		</div>
 		<div><button type='submit' class='button'><p>Search</p></button></div>
@@ -916,4 +916,15 @@ function sb_search_by_ref_func() {
 	</div>";
 	return $a;
 	}
+
+function sb_widget_search($args) {
+    extract($args);
+	echo $before_widget; 
+	echo $before_title;
+	//echo 'Search for boats';
+	echo $after_title;
+	echo sb_search_box_func($args);
+    echo $after_widget; 
+}
+wp_register_sidebar_widget('sb_test_widget','SmartBroker Test Widget','sb_widget_search');
 ?>
