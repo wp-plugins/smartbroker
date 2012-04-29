@@ -84,6 +84,7 @@ A brief overview of the service is available at [http://www.smart-broker.co.uk](
 == Changelog ==
 = 1.1.2 =
 * Removed authentication requirement for demo.smart-broker.co.uk server
+* Fixed error relating to 'VAT paid' & 'VAT not paid' messages
 
 = 1.1.1 =
 
