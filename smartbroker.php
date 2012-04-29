@@ -253,8 +253,8 @@ function sb_listing_func(){
 	elseif ($currency == "USD") {$curr_symbol = "$";}
 	
 	//format VAT message
-	$vat_paid = $xml->boat->asking_price['vat_included'];
-	if ($vat_paid == 'true') {$vat_message = "VAT paid";}
+	$vat_paid = $xml->boat->vat_included;
+	if ($vat_paid == '1') {$vat_message = "VAT paid";}
 	else {$vat_message = "VAT not paid";}
 	
 	//format provisional message
