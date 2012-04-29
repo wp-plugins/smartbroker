@@ -29,7 +29,7 @@ In order to use this plugin, you'll require a paid-for account with SmartBroker 
 
 > If you want to use a demo server to test your installation, set the server address to `http://demo.smart-broker.co.uk`.
 > This is the address of the server used for the *Live Demo* section of the SmartBroker site.
-> You'll need an free authentication token to make this work - get in touch for details.
+> No authentication token is required for this server.
 
 Once you have followed the installation instructions, you can also add the following shortcodes anywhere on your site:
 
