@@ -74,8 +74,8 @@ A brief overview of the service is available at [http://www.smart-broker.co.uk](
 
 == Screenshots ==
 
-1. A sample boat listing with broker's notes, specifications, photos, videos and contact form, using theme 'start'.
-2. The search box and results page using theme 'start'.
+1. The search box and results page using theme 'start'.
+2. A sample boat listing with broker's notes, specifications, photos, videos and contact form, using theme 'start'.
 3. The featured boats shortcode using theme 'ui-darkness'.
 4. A drop-in search box, using theme 'ui-darkness'.
 5. A small search box, using theme 'ui-darkness'.
