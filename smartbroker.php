@@ -3,7 +3,7 @@
 Plugin Name: SmartBroker
 Plugin URI: http://www.smart-broker.co.uk
 Description: A plugin to insert SmartBroker data into a Wordpress site
-Version: 1.1.2
+Version: 1.2
 Author: Nick Roberts
 Author URI: http://www.smart-broker.co.uk
 License: GPL2
@@ -204,7 +204,25 @@ function sb_styles() {
 
 function sb_load_xml($xml_file) {
 	libxml_use_internal_errors(true);
-	$data = file_get_contents($xml_file);
+	echo "\n\r\n\r<!-- xml file: $xml_file -->\n\r\n\r";
+	if (ini_get('allow_url_fopen')) {
+		echo "\n\n<!-- SmartBroker: Loading XML via file_get_contents-->\n\n";
+		$data = file_get_contents($xml_file);
+		} else if (function_exists("curl_exec")) {
+		echo "\n\n<!-- SmartBroker: Loading XML via cURL-->\n\n";
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
+		curl_setopt($ch, CURLOPT_HEADER, 0);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_URL, $xml_file);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		$data = curl_exec($ch);
+		curl_close($ch);
+		} else {
+		echo "\n\n<!-- SmartBroker: No way of loading data! -->\n\n";
+		}
+
 	$sxe = simplexml_load_string($data);
 	if (!$sxe) {
 		echo "<p>Failed loading XML: check your server address &amp; authentication token in <i>Admin >> Settings >>SmartBroker</i></p>
@@ -234,8 +252,7 @@ function sb_listing_func(){
 	$site_id = $site_id[0];
 	$site_id = explode("/",$site_id);
 	$site_id = end($site_id);
-	$xml_file = "https://www.smart-broker.co.uk/secure_feed.php?auth=$sb_config[auth]&site_id=$site_id&action=boat&boat_id=$boat_id".$tracking_code;
-	//echo "\n\r\n\r<!-- xml file: $xml_file -->\n\r\n\r";
+	$xml_file = "https://www.smart-broker.co.uk/secure_feed.php?auth=$sb_config[auth]&ver=1.2&site_id=$site_id&action=boat&boat_id=$boat_id".$tracking_code;
 	$xml = sb_load_xml($xml_file);
 
 	
@@ -331,7 +348,7 @@ function sb_listing_func(){
 		<p>Alternatively, don't forget that you can call us on <b>$sb_config[phone]</b> anytime for a chat.</p>
 		<hr />
 		
-		<form action='".$sb_config['server_address']."/wp_plugin/wp_plugin_enquire.php' method='post'>
+		<form action='".$sb_config['server_address']."/system/wp_plugin/wp_plugin_enquire.php' method='post'>
 		<table><tr>
 		<td><p>Your name:</p></td>
 		<td><p><input type='text' name='name' value='$user_identity' size='14' /></p></td>
@@ -388,9 +405,14 @@ function sb_listing_func(){
 	
 	$admin_link = '';
 	if (current_user_can('manage_options')) {
-		$admin_link = " <a href='".$sb_config['server_address']."/wp_plugin/edit_boat.php
+		$admin_link = " <a href='".$sb_config['server_address']."/system/wp_plugin/edit_boat.php
 		?boat_id=".$_GET['boat_id']."&user_email=".urlencode($user_email)."'>
 		[edit]</a>";
+		}
+		
+	$brokers_notes = nl2br($xml->boat->brokers_notes);
+	if ($brokers_notes == '') {
+		$brokers_notes = "<p><em>(There are no broker's notes available for this boat)</em></p>";
 		}
 	//data required by javascript
 	$a = "<div style='display: none;' id='server_address_address'>".$sb_config['server_address']."</div>";
@@ -435,7 +457,7 @@ function sb_listing_func(){
 					<li><p><a href='#sb_find_out_more' id='contact_tab'>Find out more</a></p></li>
 									</ul>
 				<div id='sb_broker_notes'>
-					<p>".nl2br($xml->boat->brokers_notes)."</p>
+					<p>".$brokers_notes."</p>
 				</div>
 				<div id='sb_specifications'>$cats</div>
 				<div id='sb_photos'>$m</div>
@@ -462,8 +484,7 @@ function sb_search_page_func($atts){
 		'price_high' => '150000',
 	), $atts ) );
 	global $sb_config;
-	$xml_file = $sb_config['server_address']."/wp_plugin/listings.php?auth=$sb_config[auth]";
-	//echo "\n\r\n\r<!-- xml file: $xml_file -->\n\r\n\r";
+	$xml_file = $sb_config['server_address']."/system/wp_plugin/listings.php?auth=$sb_config[auth]";
 	$xml = sb_load_xml($xml_file);
 	
 	$sb_config['euro_rate'] = $xml['EUR'];
@@ -698,7 +719,7 @@ function sb_search_page_func($atts){
 
 function sb_featured_func() {
 	global $sb_config;
-	$xml_file = $sb_config['server_address']."/wp_plugin/listings.php?auth=$sb_config[auth]";
+	$xml_file = $sb_config['server_address']."/system/wp_plugin/listings.php?auth=$sb_config[auth]";
 	$xml = sb_load_xml($xml_file);
 	$sb_config['euro_rate'] = $xml['EUR'];
 	$sb_config['dollar_rate'] = $xml['USD'];
@@ -764,7 +785,7 @@ function sb_search_box_func($atts) {
 		'price_high' => '150000',
 	), $atts ) );
 	global $sb_config;
-	$xml_file = $sb_config['server_address']."/wp_plugin/search_box_data.php?auth=$sb_config[auth]";
+	$xml_file = $sb_config['server_address']."/system/wp_plugin/search_box_data.php?auth=$sb_config[auth]";
 	$xml = sb_load_xml($xml_file);
 	$sb_config['euro_rate'] = $xml['EUR'];
 	$sb_config['dollar_rate'] = $xml['USD'];
