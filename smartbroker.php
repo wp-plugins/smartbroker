@@ -607,7 +607,7 @@ function sb_search_page_func($atts){
 	if (array_key_exists('country', $_GET)) {
 		$a .= "<div style='display: none;' id='country_get'>$_GET[country]</div>\n";
 		}
-	$a .= "<div class='sb_wrapper'><table style='width: 100%;'><tr><td class='sb_search_box' style='width: 40%'>
+	$a .= "<div class='sb_wrapper'><table style='width: 100%; vertical-align: top;'><tr><td class='sb_search_box' style='width: 40%; vertical-align: top;'>
 	<div class='ex_rate' style='display:none;'>".$sb_config['euro_rate']."</div>
 
 	<div class='ui-widget ui-widget-header ui-corner-top header'><p>Search for boats</p></div>
@@ -699,7 +699,7 @@ function sb_search_page_func($atts){
 	</div>
 	
 	</td>
-	<td class='sb_search_results_wrapper' style='width: 60%;'>
+	<td class='sb_search_results_wrapper' style='width: 60%; vertical-align: top;'>
 	<div class='ui-widget ui-widget-header ui-corner-top header'><p>Search results</p></div>
 	<div class='ui-widget ui-widget-content ui-corner-bottom content' id='sb_search_results' style='display: block !important;'>
 	<table>
