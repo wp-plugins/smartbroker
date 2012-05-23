@@ -421,7 +421,7 @@ function sb_listing_func(){
 	$a .= "
 	<div class='sb_wrapper'>
 	<h2><span id='sb_boat_builder_and_model'>".$xml->boat->builder." ".$xml->boat->model."</span>".$admin_link."</h2>
-	<table><tr><td style='width: 300px;'>
+	<table><tr><td style='width: 300px; vertical-align: top;'>
 	<div id='sb_primary_image'>
 		<img src='".$sb_config['server_address']."/images/boats/$boat_id/medium/".$xml->boat->model."-".$xml->boat->primary_photo.".jpg' title='42'  style='padding: 0px;'
 		alt='".$xml->boats->model."' width='300px'/>		 
@@ -611,7 +611,7 @@ function sb_search_page_func($atts){
 	<div class='ex_rate' style='display:none;'>".$sb_config['euro_rate']."</div>
 
 	<div class='ui-widget ui-widget-header ui-corner-top header'><p>Search for boats</p></div>
-	<div class='ui-widget ui-widget-content ui-corner-bottom content'>
+	<div class='ui-widget ui-widget-content ui-corner-bottom content' style='display: block !important;'>
 
 		<form method='get' id='boat_search' action=''>
 		<input type='hidden' name='page_id' value='".$sb_config['search_page']."'/>
@@ -688,7 +688,7 @@ function sb_search_page_func($atts){
 	
 	<div class='ui-widget ui-widget-header ui-corner-top header' style='margin-top: .5em;'>
 	<p>Find by reference number</p></div>
-	<div class='ui-widget ui-widget-content ui-corner-bottom content' style='padding: 0em .5em;'>
+	<div class='ui-widget ui-widget-content ui-corner-bottom content' style='padding: 0em .5em; display: block !important;'>
 		<form method='get' action='' target='_parent'>
 		<input type='hidden' name='page_id' value='".$sb_config['listing_page']."'/>
 		<table><tr><td style='vertical-align: middle;'><p>Boat reference:</p></td>
@@ -701,7 +701,7 @@ function sb_search_page_func($atts){
 	</td>
 	<td class='sb_search_results_wrapper' style='width: 60%;'>
 	<div class='ui-widget ui-widget-header ui-corner-top header'><p>Search results</p></div>
-	<div class='ui-widget ui-widget-content ui-corner-bottom content' id='sb_search_results'>
+	<div class='ui-widget ui-widget-content ui-corner-bottom content' id='sb_search_results' style='display: block !important;'>
 	<table>
 	<tr id='sb_no_results'><td colspan='4'><p><em>No results match your search.</em><br /><br />Quick searches:</p>
 	<p>Show all: <a href='?page_id=".$sb_config['search_page']."&type=sail&country=any&built=any&fuel=any&price_low=1&price_high=1000000&size_low=10&size_high=120&order=phl'>
