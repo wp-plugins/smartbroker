@@ -377,7 +377,7 @@ function sb_listing_func(){
 		
 		<tr>
 		<td>
-		<input type='hidden' name='boat_id' value='131188' />
+		<input type='hidden' name='boat_id' value='$_GET[boat_id]' />
 		<input type='hidden' name='admin_email' value='".$sb_config['email']."' />
 		<input type='hidden' name='path' value='http://".$_SERVER['SERVER_NAME']."/?page_id=".$sb_config['listing_page']."' />
 		</td>
