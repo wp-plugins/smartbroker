@@ -221,10 +221,28 @@
 	//hide all results to start
 	$('tr.sb_search_result').fadeOut();
 	filter_results();
+	function getCookie(name) {
+		var nameEQ = name + "=";
+		var ca = document.cookie.split(';');
+		for(var i=0;i < ca.length;i++) {
+			var c = ca[i];
+			while (c.charAt(0)==' ') c = c.substring(1,c.length);
+			if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+			}
+		return null;
+		}
+	if (getCookie("search_page")) {
+		sb_go_to_page(getCookie("search_page"));
+		}
 	
 	$('#boat_search').submit(function(){
 		filter_results();
+		document.cookie =  "search_page=0; path=/";
 		return false;
+		});
+		
+	$('#sb_search_box').submit(function(){
+		document.cookie =  "search_page=0; path=/";
 		});
 	
 	//////////// if we have data passed into search page, use it to set search box
@@ -235,7 +253,10 @@
 		}
 	
 	function filter_results(){
+		//remove sb-visible call from all results to start
+		$('tr.sb_search_result').removeClass('sb_visible');
 		$('tr.sb_search_result').hide();
+		
 		//get search paramaters
 		var size_low = parseFloat($('.size_low').val());
 		var size_high = $('.size_high').val();
@@ -281,16 +302,158 @@
 			else {var fuel_test = false};
 			return (size_low_test && size_high_test && price_low_test && price_high_test && type_test && country_test && year_test && fuel_test);
 				
-			}).fadeIn().size();
+			}).addClass('sb_visible');
+			//by this point, all search results are tagged with class 'sb-visible'
+			
+			//pagenation code
+			//how much items per page to show  
+			var show_per_page = 10;  
+			//getting the amount of elements inside content div  
+			var number_of_items = $('.sb_visible').size();
+			
+			//calculate the number of pages we are going to have  
+			var number_of_pages = Math.ceil(number_of_items/show_per_page);  
+			//set the value of our hidden input fields  
+			$('#sb_current_page').val(0);  
+			$('#sb_show_per_page').val(show_per_page);  
+		  
+			//now when we got all we need for the navigation let's make it '  
+		  
+			/* 
+			what are we going to have in the navigation? 
+				- link to previous page 
+				- links to specific pages 
+				- link to next page 
+			*/
+			var num = '';
+			//alert ("number_of_items = "+number_of_items);
+			//alert ("show_per_page = "+show_per_page);
+			if ((number_of_items > show_per_page) && (number_of_items != 0)) {
+				//alert('setting num now');
+				num = 'Showing boats 1 to '+ show_per_page +'.';
+				}
+			top_text = '<p>'+ number_of_items +' boats found. <span id="sb_from_to">'+num+'</span></p>';
+			
+			if (number_of_items == '0') {
+				sb_page_id = $('[name=page_id]').val();
+				top_text += "<p>Search for:</p>";
+				top_text += "<table style='width: 100%;'><tr>\
+		<td><h3 style='text-align: center;'>Sail (all types)</h3></td>\
+		<td><h3 style='text-align: center;'>Power (all types)</h3></td>\
+	</tr>\
+	<tr>\
+		<td style='vertical-align: middle; text-align: center;'><div id='sb_sail_icon'></div></td>\
+		<td style='vertical-align: middle; text-align: center;'><div id='sb_power_icon'></div></td>\
+	</tr>\
+	<tr>\
+		<td>\
+		<form method='get' action='"+document.URL+"'>\
+		<div>\
+		<input type='hidden' name='type' value='sail' />\
+		<input type='hidden' name='country' value='any' />\
+		<input type='hidden' name='built' value='any' />\
+		<input type='hidden' name='fuel' value='any' />\
+		<input type='hidden' name='price_low' value='300' />\
+		<input type='hidden' name='price_high' value='1000000' />\
+		<input type='hidden' name='size_low' value='6' />\
+		<input type='hidden' name='size_high' value='35' />\
+		<input type='hidden' name='page_id' value='"+sb_page_id+"' />\
+		</div>\
+		<p style='text-align: center;'>\
+		<button class='button' type='submit'>Under 35 ft / 11m</button></p>\
+		</form>\
+		<form method='get' action='"+document.URL+"'>\
+		<div>\
+		<input type='hidden' name='type' value='sail' />\
+		<input type='hidden' name='country' value='any' />\
+		<input type='hidden' name='built' value='any' />\
+		<input type='hidden' name='fuel' value='any' />\
+		<input type='hidden' name='price_low' value='300' />\
+		<input type='hidden' name='price_high' value='1000000' />\
+		<input type='hidden' name='size_low' value='34' />\
+		<input type='hidden' name='size_high' value='120' />\
+		<input type='hidden' name='page_id' value='"+sb_page_id+"' />\
+		</div>\
+		<p style='text-align: center;'>\
+		<button class='button' type='submit'>Over 35 ft / 11m</button></p>\
+		</form></td>\
+		<td>\
+		<form method='get' action='"+document.URL+"'>\
+		<div>\
+		<input type='hidden' name='type' value='power' />\
+		<input type='hidden' name='country' value='any' />\
+		<input type='hidden' name='built' value='any' />\
+		<input type='hidden' name='fuel' value='any' />\
+		<input type='hidden' name='price_low' value='300' />\
+		<input type='hidden' name='price_high' value='1000000' />\
+		<input type='hidden' name='size_low' value='6' />\
+		<input type='hidden' name='size_high' value='35' />\
+		<input type='hidden' name='page_id' value='"+sb_page_id+"' />\
+		</div>\
+		<p style='text-align: center;'>\
+		<button class='button' type='submit'>Under 35 ft / 11m</button></p>\
+		</form>\
+		<form method='get' action='"+document.URL+"'>\
+		<div>\
+		<input type='hidden' name='type' value='power' />\
+		<input type='hidden' name='country' value='any' />\
+		<input type='hidden' name='built' value='any' />\
+		<input type='hidden' name='fuel' value='any' />\
+		<input type='hidden' name='price_low' value='300' />\
+		<input type='hidden' name='price_high' value='1000000' />\
+		<input type='hidden' name='size_low' value='34' />\
+		<input type='hidden' name='size_high' value='120' />\
+		<input type='hidden' name='page_id' value='"+sb_page_id+"' />\
+		</div>\
+		<p style='text-align: center;'>\
+		<button class='button' type='submit'>Over 35 ft / 11m</button></p>\
+		</form>		</td>\
+	</tr>\
+	</table>";
+				}
+			
+			var page_tag = '';
+			if (number_of_pages > 0) {
+				page_tag = "Page 1 of "+ number_of_pages; }
+			
+			var navigation_html = '&nbsp;&nbsp;&nbsp;<a class="sb_first_link" href="javascript:sb_go_to_page(0);"><strong>&laquo;</strong></a> <a class="sb_previous_link" href="javascript:sb_previous();">&lt;</a>';  
+			var current_link = 0;  
+			while(number_of_pages > current_link){  
+				navigation_html += ' <a class="sb_page_link" href="javascript:sb_go_to_page(' + current_link +')" longdesc="' + current_link +'">'+ (current_link + 1) +'</a>';  
+				current_link++;  
+			}  
+			navigation_html += ' <a class="sb_next_link" href="javascript:sb_next();">&gt;</a> <a class="sb_last_link" href="javascript:sb_last();"><strong>&raquo;</strong></a>';  
+			
+			$('#sb_page_tag').html(page_tag);
+			if (number_of_pages > 1) {
+			$('#sb_page_navigation').html(navigation_html); } else {$('#sb_page_navigation').html(''); }
+			$('#sb_top_text').html(top_text);
+			
+			//add styling to the new buttons!
+			$('.button').addClass('ui-state-default ui-corner-all bold').hover(function() {
+				$(this).addClass('ui-state-hover');
+				}, function() {
+				$(this).removeClass('ui-state-hover');
+				});
+		  
+			//add active_page class to the first page link  
+			$('#sb_page_navigation .sb_page_link:first').css('font-weight','bold').addClass('sb_active_page');  
+		  
+			//hide all the elements inside content div  
+			//$('#content').children().css('display', 'none');  
+		  
+			//and show the first n (show_per_page) elements  
+			$('.sb_visible').slice(0, show_per_page).show();    
+			
+			
 			if (num_results == 0) {
 				$('#sb_no_results').show();
 				} else {
 				$('#sb_no_results').hide();
 				}
 			
-		
 		}
-	
+
 	$('.featured-card').hover(
 		function () {
 			$(this).addClass("ui-state-hover");
@@ -308,3 +471,58 @@
 		});;
 	
 	});
+	
+//now outside of document(ready) statement
+function sb_go_to_page(page_num){  
+	//get the number of items shown per page  
+	var show_per_page = parseInt($('#sb_show_per_page').val());  
+  
+	//get the element number where to start the slice from  
+	start_from = page_num * show_per_page;  
+  
+	//get the element number where to end the slice  
+	end_on = start_from + show_per_page;  
+  
+	//hide all children elements of content div, get specific items and show them  
+	//$('.sb_visible').css('display', 'none').slice(start_from, end_on).css('display', 'block');
+	$('.sb_visible').hide('slow').slice(start_from, end_on).show('slow');
+  
+	/*get the page link that has longdesc attribute of the current page and add active_page class to it 
+	and remove that class from previously active page link*/  
+	$('.sb_page_link').css('font-weight','normal').removeClass('sb_active_page');
+	$('.sb_page_link[longdesc=' + page_num +']').css('font-weight','bold').addClass('sb_active_page');  
+  
+	//update the current page input field  
+	$('#sb_current_page').val(page_num); 
+
+	//update from-to value
+	end_value = end_on;
+	if (end_value > $('.sb_visible').size()) {
+		end_value = $('.sb_visible').size();
+		}
+	
+	if (end_value > 0) {
+		$('#sb_from_to').html("Showing boats "+(start_from + 1) + " - " + end_value);
+		}
+	
+	if ($(".sb_search_results_wrapper").length != 0) { 
+		$("html, body").animate({ scrollTop: $(".sb_search_results_wrapper").offset().top }, "slow");
+		}
+	document.cookie =  "search_page=" + page_num +"; path=/";
+	}
+	
+function sb_previous(){ 
+    new_page = parseInt($('#sb_current_page').val()) - 1;  
+    //if there is an item before the current active link run the function  
+    if($('.sb_active_page').prev('.sb_page_link').length==true){  
+        sb_go_to_page(new_page);  
+		}  
+	}  
+  
+function sb_next(){  
+    new_page = parseInt($('#sb_current_page').val()) + 1;  
+    //if there is an item after the current active link run the function  
+    if($('.sb_active_page').next('.sb_page_link').length==true){  
+        sb_go_to_page(new_page);  
+		}
+	}
