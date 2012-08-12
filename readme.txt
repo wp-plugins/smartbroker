@@ -4,7 +4,7 @@ Tags: yachts, boats, brokerage, brokers
 Donate link: http://www.smart-broker.co.uk
 Requires at least: 3.3.0
 Tested up to: 3.3.1
-Stable tag: 1.2
+Stable tag: 1.2.1
 
 This plugin embeds yacht listings from the SmartBroker service into your WordPress site. Requires a SmartBroker subscription.
 
@@ -82,6 +82,12 @@ A brief overview of the service is available at [http://www.smart-broker.co.uk](
 6. A search-by-reference number box, using theme 'ui-darkness'
 
 == Changelog ==
+= 1.2.1 =
+* Fixed photo issue caused when boat model contains backslash (/) (requires SmartBroker v1.1.3 or above to function correctly)
+* Added pagination for search results where > 10 results returned
+* Re-aligned boat specification table to vertical-align: top
+
+
 = 1.2 =
 * Plugin will now use cURL to load XML files if allow_url_fopen = false
 * Updated XML links to reflect new back-end file structure

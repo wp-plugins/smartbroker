@@ -3,7 +3,7 @@
 Plugin Name: SmartBroker
 Plugin URI: http://www.smart-broker.co.uk
 Description: A plugin to insert SmartBroker data into a Wordpress site
-Version: 1.2
+Version: 1.2.1
 Author: Nick Roberts
 Author URI: http://www.smart-broker.co.uk
 License: GPL2
@@ -423,7 +423,7 @@ function sb_listing_func(){
 	<h2><span id='sb_boat_builder_and_model'>".$xml->boat->builder." ".$xml->boat->model."</span>".$admin_link."</h2>
 	<table><tr><td style='width: 300px; vertical-align: top;'>
 	<div id='sb_primary_image'>
-		<img src='".$sb_config['server_address']."/images/boats/$boat_id/medium/".$xml->boat->model."-".$xml->boat->primary_photo.".jpg' title='42'  style='padding: 0px;'
+		<img src='".$sb_config['server_address']."/images/boats/$boat_id/medium/".str_replace("/","-",$xml->boat->model)."-".$xml->boat->primary_photo.".jpg' title='42'  style='padding: 0px;'
 		alt='".$xml->boats->model."' width='300px'/>		 
 	</div>
 	<div id='sb_key_facts_container'>
@@ -494,7 +494,7 @@ function sb_search_page_func($atts){
 		global $sb_config;
 		
 		$link = "/?page_id=".$sb_config['listing_page']."&boat_id=".$boat->boat_id;
-		$img_link = $sb_config['server_address']."/images/boats/".$boat->boat_id."/small/".$boat->model."-".$boat->photo_id.".jpg";
+		$img_link = $sb_config['server_address']."/images/boats/".$boat->boat_id."/small/".str_replace("/","-",$boat->model)."-".$boat->photo_id.".jpg";
 		$desc = $boat->builder." ".$boat->model;
 		
 		if ($boat->vat_paid == '1') {$vat_message = "VAT paid";} else {$vat_message = "VAT not paid";}
@@ -531,7 +531,7 @@ function sb_search_page_func($atts){
 		
 		
 		return "
-		<tr class='sb_search_result'>
+		<tr class='sb_search_result' style='display: none;'>
 		<td>
 			$data_dump
 			<a href='$link' style='display: block; width: 130px; height: 90px;'>
@@ -702,6 +702,9 @@ function sb_search_page_func($atts){
 	<td class='sb_search_results_wrapper' style='width: 60%; vertical-align: top;'>
 	<div class='ui-widget ui-widget-header ui-corner-top header'><p>Search results</p></div>
 	<div class='ui-widget ui-widget-content ui-corner-bottom content' id='sb_search_results' style='display: block !important;'>
+	<input type='hidden' id='sb_current_page' />  
+	<input type='hidden' id='sb_show_per_page' />
+	<div id='sb_top_text' style='padding: 10px;'></div>
 	<table>
 	<tr id='sb_no_results'><td colspan='4'><p><em>No results match your search.</em><br /><br />Quick searches:</p>
 	<p>Show all: <a href='?page_id=".$sb_config['search_page']."&type=sail&country=any&built=any&fuel=any&price_low=1&price_high=1000000&size_low=10&size_high=120&order=phl'>
@@ -711,8 +714,10 @@ function sb_search_page_func($atts){
 	<a href='?page_id=".$sb_config['search_page']."&type=all&country=any&built=any&fuel=any&price_low=1&price_high=1000000&size_low=10&size_high=120&order=phl'>
 	Either</a></p></td></tr>
 	$search_results</table>
+	<div style='text-align: center;'><p><span id='sb_page_tag'></span> <span id='sb_page_navigation' style='font-family: Verdana,Geneva,Arial,Helvetica,sans-serif;'></span></p></div>
 	</div>
 	</td></tr></table>
+	
 	</div>";
 	return $a;
 	}
@@ -726,7 +731,7 @@ function sb_featured_func() {
 	
 	function add_featured ($boat) {
 		global $sb_config;
-		$img_link = $sb_config['server_address']."/images/boats/".$boat->boat_id."/small/".$boat->model."-".$boat->photo_id.".jpg";
+		$img_link = $sb_config['server_address']."/images/boats/".$boat->boat_id."/small/".str_replace("/","-",$boat->model)."-".$boat->photo_id.".jpg";
 		$desc = $boat->builder." ".$boat->model;
 		$link = "/?page_id=".$sb_config['listing_page']."&boat_id=".$boat->boat_id;
 		$model = $boat->model;
@@ -822,7 +827,7 @@ function sb_search_box_func($atts) {
 	<div class='ui-widget ui-widget-header ui-corner-top header'><p>Search for boats</p></div>
 	<div class='ui-widget ui-widget-content ui-corner-bottom content' style='padding: .5em;'>
 
-		<form method='get' action='/'>
+		<form method='get' action='/' id='sb_search_box'>
 		<input type='hidden' name='page_id' value='".$sb_config['search_page']."'/>
 		<p>Boat type&nbsp;
 		<select name='type'>
@@ -938,7 +943,7 @@ function sb_search_by_ref_func() {
 	return $a;
 	}
 
-function sb_widget_search($args) {
+/*function sb_widget_search($args) {
     extract($args);
 	echo $before_widget; 
 	echo $before_title;
@@ -947,5 +952,5 @@ function sb_widget_search($args) {
 	echo sb_search_box_func($args);
     echo $after_widget; 
 }
-wp_register_sidebar_widget('sb_test_widget','SmartBroker Test Widget','sb_widget_search');
+wp_register_sidebar_widget('sb_test_widget','SmartBroker Test Widget','sb_widget_search');*/
 ?>

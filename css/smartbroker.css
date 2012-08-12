@@ -17,3 +17,6 @@ position: relative;
 top: 3px;
 left: 2px;
 }
+#sb_sail_icon {display: block; width: 150px; height: 189px; background: url('../images/sail.gif') no-repeat; margin: auto;}
+#sb_power_icon {display: block; width: 150px; height: 65px; background: url('../images/power.gif') no-repeat; margin: 30px auto;}
+#sb_specifications {vertical-align: top;}
