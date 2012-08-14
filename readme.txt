@@ -15,12 +15,21 @@ This plugin embeds yacht brokerage listings from the SmartBroker service
 into your WordPress site.
 
 In order to use this plugin, you'll require a paid-for account with SmartBroker - please see our 
-[pricing page](http://www.smart-broker.co.uk/?page_id=95 "Pricing information for SmartBroker") for more details. 
+[pricing page](http://www.smart-broker.co.uk/?page_id=95 "Pricing information for SmartBroker") for more details.
+
+SmartBroker is a system for creating, managing and sharing yacht sales listings.
+
+If you're installing this plugin for testing purposes, there's a demo server with dummy data available - see installation instructions for further details.
 
 == Installation ==
 
+Either install the plugin via Admin->Plugins->Add New, or  
+
 * Upload `smartbroker.zip` to the `/wp-content/plugins/` directory
 * Un-zip the file. This will create the smartbroker directory and all the necessry sub-directories
+
+Then:
+
 * Activate the plugin through the 'Plugins' menu in WordPress
 * Set the address of your SmartBroker server in `Settings->SmartBroker`
 * Create a page for your SmartBroker search - and add the shortcode `[sb_search_page]` to it
@@ -29,7 +38,7 @@ In order to use this plugin, you'll require a paid-for account with SmartBroker 
 
 > If you want to use a demo server to test your installation, set the server address to `http://demo.smart-broker.co.uk`.
 > This is the address of the server used for the *Live Demo* section of the SmartBroker site.
-> No authentication token is required for this server.
+> The authentication token for this server is *vjrxhvmkq67wb14639v5*.
 
 Once you have followed the installation instructions, you can also add the following shortcodes anywhere on your site:
 
