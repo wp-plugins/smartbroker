@@ -3,7 +3,7 @@ Contributors: phuvf
 Tags: yachts, boats, brokerage, brokers
 Donate link: http://www.smart-broker.co.uk
 Requires at least: 3.3.0
-Tested up to: 3.3.1
+Tested up to: 3.4.1
 Stable tag: 1.2.1
 
 This plugin embeds yacht listings from the SmartBroker service into your WordPress site. Requires a SmartBroker subscription.
