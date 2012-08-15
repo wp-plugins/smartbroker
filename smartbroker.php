@@ -3,7 +3,7 @@
 Plugin Name: SmartBroker
 Plugin URI: http://www.smart-broker.co.uk
 Description: A plugin to insert SmartBroker data into a Wordpress site
-Version: 1.2.1
+Version: 1.2.2
 Author: Nick Roberts
 Author URI: http://www.smart-broker.co.uk
 License: GPL2
@@ -77,7 +77,7 @@ function sb_server_address_string() {
 function sb_auth_string() {
 	global $sb_config;
 	echo "<input id='sb_auth' name='sb_plugin_options[auth]' size='40' type='text' value='".$sb_config['auth']."' />
-	<p>This will be provided for you by SmartBroker.</p><p>If you are using the <em>demo.smart-broker.co.uk</em> server, no authentication token is required.</p>";
+	<p>This will be provided for you by SmartBroker.</p><p>If you are using the <em>demo.smart-broker.co.uk</em> server, the authentication token is <em>vjrxhvmkq67wb14639v5</em>.</p>";
 	}
 	
 function sb_search_page_string() {
