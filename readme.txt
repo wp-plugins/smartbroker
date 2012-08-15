@@ -91,11 +91,13 @@ A brief overview of the service is available at [http://www.smart-broker.co.uk](
 6. A search-by-reference number box, using theme 'ui-darkness'
 
 == Changelog ==
+= 1.2.2 =
+* Updated verification token details for demo.smartbroker.co.uk in Admin->Settings->SmartBroker
+
 = 1.2.1 =
 * Fixed photo issue caused when boat model contains backslash (/) (requires SmartBroker v1.1.3 or above to function correctly)
 * Added pagination for search results where > 10 results returned
 * Re-aligned boat specification table to vertical-align: top
-
 
 = 1.2 =
 * Plugin will now use cURL to load XML files if allow_url_fopen = false
