@@ -4,7 +4,7 @@ Tags: yachts, boats, brokerage, brokers
 Donate link: http://www.smart-broker.co.uk
 Requires at least: 3.3.0
 Tested up to: 3.4.1
-Stable tag: 1.2.2
+Stable tag: 1.2.3
 
 This plugin embeds yacht listings from the SmartBroker service into your WordPress site. Requires a SmartBroker subscription.
 
@@ -91,6 +91,9 @@ A brief overview of the service is available at [http://www.smart-broker.co.uk](
 6. A search-by-reference number box, using theme 'ui-darkness'
 
 == Changelog ==
+= 1.2.3 =
+* Updated instructions on how to find the authentication token
+
 = 1.2.2 =
 * Updated verification token details for demo.smartbroker.co.uk in Admin->Settings->SmartBroker
 
