@@ -1,4 +1,6 @@
- $(document).ready(function(){
+ jQuery.noConflict();
+ 
+ jQuery(document).ready(function($){
 	var sb_server = $('#sb_server_address').html();
 	var sb_listing_page = $('#sb_listing_page').html();
 	
