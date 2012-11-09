@@ -477,7 +477,7 @@
 //now outside of document(ready) statement
 function sb_go_to_page(page_num){  
 	//get the number of items shown per page  
-	var show_per_page = parseInt($('#sb_show_per_page').val());  
+	var show_per_page = parseInt(jQuery('#sb_show_per_page').val());  
   
 	//get the element number where to start the slice from  
 	start_from = page_num * show_per_page;  
@@ -487,44 +487,44 @@ function sb_go_to_page(page_num){
   
 	//hide all children elements of content div, get specific items and show them  
 	//$('.sb_visible').css('display', 'none').slice(start_from, end_on).css('display', 'block');
-	$('.sb_visible').hide('slow').slice(start_from, end_on).show('slow');
+	jQuery('.sb_visible').hide('slow').slice(start_from, end_on).show('slow');
   
 	/*get the page link that has longdesc attribute of the current page and add active_page class to it 
 	and remove that class from previously active page link*/  
-	$('.sb_page_link').css('font-weight','normal').removeClass('sb_active_page');
-	$('.sb_page_link[longdesc=' + page_num +']').css('font-weight','bold').addClass('sb_active_page');  
+	jQuery('.sb_page_link').css('font-weight','normal').removeClass('sb_active_page');
+	jQuery('.sb_page_link[longdesc=' + page_num +']').css('font-weight','bold').addClass('sb_active_page');  
   
 	//update the current page input field  
-	$('#sb_current_page').val(page_num); 
+	jQuery('#sb_current_page').val(page_num); 
 
 	//update from-to value
 	end_value = end_on;
-	if (end_value > $('.sb_visible').size()) {
-		end_value = $('.sb_visible').size();
+	if (end_value > jQuery('.sb_visible').size()) {
+		end_value = jQuery('.sb_visible').size();
 		}
 	
 	if (end_value > 0) {
-		$('#sb_from_to').html("Showing boats "+(start_from + 1) + " - " + end_value);
+		jQuery('#sb_from_to').html("Showing boats "+(start_from + 1) + " - " + end_value);
 		}
 	
-	if ($(".sb_search_results_wrapper").length != 0) { 
-		$("html, body").animate({ scrollTop: $(".sb_search_results_wrapper").offset().top }, "slow");
+	if (jQuery(".sb_search_results_wrapper").length != 0) { 
+		jQuery("html, body").animate({ scrollTop: jQuery(".sb_search_results_wrapper").offset().top }, "slow");
 		}
 	document.cookie =  "search_page=" + page_num +"; path=/";
 	}
 	
 function sb_previous(){ 
-    new_page = parseInt($('#sb_current_page').val()) - 1;  
+    new_page = parseInt(jQuery('#sb_current_page').val()) - 1;  
     //if there is an item before the current active link run the function  
-    if($('.sb_active_page').prev('.sb_page_link').length==true){  
+    if(jQuery('.sb_active_page').prev('.sb_page_link').length==true){  
         sb_go_to_page(new_page);  
 		}  
 	}  
   
 function sb_next(){  
-    new_page = parseInt($('#sb_current_page').val()) + 1;  
+    new_page = parseInt(jQuery('#sb_current_page').val()) + 1;  
     //if there is an item after the current active link run the function  
-    if($('.sb_active_page').next('.sb_page_link').length==true){  
+    if(jQuery('.sb_active_page').next('.sb_page_link').length==true){  
         sb_go_to_page(new_page);  
 		}
 	}
