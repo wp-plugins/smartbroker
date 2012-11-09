@@ -334,9 +334,16 @@ function sb_listing_func(){
 				}
 			}
 		} else {
-		$num_photos = count($xml->boat->media->interior->media->children());
-		$num_photos = $num_photos + count($xml->boat->media->exterior->media->children());
-		$num_photos = $num_photos + count($xml->boat->media->technical->media->children());
+		$num_photos = 0;
+		if (isset($xml->boat->media->interior->media)) {
+			$num_photos = $num_photos + count($xml->boat->media->interior->media->children());
+			}
+		if (isset($xml->boat->media->exterior->media)) {
+			$num_photos = $num_photos + count($xml->boat->media->exterior->media->children());
+			}
+		if (isset($xml->boat->media->technical->media)) {
+			$num_photos = $num_photos + count($xml->boat->media->technical->media->children());
+			}
 		$m = "<p>$num_photos more photos &amp; videos of this boat are available - please <a href='/wp-register.php' title='Register'>register</a> or 
 		<a href='".wp_login_url(get_permalink()."&boat_id=".$_GET['boat_id'])."' title='Login'>log in</a> to see them.</p>";
 		}

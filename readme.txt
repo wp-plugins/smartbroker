@@ -93,6 +93,7 @@ A brief overview of the service is available at [http://www.smart-broker.co.uk](
 == Changelog ==
 = 1.2.4 =
 * Switched jQuery to noConflict mode to avoid clashes with other libraries
+* Fixed error with photo counting where no photos exist
 
 = 1.2.3 =
 * Updated instructions on how to find the authentication token
