@@ -302,12 +302,12 @@ function sb_listing_func(){
 	
 	//sort photos out
 	function build_photo($link, $path, $desc, $cat) {
-		global $sb_config;
-		return "<a href='".$sb_config['server_address'].$link."' rel='prettyPhoto[$cat]'>
-		<img src='".$sb_config['server_address'].$path."' title='".$desc."' alt='".$desc."' />
-		</a>";
-		}
-	 $m = '';
+        global $sb_config;
+        return "<a href='".$sb_config['server_address'].$link."' rel='prettyPhoto[$cat]' title='".$desc."'>
+        <img src='".$sb_config['server_address'].$path."' alt='' />
+        </a>";
+        }
+	$m = '';
 	if (is_user_logged_in() OR ($sb_config['sb_tracking'] != 'on')) {
 		$m .= "<hr/><h3>Exterior</h3><hr/>";
 		foreach($xml->boat->media->exterior->media as $media) {
