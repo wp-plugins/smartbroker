@@ -33,6 +33,9 @@ if ($sb_config['currency_1'] == '') {
 if ($sb_config['currency_2'] == '') {
 	$sb_config['currency_2'] = 'GBP';
 	}
+if ($sb_config['tax_label'] == '') {
+	$sb_config['tax_label'] = 'VAT';
+	}
 	
 $sb_config['video_link'] = '<iframe class="video" width="200" height="115" src="http://www.youtube-nocookie.com/embed/%s?rel=0&wmode=opaque&modestbranding=1&showinfo=0&theme=light" frameborder="0" allowfullscreen></iframe>';
 
@@ -67,6 +70,7 @@ function sb_plugin_admin_init(){
 	add_settings_field('sb_listing_page', 'SmartBroker listing page ID', 'sb_listing_page_string', 'sb_plugin', 'sb_server_settings');
 	add_settings_field('sb_currency_1', 'Primary currency', 'sb_currency_1_string', 'sb_plugin', 'sb_server_settings');
 	add_settings_field('sb_currency_2', 'Secondary currency', 'sb_currency_2_string', 'sb_plugin', 'sb_server_settings');
+	add_settings_field('sb_tax_label', 'Tax label', 'sb_tax_label_string', 'sb_plugin', 'sb_server_settings');
 	add_settings_field('sb_email', 'Email address', 'sb_email_string', 'sb_plugin', 'sb_server_settings');
 	add_settings_field('sb_phone', 'Phone number', 'sb_phone_string', 'sb_plugin', 'sb_server_settings');
 	add_settings_field('sb_disclaimer', 'Standard disclaimer', 'sb_disclaim_string', 'sb_plugin', 'sb_server_settings');
@@ -111,6 +115,14 @@ function sb_currency_2_string() {
 	global $sb_config;
 	echo "<input id='currency_2' name='sb_plugin_options[currency_2]' size='10' type='text' value='".$sb_config['currency_2']."' />
 	<p>The secondary currency for the plug-in to run. Choose from GBP, EUR or USD, and don't use the same value as the primary currency. This is used on the search sliders, where two currencies are displayed while sliding.<br/><br/>Will default to GBP if left blank.</p>";
+	}
+	
+function sb_tax_label_string() {
+	global $sb_config;
+	echo "<input id='tax_label' name='sb_plugin_options[tax_label]' size='10' type='text' value='".$sb_config['tax_label']."' />
+	<p>The sales tax label to use in the plugin. Typcial values would by VAT (in the UK) or BTW (in the Netherlands).<br/><br/>
+	This string is used in the phrases 'VAT paid' and 'VAT not paid'.<br/><br/>
+	Will default to 'VAT' if left blank.</p>";
 	}
 	
 function sb_email_string() {
@@ -290,8 +302,8 @@ function sb_listing_func(){
 	
 	//format VAT message
 	$vat_paid = $xml->boat->vat_included;
-	if ($vat_paid == '1') {$vat_message = "VAT paid";}
-	else {$vat_message = "VAT not paid";}
+	if ($vat_paid == '1') {$vat_message = $sb_config['tax_label']." paid";}
+	else {$vat_message = $sb_config['tax_label']." not paid";}
 	
 	//add currency conversion if not in primary currency
 	$price = floatval($xml->boat->asking_price);
@@ -527,7 +539,7 @@ function sb_search_page_func($atts){
 		$img_link = $sb_config['server_address']."/images/boats/".$boat->boat_id."/small/".str_replace("/","-",$boat->model)."-".$boat->photo_id.".jpg";
 		$desc = $boat->builder." ".$boat->model;
 		
-		if ($boat->vat_paid == '1') {$vat_message = "VAT paid";} else {$vat_message = "VAT not paid";}
+		if ($boat->vat_paid == '1') {$vat_message = $sb_config['tax_label']." paid";} else {$vat_message = $sb_config['tax_label']." not paid";}
 		$length = round($boat->LOA)."ft (".round($boat->LOA/3.28)."m)";
 		
 		//format currency
@@ -772,7 +784,7 @@ function sb_featured_func() {
 		$desc = $boat->builder." ".$boat->model;
 		$link = "/?page_id=".$sb_config['listing_page']."&boat_id=".$boat->boat_id;
 		$model = $boat->model;
-		if ($boat->vat_paid == '1') {$vat_message = "VAT paid";} else {$vat_message = "VAT not paid";}
+		if ($boat->vat_paid == '1') {$vat_message = $sb_config['tax_label']." paid";} else {$vat_message = $sb_config['tax_label']." not paid";}
 		//format currency
 		$currency = $boat->currency;
 		$curr_symbol = get_symbol($currency);
