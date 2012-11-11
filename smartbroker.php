@@ -3,7 +3,7 @@
 Plugin Name: SmartBroker
 Plugin URI: http://www.smart-broker.co.uk
 Description: A plugin to insert SmartBroker data into a Wordpress site
-Version: 1.2.4
+Version: 1.2.5
 Author: Nick Roberts
 Author URI: http://www.smart-broker.co.uk
 License: GPL2
@@ -27,6 +27,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 //config variables
 $sb_config= get_option('sb_plugin_options');
+if ($sb_config['currency_1'] == '') {
+	$sb_config['currency_1'] = 'EUR';
+	}
+if ($sb_config['currency_2'] == '') {
+	$sb_config['currency_2'] = 'GBP';
+	}
+	
 $sb_config['video_link'] = '<iframe class="video" width="200" height="115" src="http://www.youtube-nocookie.com/embed/%s?rel=0&wmode=opaque&modestbranding=1&showinfo=0&theme=light" frameborder="0" allowfullscreen></iframe>';
 
 //actions we're going to use
@@ -58,6 +65,8 @@ function sb_plugin_admin_init(){
 	add_settings_field('sb_auth', 'Server authentication token', 'sb_auth_string', 'sb_plugin', 'sb_server_settings');
 	add_settings_field('sb_search_page', 'SmartBroker search page ID', 'sb_search_page_string', 'sb_plugin', 'sb_server_settings');
 	add_settings_field('sb_listing_page', 'SmartBroker listing page ID', 'sb_listing_page_string', 'sb_plugin', 'sb_server_settings');
+	add_settings_field('sb_currency_1', 'Primary currency', 'sb_currency_1_string', 'sb_plugin', 'sb_server_settings');
+	add_settings_field('sb_currency_2', 'Secondary currency', 'sb_currency_2_string', 'sb_plugin', 'sb_server_settings');
 	add_settings_field('sb_email', 'Email address', 'sb_email_string', 'sb_plugin', 'sb_server_settings');
 	add_settings_field('sb_phone', 'Phone number', 'sb_phone_string', 'sb_plugin', 'sb_server_settings');
 	add_settings_field('sb_disclaimer', 'Standard disclaimer', 'sb_disclaim_string', 'sb_plugin', 'sb_server_settings');
@@ -90,6 +99,18 @@ function sb_listing_page_string() {
 	global $sb_config;
 	echo "<input id='listing_page' name='sb_plugin_options[listing_page]' size='10' type='text' value='".$sb_config['listing_page']."' />
 	<p>This is the id number of the WordPress page that contains the shortcode [sb_listing].</p>";
+	}
+
+function sb_currency_1_string() {
+	global $sb_config;
+	echo "<input id='currency_1' name='sb_plugin_options[currency_1]' size='10' type='text' value='".$sb_config['currency_1']."' />
+	<p>The primary currency for the plug-in to run. Choose from GBP, EUR or USD. A currency coversion will be included for any listings not in this currency.<br/><br/>Will default to EUR if left blank.</p>";
+	}
+	
+function sb_currency_2_string() {
+	global $sb_config;
+	echo "<input id='currency_2' name='sb_plugin_options[currency_2]' size='10' type='text' value='".$sb_config['currency_2']."' />
+	<p>The secondary currency for the plug-in to run. Choose from GBP, EUR or USD, and don't use the same value as the primary currency. This is used on the search sliders, where two currencies are displayed while sliding.<br/><br/>Will default to GBP if left blank.</p>";
 	}
 	
 function sb_email_string() {
@@ -265,14 +286,16 @@ function sb_listing_func(){
 	
 	//format currency
 	$currency = $xml->boat->currency;
-	if ($currency == "GBP") {$curr_symbol = "&pound;";}
-	elseif ($currency == "EUR") {$curr_symbol = "&euro;";}
-	elseif ($currency == "USD") {$curr_symbol = "$";}
+	$curr_symbol = get_symbol($currency);
 	
 	//format VAT message
 	$vat_paid = $xml->boat->vat_included;
 	if ($vat_paid == '1') {$vat_message = "VAT paid";}
 	else {$vat_message = "VAT not paid";}
+	
+	//add currency conversion if not in primary currency
+	$price = floatval($xml->boat->asking_price);
+	$currency_conversion = currency_conversion($price, $currency, $xml['USD'], $xml['EUR']);
 	
 	//format provisional message
 	$prov = $xml->boat->approved;
@@ -449,7 +472,7 @@ function sb_listing_func(){
 				<tr><td><p>Built</p></td><td><p>".$xml->boat->year."</p></td></tr>
 				<tr><td><p>Currently lying</p></td><td><p>".$xml->boat->region.", ".$xml->boat->country_name."</p></td></tr>
 				<tr><td><p>Price</p></td>
-				<td><p>".$curr_symbol.number_format(floatval($xml->boat->asking_price))." ".$vat_message."</p></td></tr>
+				<td><p>".$curr_symbol.number_format($price)." ".$vat_message.'<br />'.$currency_conversion."</p></td></tr>
 			</table>
 		</div>
 	</div>
@@ -494,8 +517,8 @@ function sb_search_page_func($atts){
 	$xml_file = $sb_config['server_address']."/system/wp_plugin/listings.php?auth=$sb_config[auth]";
 	$xml = sb_load_xml($xml_file);
 	
-	$sb_config['euro_rate'] = $xml['EUR'];
-	$sb_config['dollar_rate'] = $xml['USD'];
+	$sb_config['eur_rate'] = $xml['EUR'];
+	$sb_config['usd_rate'] = $xml['USD'];
 	$sb_config['countries'] = Array();
 	function search_result_item($boat) {
 		global $sb_config;
@@ -514,12 +537,16 @@ function sb_search_page_func($atts){
 			$rate = 1;
 			} elseif ($currency == "EUR") {
 			$curr_symbol = "&euro;";
-			$rate = $sb_config['euro_rate'];
+			$rate = $sb_config['eur_rate'];
 			} elseif ($currency == "USD") {
 			$curr_symbol = "$";
-			$rate = $sb_config['dollar_rate'];
+			$rate = $sb_config['usd_rate'];
 			}
 		$price = number_format(floatval($boat->price));
+		$currency_conversion = currency_conversion(floatval($boat->price), $currency, $sb_config['usd_rate'], $sb_config['eur_rate']);
+		if ($currency_conversion != '') {
+			$currency_conversion = '<p>'.$currency_conversion.'</p>';
+			}
 				
 		//data dump for javascript manipulation
 		$data_dump = "<div style='display: none' class='result_type'>".$boat->type."</div>\r";
@@ -551,11 +578,10 @@ function sb_search_page_func($atts){
 			<p>$length, built $boat->year, lying $boat->region, $boat->country.</p>
 		</td>
 		<td style='text-align: center; vertical-align: middle;'>
-			<p>$curr_symbol $price</p>
+			<p>$curr_symbol $price</p>$currency_conversion
 			<p>$vat_message</p>
 		</td>
 		<td style='text-align: center; vertical-align: middle;'>
-			<p>Available</p>
 		</td></tr>";
 		}
 	
@@ -584,6 +610,12 @@ function sb_search_page_func($atts){
 	//data required by javascript
 	$a = "<div style='display: none;' id='sb_server_address'>".$sb_config['server_address']."</div>";
 	$a .= "<div style='display: none;' id='sb_listing_page'>".$sb_config['listing_page']."</div>";
+	$a .= "<div style='display: none;' id='sb_currency_1'>".$sb_config['currency_1']."</div>";
+	$a .= "<div style='display: none;' id='sb_currency_1_symbol'>".get_symbol($sb_config['currency_1'])."</div>";
+	$a .= "<div style='display: none;' id='sb_currency_2'>".$sb_config['currency_2']."</div>";
+	$a .= "<div style='display: none;' id='sb_currency_2_symbol'>".get_symbol($sb_config['currency_2'])."</div>";
+	$a .= "<div class='eur_rate' style='display:none;'>".$sb_config['eur_rate']."</div>";
+	$a .= "<div class='usd_rate' style='display:none;'>".$sb_config['usd_rate']."</div>";
 	if (array_key_exists('country', $_GET)) {
 		$a .= "<div style='display: none;' id='country_get'>$_GET[country]</div>\n";
 		}
@@ -615,8 +647,6 @@ function sb_search_page_func($atts){
 		$a .= "<div style='display: none;' id='country_get'>$_GET[country]</div>\n";
 		}
 	$a .= "<div class='sb_wrapper'><table style='width: 100%; vertical-align: top;'><tr><td class='sb_search_box' style='width: 40%; vertical-align: top;'>
-	<div class='ex_rate' style='display:none;'>".$sb_config['euro_rate']."</div>
-
 	<div class='ui-widget ui-widget-header ui-corner-top header'><p>Search for boats</p></div>
 	<div class='ui-widget ui-widget-content ui-corner-bottom content' style='display: block !important;'>
 
@@ -733,8 +763,8 @@ function sb_featured_func() {
 	global $sb_config;
 	$xml_file = $sb_config['server_address']."/system/wp_plugin/listings.php?auth=$sb_config[auth]";
 	$xml = sb_load_xml($xml_file);
-	$sb_config['euro_rate'] = $xml['EUR'];
-	$sb_config['dollar_rate'] = $xml['USD'];
+	$sb_config['eur_rate'] = $xml['EUR'];
+	$sb_config['usd_rate'] = $xml['USD'];
 	
 	function add_featured ($boat) {
 		global $sb_config;
@@ -745,16 +775,13 @@ function sb_featured_func() {
 		if ($boat->vat_paid == '1') {$vat_message = "VAT paid";} else {$vat_message = "VAT not paid";}
 		//format currency
 		$currency = $boat->currency;
-		if ($currency == "GBP") {
-			$curr_symbol = "&pound;";
-			$conversion = "&euro;".number_format((floatval($boat->price)*floatval($sb_config['euro_rate'])));
-			} elseif ($currency == "EUR") {
-			$curr_symbol = "&euro;";
-			$conversion = "&pound;".number_format((floatval($boat->price)/floatval($sb_config['euro_rate'])));
-			} elseif ($currency == "USD") {
-			$curr_symbol = "$";
+		$curr_symbol = get_symbol($currency);
+		$value = floatval($boat->price);
+		$conversion = currency_conversion ($value, $currency, $sb_config['usd_rate'], $sb_config['eur_rate']);
+		if ($conversion != '') {
+			$conversion = "<br/>$conversion";
 			}
-		$price = number_format(floatval($boat->price));
+		$price = number_format($value);
 		return "<li>
 		<div class='ui-widget ui-widget-header ui-corner-all featured-card' style='height: 250px; margin: 5px; padding: 10px;'>
 			<a href='$link'
@@ -763,7 +790,7 @@ function sb_featured_func() {
 				alt='$model' title='$model' height='85' width='127.5' style='padding: ;'/>
 			</a>
 			<p><a href='$link'>$desc</a> (1980)</p>
-			<p>$curr_symbol $price<br /><span class='auto_conversions'>(~ $conversion)</span></p>
+			<p>$curr_symbol $price $conversion</p>
 			<p>$vat_message</p>
 		</div>
 		</li>";
@@ -799,8 +826,8 @@ function sb_search_box_func($atts) {
 	global $sb_config;
 	$xml_file = $sb_config['server_address']."/system/wp_plugin/search_box_data.php?auth=$sb_config[auth]";
 	$xml = sb_load_xml($xml_file);
-	$sb_config['euro_rate'] = $xml['EUR'];
-	$sb_config['dollar_rate'] = $xml['USD'];
+	$sb_config['eur_rate'] = $xml['EUR'];
+	$sb_config['usd_rate'] = $xml['USD'];
 	
 	$n = date('Y');
 	$years = '';
@@ -829,7 +856,12 @@ function sb_search_box_func($atts) {
 		
 	$a = "
 	<div class='sb_wrapper' style='max-width: 400px;'>
-	<div class='ex_rate' style='display:none;'>".$sb_config['euro_rate']."</div>
+	<div style='display: none;' id='sb_currency_1'>".$sb_config['currency_1']."</div>
+	<div style='display: none;' id='sb_currency_1_symbol'>".get_symbol($sb_config['currency_1'])."</div>
+	<div style='display: none;' id='sb_currency_2'>".$sb_config['currency_2']."</div>
+	<div style='display: none;' id='sb_currency_2_symbol'>".get_symbol($sb_config['currency_2'])."</div>
+	<div class='eur_rate' style='display:none;'>".$sb_config['eur_rate']."</div>
+	<div class='usd_rate' style='display:none;'>".$sb_config['usd_rate']."</div>
 
 	<div class='ui-widget ui-widget-header ui-corner-top header'><p>Search for boats</p></div>
 	<div class='ui-widget ui-widget-content ui-corner-bottom content' style='padding: .5em;'>
@@ -950,14 +982,30 @@ function sb_search_by_ref_func() {
 	return $a;
 	}
 
-/*function sb_widget_search($args) {
-    extract($args);
-	echo $before_widget; 
-	echo $before_title;
-	//echo 'Search for boats';
-	echo $after_title;
-	echo sb_search_box_func($args);
-    echo $after_widget; 
-}
-wp_register_sidebar_widget('sb_test_widget','SmartBroker Test Widget','sb_widget_search');*/
+function get_symbol($curr) {
+	if ($curr == 'EUR') {return "&euro;";}
+	if ($curr == 'GBP') {return "&pound;";}
+	if ($curr == 'USD') {return "$";};
+	return '';
+	}
+	
+function currency_conversion ($value, $currency, $usd_rate = 1.6, $eur_rate = 1.2) {
+	global $sb_config;
+	if ($currency != $sb_config['currency_1'])
+		{
+		$gbp_rate = 1;
+		$usd_rate = floatval($usd_rate);
+		$eur_rate = floatval($eur_rate);
+		if (($currency == 'GBP') AND ($sb_config['currency_1'] == 'EUR')) {$rate = $eur_rate;}
+		elseif (($currency == 'EUR') AND ($sb_config['currency_1'] == 'GBP')) {$rate = 1 / $eur_rate;}
+		elseif (($currency == 'GBP') AND ($sb_config['currency_1'] == 'USD')) {$rate = $usd_rate;}
+		elseif (($currency == 'USD') AND ($sb_config['currency_1'] == 'GBP')) {$rate = 1 / $usd_rate;}
+		elseif (($currency == 'EUR') AND ($sb_config['currency_1'] == 'USD')) {$rate = $usd_rate / $eur_rate;}
+		elseif (($currency == 'USD') AND ($sb_config['currency_1'] == 'EUR')) {$rate = $eur_rate / $usd_rate;}
+		else {$rate = 1;}
+		$new_price = $value * floatval($rate);
+		return '(~ '.get_symbol($sb_config['currency_1']).number_format(round($new_price,-2)).')';
+		}
+	return '';
+	}
 ?>
