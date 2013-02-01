@@ -3,7 +3,7 @@
 Plugin Name: SmartBroker
 Plugin URI: http://www.smart-broker.co.uk
 Description: A plugin to insert SmartBroker data into a Wordpress site
-Version: 1.2.5
+Version: 2.0
 Author: Nick Roberts
 Author URI: http://www.smart-broker.co.uk
 License: GPL2
@@ -24,6 +24,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+include_once('search_v2.php');
 
 //config variables
 $sb_config= get_option('sb_plugin_options');
@@ -48,8 +49,10 @@ add_shortcode('sb_listing', 'sb_listing_func' );
 add_shortcode('sb_search_page', 'sb_search_page_func');
 add_shortcode('sb_featured', 'sb_featured_func');
 add_shortcode('sb_search_box', 'sb_search_box_func');
+add_shortcode('sb_search_box_v2', 'sb_search_box_v2_func');
 add_shortcode('sb_search_box_small', 'sb_search_box_small_func');
 add_shortcode('sb_search_by_ref', 'sb_search_by_ref_func');
+add_shortcode('sb_search_page_v2', 'sb_search_page_v2_func');
  
 //code to hide listing page link
 add_action('wp_head', 'hide_listing_page');
@@ -67,6 +70,7 @@ function sb_plugin_admin_init(){
 	add_settings_field('sb_server_address', 'SmartBroker server address', 'sb_server_address_string', 'sb_plugin', 'sb_server_settings');
 	add_settings_field('sb_auth', 'Server authentication token', 'sb_auth_string', 'sb_plugin', 'sb_server_settings');
 	add_settings_field('sb_search_page', 'SmartBroker search page ID', 'sb_search_page_string', 'sb_plugin', 'sb_server_settings');
+	add_settings_field('sb_search_page_v2', 'SmartBroker search page v2 ID', 'sb_search_page_v2_string', 'sb_plugin', 'sb_server_settings');
 	add_settings_field('sb_listing_page', 'SmartBroker listing page ID', 'sb_listing_page_string', 'sb_plugin', 'sb_server_settings');
 	add_settings_field('sb_currency_1', 'Primary currency', 'sb_currency_1_string', 'sb_plugin', 'sb_server_settings');
 	add_settings_field('sb_currency_2', 'Secondary currency', 'sb_currency_2_string', 'sb_plugin', 'sb_server_settings');
@@ -97,6 +101,12 @@ function sb_search_page_string() {
 	global $sb_config;
 	echo "<input id='search_page' name='sb_plugin_options[search_page]' size='10' type='text' value='".$sb_config['search_page']."' />
 	<p>This is the id number of the WordPress page that contains the shortcode [sb_search_page].</p>";
+	}
+
+function sb_search_page_v2_string() {
+	global $sb_config;
+	echo "<input id='search_page_v2' name='sb_plugin_options[search_page_v2]' size='10' type='text' value='".$sb_config['search_page_v2']."' />
+	<p>This is the id number of the WordPress page that contains the shortcode [sb_search_page_v2].</p>";
 	}
 
 function sb_listing_page_string() {
@@ -292,7 +302,7 @@ function sb_listing_func(){
 	$boats_returned = count($xml->children());
 	if ($boats_returned != '1') {
 		return "<p>I'm sorry, we can't find the boat you requested.</p>
-		<p><a href='/?page_id=".$sb_config['search_page']."'>Go to the search page</a></p>";
+		<p><a href='/?page_id=".$sb_config['search_page_v2']."'>Go to the search page</a></p>";
 		exit;
 		}
 	
@@ -396,10 +406,16 @@ function sb_listing_func(){
 		<td><p><input type='text' name='name' value='$user_identity' size='14' /></p></td>
 		</tr>
 		
+		<tr id='hpt'>
+		<td><p>Please leave empty</p></td>
+		<td><p><input type='text' name='email_address' /></p></td>
+		</tr>
+		
 		<tr>
 		<td><p>Your email address:</p></td>
-		<td><p><input type='text' name='email_address' value='$user_email' size='19' /></p></td>
+		<td><p><input type='text' name='cwr' value='$user_email' size='19' /></p></td>
 		</tr>
+		
 		
 		<tr>
 		<td><p>Phone number:</p></td>
@@ -522,10 +538,15 @@ function sb_search_page_func($atts){
 	extract( shortcode_atts( array(
 		'size_low' => '28',
 		'size_high' => '45',
+		'size_min' => '10',
+		'size_max' => '100',
 		'price_low' => '30000',
 		'price_high' => '150000',
+		'price_min' => '200',
+		'price_max' =>'2000000',
 	), $atts ) );
 	global $sb_config;
+	
 	$xml_file = $sb_config['server_address']."/system/wp_plugin/listings.php?auth=$sb_config[auth]";
 	$xml = sb_load_xml($xml_file);
 	
@@ -568,6 +589,7 @@ function sb_search_page_func($atts){
 		$data_dump .= "<div style='display: none' class='result_region'>".$boat->region."</div>\r";
 		$data_dump .= "<div style='display: none' class='result_country'>".strtolower($boat->country_code)."</div>\r";
 		$data_dump .= "<div style='display: none' class='result_fuel'>".$boat->fuel."</div>\r";
+		
 		
 		$c = strval($boat->country_code);
 		$cn = strval($boat->country_name);
@@ -620,7 +642,11 @@ function sb_search_page_func($atts){
 		
 	
 	//data required by javascript
-	$a = "<div style='display: none;' id='sb_server_address'>".$sb_config['server_address']."</div>";
+	$a = "<div style='display: none;' id='size_min'>".intval($size_min)."</div>\r\n";
+	$a .= "<div style='display: none;' id='size_max'>".intval($size_max)."</div>\r\n";
+	$a .= "<div style='display: none;' id='price_min'>".intval($price_min)."</div>\r\n";
+	$a .= "<div style='display: none;' id='price_max'>".intval($price_max)."</div>\r\n\r\n";
+	$a .= "<div style='display: none;' id='sb_server_address'>".$sb_config['server_address']."</div>";
 	$a .= "<div style='display: none;' id='sb_listing_page'>".$sb_config['listing_page']."</div>";
 	$a .= "<div style='display: none;' id='sb_currency_1'>".$sb_config['currency_1']."</div>";
 	$a .= "<div style='display: none;' id='sb_currency_1_symbol'>".get_symbol($sb_config['currency_1'])."</div>";
@@ -773,7 +799,7 @@ function sb_search_page_func($atts){
 
 function sb_featured_func() {
 	global $sb_config;
-	$xml_file = $sb_config['server_address']."/system/wp_plugin/listings.php?auth=$sb_config[auth]";
+	$xml_file = $sb_config['server_address']."/system/wp_plugin/listings.php?auth=$sb_config[auth]&limit=10&rand=true";
 	$xml = sb_load_xml($xml_file);
 	$sb_config['eur_rate'] = $xml['EUR'];
 	$sb_config['usd_rate'] = $xml['USD'];
@@ -838,8 +864,8 @@ function sb_search_box_func($atts) {
 	global $sb_config;
 	$xml_file = $sb_config['server_address']."/system/wp_plugin/search_box_data.php?auth=$sb_config[auth]";
 	$xml = sb_load_xml($xml_file);
-	$sb_config['eur_rate'] = $xml['EUR'];
-	$sb_config['usd_rate'] = $xml['USD'];
+	$sb_config['euro_rate'] = $xml['EUR'];
+	$sb_config['dollar_rate'] = $xml['USD'];
 	
 	$n = date('Y');
 	$years = '';
@@ -868,12 +894,7 @@ function sb_search_box_func($atts) {
 		
 	$a = "
 	<div class='sb_wrapper' style='max-width: 400px;'>
-	<div style='display: none;' id='sb_currency_1'>".$sb_config['currency_1']."</div>
-	<div style='display: none;' id='sb_currency_1_symbol'>".get_symbol($sb_config['currency_1'])."</div>
-	<div style='display: none;' id='sb_currency_2'>".$sb_config['currency_2']."</div>
-	<div style='display: none;' id='sb_currency_2_symbol'>".get_symbol($sb_config['currency_2'])."</div>
-	<div class='eur_rate' style='display:none;'>".$sb_config['eur_rate']."</div>
-	<div class='usd_rate' style='display:none;'>".$sb_config['usd_rate']."</div>
+	<div class='ex_rate' style='display:none;'>".$sb_config['euro_rate']."</div>
 
 	<div class='ui-widget ui-widget-header ui-corner-top header'><p>Search for boats</p></div>
 	<div class='ui-widget ui-widget-content ui-corner-bottom content' style='padding: .5em;'>
@@ -959,17 +980,16 @@ function sb_search_box_small_func($atts) {
 		'size_low' => '28',
 		'size_high' => '45'), $atts ) );
 	global $sb_config;
+	//print_r($sb_config);
 	$a = "<div class='sb_wrapper' style='max-width: 400px;'>
 	<div class='ui-widget ui-widget-header ui-corner-top header' style='margin-top: .5em;'><p>Quick search</p></div>
 	<div class='ui-widget ui-widget-content ui-corner-bottom content' style='padding: .5em;'>
 	<form action='/' method='get'>
-	<input type='hidden' name='page_id' value='".$sb_config['search_page']."'/>
-	<input type='hidden' name='price_low' value='1'/>
-	<input type='hidden' name='price_high' value='1000000'/>
-	<p>Size: <input type='text' size='5' name='size_low' value='".intval($size_low)."'/> - <input type='text' size='5' name='size_high' value='".intval($size_high)."' /> ft</p>
-	<p>Type: <input type='radio' name='type' value='sail' /> Sail 
-	<input type='radio' name='type' value='power' /> Power 
-	<input type='radio' name='type' value='all' checked='checked' /> All</p>
+	<input type='hidden' name='page_id' value='".$sb_config['search_page_v2']."'/>
+	<p>Size: <input type='text' size='5' name='sl' value='".intval($size_low)."'/> - <input type='text' size='5' name='sh' value='".intval($size_high)."' /> ft</p>
+	<p>Type: <input type='radio' name='type' value='s' /> Sail 
+	<input type='radio' name='type' value='p' /> Power 
+	<input type='radio' name='type' value='a' checked='checked' /> All</p>
 	<div><button type='submit' class='button'><p>Search</p></button></div>
 	</form>
 	</div></div>";
@@ -1020,4 +1040,5 @@ function currency_conversion ($value, $currency, $usd_rate = 1.6, $eur_rate = 1.
 		}
 	return '';
 	}
+	
 ?>

@@ -4,7 +4,7 @@ Tags: yachts, boats, brokerage, brokers
 Donate link: http://www.smart-broker.co.uk
 Requires at least: 3.3.0
 Tested up to: 3.4.1
-Stable tag: 1.2.4
+Stable tag: 2.0
 
 This plugin embeds yacht listings from the SmartBroker service into your WordPress site. Requires a SmartBroker subscription.
 
@@ -26,15 +26,22 @@ If you're installing this plugin for testing purposes, there's a demo server wit
 Either install the plugin via Admin->Plugins->Add New, or  
 
 * Upload `smartbroker.zip` to the `/wp-content/plugins/` directory
-* Un-zip the file. This will create the smartbroker directory and all the necessry sub-directories
+* Un-zip the file. This will create the smartbroker directory and all the necessary sub-directories
 
 Then:
 
 * Activate the plugin through the 'Plugins' menu in WordPress
 * Set the address of your SmartBroker server in `Settings->SmartBroker`
+
+** New, v2 search instructions **
+* Create a page for your SmartBroker search - and add the shortcode `[sb_search_page_v2]` to it
+* Create a page for the SmartBroker boat listings - and add the shortcode `[sb_listing]` to it
+* Update `page-id` values for *SmartBroker search page v2 ID* and  *samrtBroker listing page ID* in `Settings->SmartBroker`
+
+** Old, v1 search instructions (only for legacy purposes) **
 * Create a page for your SmartBroker search - and add the shortcode `[sb_search_page]` to it
 * Create a page for the SmartBroker boat listings - and add the shortcode `[sb_listing]` to it
-* Update `page-id` values for *search page* and  *listing page* in `Settings->SmartBroker`
+* Update `page-id` values for *SmartBroker search page ID* and  *SmartBroker listing page ID* in `Settings->SmartBroker`
 
 > If you want to use a demo server to test your installation, set the server address to `http://demo.smart-broker.co.uk`.
 > This is the address of the server used for the *Live Demo* section of the SmartBroker site.
@@ -49,25 +56,37 @@ Once you have followed the installation instructions, you can also add the follo
 
 **Options**
 
-The following options can be set with [sb_search_box] and [sb_search_box_small]:
+Sliders
 
+The following options can be set for any page/insert that uses sliders
+
+* size_min - the lowest value available on the size slider, in feet (default: 10, integers only)
+* size_max - the highest value available on the size slider, in feet (default: 100, integers only)
 * size_low - the pre-set value of the lower size slider, in feet (default: 28, integers only)
 * size_high - the pre-set value of the upper size slider, in feet (default: 45, integers only)
 
-For example, the following shortcode will produced a small search box with a pre-set size range of 30-40ft:
-
-*[sb_search_box_small size_low="30" size_high="40"]*
-
-In addition, the following options can be set for [sb_search_box] only:
-
+* price_min - the lowest value available on the price slider, in the primary currency (as set in settings page) (default: 200, integers only)
+* price_max - the highest value available on the price slider, in the primary currency (as set in settings page) (default: 2000000, integers only)
 * price_low - the pre-set value of the lower price slider, in GBP (default: 30,000, integers only)
 * price_high - the pre-set value of the upper price slider, in GBP (default: 150,000, integers only)
 
-For example, the following shortcode will produced a search box with a pre-set size range of 40-50ft and a price range of 100,000 - 200,000 GBP:
+For example, the following shortcode will produced a size slider with an available range of 20-70 feet, pre-set to the range 25-30 feet:
 
-*[sb_search_box size_low="40" size_high="50" price_low="100000" price_high="200000"]*
+*[sb_search_box size_min="20" size_max="70" size_low="15" size_high="30"]*
 
-The options available for [sb_search_box] can also be used on [sb_listing] (see installation instructions) to set default values if none are passed to it from elsewhere (e.g. from a get request).
+Take care setting the _min and _max values - it's not possible to search outside these limits, so make sure they include all your listings.
+
+For [sb_search_page_v2] and [sb_search_box_v2], the example note for the keyword search box can be customised using:
+
+* keyword_examples - defaults to "e.g. roller furling, fridge"
+
+Finally, you can set the number of results returned per page on [sb_seach_page_v2] using the shortcode:
+
+* results_per_page - defaults to 10
+
+A fully custonised search page v2 will look like:
+
+[sb_search_page_v2 size_min="10" size_max="70" size_low="15" size_high="30" price_min="100" price_max="10000000" price_low="30000" price_high="80000" keyword_examples="e.g. bow thruster" results_per_page="20"]
 
 **Theming**
 
@@ -91,6 +110,19 @@ A brief overview of the service is available at [http://www.smart-broker.co.uk](
 6. A search-by-reference number box, using theme 'ui-darkness'
 
 == Changelog ==
+= 2.0 =
+Added search_page_v2 with the following features:
+* Search by keyword(s)
+* Now loads boat types from backend to match system
+* Loads available builders from backend
+* Added pagination 
+* Updated other shortcodes widget to use seach_page_v2 in place of search_page
+* Customisable slider ranges
+* Enquiries form now has a hidden honeypot field to reduce spam enquiries.
+* Featured boats widget now selects 10 boats at random rather than loading entire boat list.
+
+Note: The original search page is now depreciated. Please move to search v2 when making any updates.
+
 = 1.2.4 =
 * Switched jQuery to noConflict mode to avoid clashes with other libraries
 * Fixed error with photo counting where no photos exist

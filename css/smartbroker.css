@@ -10,7 +10,7 @@
 .sb_wrapper img {max-width: 100%;}
 .sb_wrapper .button {padding: 10px;}
 .sb_wrapper .search_icon {display: inline-block; position: relative; top: 4px;}
-#boat_search , #boat_search_box {padding: 5px;}
+#boat_search , #boat_search_box , #boat_search_v2 {padding: 5px;}
 .sb_icon {
 display: inline-block;
 position: relative;

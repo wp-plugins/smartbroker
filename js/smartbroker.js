@@ -1,6 +1,10 @@
  jQuery.noConflict();
  
  jQuery(document).ready(function($){
+ 
+	//hide honeypot
+	$('#hpt').hide();
+	
 	var sb_server = $('#sb_server_address').html();
 	var sb_listing_page = $('#sb_listing_page').html();
 	
@@ -22,7 +26,8 @@
 	
 	$("a[rel^='prettyPhoto']").prettyPhoto();
 	
-	var euroRate = $('.ex_rate').first().html();
+	var euroRate = $('.eur_rate').first().html();
+	var usdRate = $('.usd_rate').first().html();
 
  //-------------------------------------------------------------------------------------------------------------------------------------------------------------
  //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -43,10 +48,13 @@
 	sizeHighM= sigFigs(sizeHigh * 0.3048,2);
 	$('.sizedesc').html("<span id='sb_size_low'>"+sigFigs(sizeLow,2) + "</span> - <span id='sb_size_high'>" + sigFigs(sizeHigh,2) + "</span> feet | " + sizeLowM + " - " + sizeHighM + " m");
 	
+	size_min = parseInt($('#size_min').html());
+	size_max = parseInt($('#size_max').html());
+	
 	$('.slider_size').slider({
 		animate: true,
-		max: 120,
-		min: 6,
+		max: size_max,
+		min: size_min,
 		range: true,
 		values: [sizeLow, sizeHigh],
 		step: 1,
@@ -76,32 +84,83 @@
  	var priceHigh = $('#price_high_get').html();
 	if (priceHigh == null) {priceHigh = $('.price_high').val();}
 	if ((priceHigh == '')||(priceHigh == undefined)) {priceHigh = 150000;}
+	
+	price_min = parseInt($('#price_min').html());
+	price_max = parseInt($('#price_max').html());
+	
+	var currency_1 = $('#sb_currency_1').html();
+	var currency_2 = $('#sb_currency_2').html();
+	var currency_1_symbol = $('#sb_currency_1_symbol').html();
+	var currency_2_symbol = $('#sb_currency_2_symbol').html();
+	
+	//work out rate from c1 -> c2
+	if ((currency_1 == 'GBP') && (currency_2 == 'EUR')) {
+		//convert GBP - EUR
+		var rate = euroRate;
+		var rateToGbp = 1;
+		}
+	else if ((currency_1 == 'EUR') && (currency_2 == 'GBP')) {
+		//convert EUR - GBP
+		var rate = 1 / euroRate;
+		var rateToGbp = 1/euroRate;
+		}
+	else if ((currency_1 == 'GBP') && (currency_2 == 'USD')) {
+		//convert GBP - USD
+		var rate = usdRate;
+		var rateToGbp = 1;
+		}
+	else if ((currency_1 == 'USD') && (currency_2 == 'GBP')) {
+		//convert USD - GBP
+		var rate = 1 / usdRate;
+		var rateToGbp = 1/usdRate;
+		}
+	else if ((currency_1 == 'EUR') && (currency_2 == 'USD')) {
+		//convert EUR - USD
+		var rate = usdRate / euroRate;
+		var rateToGbp = 1/euroRate;
+		}
+	else if ((currency_1 == 'USD') && (currency_2 == 'EUR')) {
+		//convert USD - EUR
+		var rate = euroRate / usdRate;
+		var rateToGbp = 1/usdRate;
+		}
+	else {
+		var rate = 1;
+		var rateToGbp = 1;
+		}
+
 		
-	$(".price_low").val(priceLow);//set hidden field values
-	$(".price_high").val(priceHigh);
-	priceLowEuro = sigFigs(priceLow * euroRate,2); //set text
-	priceHighEuro = sigFigs(priceHigh * euroRate,2);
-	$('.pricedesc').html("&euro;" + TS(priceLowEuro) + " - &euro;" + TS(priceHighEuro) + " | &pound;" + TS(priceLow) + " - &pound;" + TS(priceHigh));
+	var priceLow1 = priceLow;
+	var priceHigh1 = priceHigh;
+	var priceLow2 = sigFigs(priceLow1 * rate,2);;
+	var priceHigh2 = sigFigs(priceHigh1 * rate,2);;
+	
+	
+	$(".price_low").val(priceLow1);//set hidden field values
+	$(".price_high").val(priceHigh1);
+	$('.pricedesc').html(currency_1_symbol + TS(priceLow1) + " - " + currency_1_symbol + TS(priceHigh1) + " | " + currency_2_symbol + TS(priceLow2) + " - " + currency_2_symbol + TS(priceHigh2));
 
 	$('.slider_price').slider({
 		animate: true,
-		max: 13815, // ln 1,000,000 * 1000
-		min: 5703, // ln 500 * 1000
+		//max: 13815, // ln 1,000,000 * 1000
+		max: Math.log(price_max) * 1000,
+		//min: 5703, // ln 500 * 1000
+		min: Math.log(price_min) * 1000,
 		range: true,
-		values: [Math.log(priceLow)*1000, Math.log(priceHigh)*1000],
+		values: [Math.log(priceLow1)*1000, Math.log(priceHigh1)*1000],
 		orientation: 'horizontal',
 		slide: function(event, ui) {
-					priceLow = sigFigs(Math.exp((ui.values[0]/1000)),2);
-					priceHigh = sigFigs(Math.exp((ui.values[1]/1000)),2);
+					priceLow1 = sigFigs(Math.exp((ui.values[0]/1000)),2);
+					priceHigh1 = sigFigs(Math.exp((ui.values[1]/1000)),2);
 					//set hidden field values
-					$(".price_low").val(priceLow);
-					$(".price_high").val(priceHigh);
-					$('.slider_price').slider({values: [Math.log(priceLow)*1000, Math.log(priceHigh)*1000]});
+					$(".price_low").val(priceLow1);
+					$(".price_high").val(priceHigh1);
+					$('.slider_price').slider({values: [Math.log(priceLow1)*1000, Math.log(priceHigh1)*1000]});
 					//calculate euro values (for display only)
-					priceLowEuro = sigFigs(priceLow * euroRate,2);
-					priceHighEuro = sigFigs(priceHigh * euroRate,2);
+					priceLow2 = sigFigs(priceLow1 * rate,2);
+					priceHigh2 = sigFigs(priceHigh1 * rate,2);
 					//set text
-					$('.pricedesc').html("&euro;" + TS(priceLowEuro) + " - &euro;" + TS(priceHighEuro) + " | &pound;" + TS(priceLow) + " - &pound;" + TS(priceHigh));
+					$('.pricedesc').html(currency_1_symbol + TS(priceLow1) + " - " + currency_1_symbol + TS(priceHigh1) + " | " + currency_2_symbol + TS(priceLow2) + " - " + currency_2_symbol + TS(priceHigh2));
 			}
 		});
 	
@@ -263,7 +322,9 @@
 		var size_low = parseFloat($('.size_low').val());
 		var size_high = $('.size_high').val();
 		var price_low = $('.price_low').val();
+		price_low = price_low * rateToGbp; // convert to GBP prices
 		var price_high = $('.price_high').val();
+		price_high = price_high * rateToGbp; // convert to GBP prices
 		var type = $('select[name="type"] option').filter(':selected').val();
 		var country = $('#country option').filter(':selected').val();
 		var built = $('select[name="built"] option').filter(':selected').val();
