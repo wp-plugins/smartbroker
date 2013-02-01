@@ -34,12 +34,13 @@ Then:
 * Set the address of your SmartBroker server in `Settings->SmartBroker`
 * Create a page for your SmartBroker search - and add the shortcode `[sb_search_page_v2]` to it
 * Create a page for the SmartBroker boat listings - and add the shortcode `[sb_listing]` to it
-* Update `page-id` values for *SmartBroker search page v2 ID* and  *samrtBroker listing page ID* in `Settings->SmartBroker`
+* Update `page-id` values for *SmartBroker search page v2 ID* and  *SmartBroker listing page ID* in `Settings->SmartBroker`
 
->Old, v1 search instructions (only for legacy purposes)
->* Create a page for your SmartBroker search - and add the shortcode `[sb_search_page]` to it
->* Create a page for the SmartBroker boat listings - and add the shortcode `[sb_listing]` to it
->* Update `page-id` values for *SmartBroker search page ID* and  *SmartBroker listing page ID* in `Settings->SmartBroker`
+Old, v1 search instructions (only for legacy purposes):
+
+* Create a page for your SmartBroker search - and add the shortcode `[sb_search_page]` to it
+* Create a page for the SmartBroker boat listings - and add the shortcode `[sb_listing]` to it
+* Update `page-id` values for *SmartBroker search page ID* and  *SmartBroker listing page ID* in `Settings->SmartBroker`
 
 > If you want to use a demo server to test your installation, set the server address to `http://demo.smart-broker.co.uk`.
 > This is the address of the server used for the *Live Demo* section of the SmartBroker site.
