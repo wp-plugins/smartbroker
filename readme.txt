@@ -109,7 +109,7 @@ A brief overview of the service is available at [http://www.smart-broker.co.uk](
 
 == Changelog ==
 = 2.0 =
-Added search_page_v2 with the following features:
+* Added search_page_v2 with the following features:
 * Search by keyword(s)
 * Now loads boat types from backend to match system
 * Loads available builders from backend
@@ -118,8 +118,7 @@ Added search_page_v2 with the following features:
 * Customisable slider ranges
 * Enquiries form now has a hidden honeypot field to reduce spam enquiries.
 * Featured boats widget now selects 10 boats at random rather than loading entire boat list.
-
-Note: The original search page is now depreciated. Please move to search v2 when making any updates.
+* Note: The original search page is now depreciated. Please move to search v2 when making any updates.
 
 = 1.2.4 =
 * Switched jQuery to noConflict mode to avoid clashes with other libraries
