@@ -69,7 +69,7 @@ delete jQuery.fn.slider;
 				//set hidden field values
 				$(".size_low").val(sizeLow);
 				$(".size_high").val(sizeHigh);
-				$('.slider_size').slider({values: [sizeLow, sizeHigh]});
+				$('.slider_size').sb_slider({values: [sizeLow, sizeHigh]});
 				//set text
 				sizeLowM = sigFigs(sizeLow * 0.3048,2);
 				sizeHighM= sigFigs(sizeHigh * 0.3048,2);
@@ -159,7 +159,7 @@ delete jQuery.fn.slider;
 					//set hidden field values
 					$(".price_low").val(priceLow1);
 					$(".price_high").val(priceHigh1);
-					$('.slider_price').slider({values: [Math.log(priceLow1)*1000, Math.log(priceHigh1)*1000]});
+					$('.slider_price').sb_slider({values: [Math.log(priceLow1)*1000, Math.log(priceHigh1)*1000]});
 					//calculate euro values (for display only)
 					priceLow2 = sigFigs(priceLow1 * rate,2);
 					priceHigh2 = sigFigs(priceHigh1 * rate,2);
