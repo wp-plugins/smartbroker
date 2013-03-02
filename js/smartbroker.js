@@ -1,4 +1,8 @@
  jQuery.noConflict();
+
+jQuery.fn.sb_slider = jQuery.fn.slider;
+
+delete jQuery.fn.slider;
  
  jQuery(document).ready(function($){
  
@@ -51,7 +55,7 @@
 	size_min = parseInt($('#size_min').html());
 	size_max = parseInt($('#size_max').html());
 	
-	$('.slider_size').slider({
+	$('.slider_size').sb_slider({
 		animate: true,
 		max: size_max,
 		min: size_min,
@@ -140,7 +144,7 @@
 	$(".price_high").val(priceHigh1);
 	$('.pricedesc').html(currency_1_symbol + TS(priceLow1) + " - " + currency_1_symbol + TS(priceHigh1) + " | " + currency_2_symbol + TS(priceLow2) + " - " + currency_2_symbol + TS(priceHigh2));
 
-	$('.slider_price').slider({
+	$('.slider_price').sb_slider({
 		animate: true,
 		//max: 13815, // ln 1,000,000 * 1000
 		max: Math.log(price_max) * 1000,

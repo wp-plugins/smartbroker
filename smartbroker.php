@@ -3,7 +3,7 @@
 Plugin Name: SmartBroker
 Plugin URI: http://www.smart-broker.co.uk
 Description: A plugin to insert SmartBroker data into a Wordpress site
-Version: 2.0
+Version: 2.1
 Author: Nick Roberts
 Author URI: http://www.smart-broker.co.uk
 License: GPL2
@@ -248,10 +248,17 @@ function sb_styles() {
 function sb_load_xml($xml_file) {
 	libxml_use_internal_errors(true);
 	echo "\n\r\n\r<!-- xml file: $xml_file -->\n\r\n\r";
+	$data = FALSE;
 	if (ini_get('allow_url_fopen')) {
 		echo "\n\n<!-- SmartBroker: Loading XML via file_get_contents-->\n\n";
 		$data = file_get_contents($xml_file);
-		} else if (function_exists("curl_exec")) {
+		if ($data == FALSE) {
+			echo "\n\n<!-- SmartBroker: Loading XML via file_get_contents FAIL -->\n\n";
+			} else {
+			echo "\n\n<!-- SmartBroker: Loading XML via file_get_contents SUCCESS: ".strlen($data)." bytes loaded-->\n\n";
+			}
+		}
+	if (($data == FALSE) AND (function_exists("curl_exec"))) {
 		echo "\n\n<!-- SmartBroker: Loading XML via cURL-->\n\n";
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
@@ -262,10 +269,14 @@ function sb_load_xml($xml_file) {
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 		$data = curl_exec($ch);
 		curl_close($ch);
-		} else {
+		if ($data == FALSE) {
+			echo "\n\n<!-- SmartBroker: Loading XML via cURL FAIL -->\n\n";
+			} else {
+			echo "\n\n<!-- SmartBroker: Loading XML via cURL SUCCESS: ".strlen($data)." bytes loaded-->\n\n";
+			}
+		} elseif ($data == FALSE) {
 		echo "\n\n<!-- SmartBroker: No way of loading data! -->\n\n";
 		}
-
 	$sxe = simplexml_load_string($data);
 	if (!$sxe) {
 		echo "<p>Failed loading XML: check your server address &amp; authentication token in <i>Admin >> Settings >>SmartBroker</i></p>
@@ -273,8 +284,10 @@ function sb_load_xml($xml_file) {
 		foreach(libxml_get_errors() as $error) {
 			echo "\t", $error->message;
 			}
-		echo "</pre>";
-		exit;
+		echo "</pre><p>Data dump: </p>";
+		var_dump($data);
+		} else {
+		echo "\n\n<!-- SmartBroker: Data conversion to XML SUCCESS -->\n\n";
 		}
 	return $sxe;
 	}

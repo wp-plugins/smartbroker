@@ -76,10 +76,11 @@ function sb_search_page_v2_func($atts) {
 
 	$xml = load_results_xml($data);
 	$total_rows = $xml['count'];
-	$returned_rows = $xml->count();
+	$returned_rows = count($xml);
 	$requested_rows = $xml['requested_rows'];
 	$start_row = $xml['start'];
 	$end_row = $start_row + $returned_rows - 1;
+	
 	if ($total_rows > 0) {
 		echo "<p>&nbsp;$total_rows results found - showing results $start_row to $end_row.</p><table id='results'>";
 		foreach ($xml->boat as $boat) {

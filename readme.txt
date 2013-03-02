@@ -109,6 +109,10 @@ A brief overview of the service is available at [http://www.smart-broker.co.uk](
 6. A search-by-reference number box, using theme 'ui-darkness'
 
 == Changelog ==
+= 2.1=
+* Changed from using $xml->count() to count($xml) as $xml->count() only available in PHP >= 5.3
+* Renamed JavaScript UI function 'slider' to 'sb_slider' to avoid potential conflicts with theme scripts
+
 = 2.0 =
 * Added search_page_v2 with the following features:
 * Search by keyword(s)
