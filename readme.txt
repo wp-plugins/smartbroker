@@ -69,7 +69,7 @@ The following options can be set for any page/insert that uses sliders
 * price_low - the pre-set value of the lower price slider, in GBP (default: 30,000, integers only)
 * price_high - the pre-set value of the upper price slider, in GBP (default: 150,000, integers only)
 
-For example, the following shortcode will produced a size slider with an available range of 20-70 feet, pre-set to the range 25-30 feet:
+For example, the following shortcode will produced a size slider with an available range of 20-70 feet, pre-set to the range 15-30 feet:
 
 *[sb_search_box size_min="20" size_max="70" size_low="15" size_high="30"]*
 
