@@ -3,7 +3,7 @@
 Plugin Name: SmartBroker
 Plugin URI: http://www.smart-broker.co.uk
 Description: A plugin to insert SmartBroker data into a Wordpress site
-Version: 2.2
+Version: 3.0
 Author: Nick Roberts
 Author URI: http://www.smart-broker.co.uk
 License: GPL2
@@ -37,6 +37,35 @@ if ($sb_config['currency_2'] == '') {
 if ($sb_config['tax_label'] == '') {
 	$sb_config['tax_label'] = 'VAT';
 	}
+if ($sb_config['listing_default_tab'] == '') {
+	$sb_config['listing_default_tab'] = 'sb_brokers_notes';
+	}
+$valid_theme_names = array('ui-lightness', 
+							'ui-darkness',
+							'smoothness',
+							'start',
+							'redmond',
+							'sunny',
+							'overcast',
+							'le-frog',
+							'flick',
+							'pepper-grinder',
+							'eggplant',
+							'dark-hive',
+							'cupertino',
+							'south-street',
+							'blitzer',
+							'humanity',
+							'hot-sneaks',
+							'excite-bike',
+							'vader',
+							'dot-luv',
+							'mint-choc',
+							'black-tie',
+							'swanky-purse');
+if (!in_array($sb_config['theme'], $valid_theme_names)) {
+	$sb_config['theme'] = 'ui-lightness';
+	}
 	
 $sb_config['video_link'] = '<iframe class="video" width="200" height="115" src="http://www.youtube-nocookie.com/embed/%s?rel=0&wmode=opaque&modestbranding=1&showinfo=0&theme=light" frameborder="0" allowfullscreen></iframe>';
 
@@ -48,7 +77,6 @@ add_action('admin_init', 'sb_plugin_admin_init');
 add_shortcode('sb_listing', 'sb_listing_func' );
 add_shortcode('sb_search_page', 'sb_search_page_func');
 add_shortcode('sb_featured', 'sb_featured_func');
-add_shortcode('sb_search_box', 'sb_search_box_func');
 add_shortcode('sb_search_box_v2', 'sb_search_box_v2_func');
 add_shortcode('sb_search_box_small', 'sb_search_box_small_func');
 add_shortcode('sb_search_by_ref', 'sb_search_by_ref_func');
@@ -66,23 +94,41 @@ function hide_listing_page() {
 
 function sb_plugin_admin_init(){
 	register_setting('sb_plugin_options', 'sb_plugin_options', '' );
-	add_settings_section('sb_server_settings', 'Configuration settings', 'sb_server_section_text', 'sb_plugin');
+	add_settings_section('sb_server_settings', 'SmartBroker server settings', 'sb_server_section_text', 'sb_plugin');
+	add_settings_section('sb_page_settings', 'Page settings', 'sb_page_section_text', 'sb_plugin');
+	add_settings_section('sb_theme_settings', 'Theme settings', 'sb_theme_section_text', 'sb_plugin');
+	add_settings_section('sb_tax_settings', 'Tax settings', 'sb_tax_section_text', 'sb_plugin');
+	add_settings_section('sb_currency_settings', 'Currency settings', 'sb_currency_section_text', 'sb_plugin');
+	add_settings_section('sb_contact_settings', 'Contact settings', 'sb_contact_section_text', 'sb_plugin');
+	
 	add_settings_field('sb_server_address', 'SmartBroker server address', 'sb_server_address_string', 'sb_plugin', 'sb_server_settings');
 	add_settings_field('sb_auth', 'Server authentication token', 'sb_auth_string', 'sb_plugin', 'sb_server_settings');
-	add_settings_field('sb_search_page', 'SmartBroker search page ID', 'sb_search_page_string', 'sb_plugin', 'sb_server_settings');
-	add_settings_field('sb_search_page_v2', 'SmartBroker search page v2 ID', 'sb_search_page_v2_string', 'sb_plugin', 'sb_server_settings');
-	add_settings_field('sb_listing_page', 'SmartBroker listing page ID', 'sb_listing_page_string', 'sb_plugin', 'sb_server_settings');
-	add_settings_field('sb_currency_1', 'Primary currency', 'sb_currency_1_string', 'sb_plugin', 'sb_server_settings');
-	add_settings_field('sb_currency_2', 'Secondary currency', 'sb_currency_2_string', 'sb_plugin', 'sb_server_settings');
-	add_settings_field('sb_tax_label', 'Tax label', 'sb_tax_label_string', 'sb_plugin', 'sb_server_settings');
-	add_settings_field('sb_email', 'Email address', 'sb_email_string', 'sb_plugin', 'sb_server_settings');
-	add_settings_field('sb_phone', 'Phone number', 'sb_phone_string', 'sb_plugin', 'sb_server_settings');
-	add_settings_field('sb_disclaimer', 'Standard disclaimer', 'sb_disclaim_string', 'sb_plugin', 'sb_server_settings');
-	add_settings_field('sb_tracking', 'Enable SmartBroker tracking', 'sb_tracking_string', 'sb_plugin', 'sb_server_settings');
-	add_settings_field('sb_theme', 'Theme', 'sb_theme_string', 'sb_plugin', 'sb_server_settings');
+	
+	add_settings_field('sb_search_page_v2', 'SmartBroker search page v2 ID', 'sb_search_page_v2_string', 'sb_plugin', 'sb_page_settings');
+	add_settings_field('sb_listing_page', 'SmartBroker listing page ID', 'sb_listing_page_string', 'sb_plugin', 'sb_page_settings');
+	add_settings_field('sb_listing_default_tab', 'Listing default tab', 'sb_listing_default_tab_string', 'sb_plugin', 'sb_page_settings');
+	
+	add_settings_field('sb_theme', 'Theme', 'sb_theme_string', 'sb_plugin', 'sb_theme_settings');
+	
+	add_settings_field('sb_currency_1', 'Primary currency', 'sb_currency_1_string', 'sb_plugin', 'sb_currency_settings');
+	add_settings_field('sb_currency_2', 'Secondary currency', 'sb_currency_2_string', 'sb_plugin', 'sb_currency_settings');
+	
+	add_settings_field('sb_hide_tax_label', 'Hide tax label', 'sb_hide_tax_label_string', 'sb_plugin', 'sb_tax_settings');
+	add_settings_field('sb_tax_label', 'Tax label', 'sb_tax_label_string', 'sb_plugin', 'sb_tax_settings');
+	
+	add_settings_field('sb_email', 'Email address', 'sb_email_string', 'sb_plugin', 'sb_contact_settings');
+	add_settings_field('sb_phone', 'Phone number', 'sb_phone_string', 'sb_plugin', 'sb_contact_settings');
+	add_settings_field('sb_disclaimer', 'Standard disclaimer', 'sb_disclaim_string', 'sb_plugin', 'sb_contact_settings');
+	add_settings_field('sb_tracking', 'Enable SmartBroker tracking', 'sb_tracking_string', 'sb_plugin', 'sb_contact_settings');
+	
 	}
 
 function sb_server_section_text() {echo "";}
+function sb_tax_section_text() {echo "";}
+function sb_page_section_text() {echo "";}
+function sb_currency_section_text() {echo "";}
+function sb_theme_section_text() {echo "";}
+function sb_contact_section_text() {echo "";}
 	
 function sb_server_address_string() {
 	global $sb_config;
@@ -115,6 +161,13 @@ function sb_listing_page_string() {
 	<p>This is the id number of the WordPress page that contains the shortcode [sb_listing].</p>";
 	}
 
+function sb_listing_default_tab_string() {
+	global $sb_config;
+	echo "<input id='listing_default_tab' name='sb_plugin_options[listing_default_tab]' size='40' type='text' value='".$sb_config['listing_default_tab']."' />
+	<p>The default tab to automatically open when viewing a listing. Choose from:<i>sb_brokers_notes, sb_specifications, sb_photos</i> or <i>sb_find_out_more</i>.</p>
+	<p>Defaults to <i>#sb_brokers_notes</i>.</p>";
+	}
+
 function sb_currency_1_string() {
 	global $sb_config;
 	echo "<input id='currency_1' name='sb_plugin_options[currency_1]' size='10' type='text' value='".$sb_config['currency_1']."' />
@@ -133,6 +186,16 @@ function sb_tax_label_string() {
 	<p>The sales tax label to use in the plugin. Typcial values would by VAT (in the UK) or BTW (in the Netherlands).<br/><br/>
 	This string is used in the phrases 'VAT paid' and 'VAT not paid'.<br/><br/>
 	Will default to 'VAT' if left blank.</p>";
+	}
+
+function sb_hide_tax_label_string() {
+	global $sb_config;
+	$a = '';
+	if (array_key_exists('hide_tax_label', $sb_config) AND ($sb_config['hide_tax_label'] == 'on')) {
+		$a = "checked='checked'";
+		}
+	echo "<input type='checkbox' id='hide_tax_label' name='sb_plugin_options[hide_tax_label]' $a />
+	<p>Hide the tax label (e.g. 'VAT paid', 'VAT not paid') completely.</p>";
 	}
 	
 function sb_email_string() {
@@ -176,7 +239,9 @@ function sb_theme_string() {
 	global $sb_config;
 	echo "<input id='theme' name='sb_plugin_options[theme]' size='10' type='text' value='".$sb_config['theme']."' /><br/>
 	<p>For applicable theme names and examples, please go to <a href='http://jqueryui.com/themeroller/#themeGallery'>http://jqueryui.com/themeroller/#themeGallery</a></p>
-	<p>Use all lowercase and replace spaces with dashes e.g. <i>UI lightness</i> becomes <i>ui-lightness</i></p>";
+	<p>Choose from: <i>ui-lightness, ui-darkness, smoothness, start, redmond, sunny, overcast, le-frog, flick, pepper-grinder,
+	eggplant, dark-hive, cupertino, south-street, blitzer, humanity, hot-sneaks, excite-bike, vader, dot-luv, mint-choc, black-tie, swanky-purse</i>.</p>
+	<p>Will default to <i>ui-lightness</i> if no valid theme found.</p>";
 	}
 	
 function my_plugin_menu() {
@@ -197,10 +262,50 @@ function sb_plugin_options() {
 	<h3>Installation</h3>
 	<p>The very minimum you'll need to do to get the system running is:</p>
 	<ol><li>Install the plugin (you've already done this if you're reading these words).</li>
-	<li>Create a new page called 'Search for boats'&nbsp;(or similar), and add the shortcode [sb_search_page] to it.</li>
-	<li>Enter the page_id of this page in the 'SmartBroker search page ID'&nbsp;box below.</li>
+	<li>Create a new page called 'Search for boats'&nbsp;(or similar), and add the shortcode [sb_search_page_v2] to it.</li>
+	<li>Enter the page_id of this page in the 'SmartBroker search page ID v2'&nbsp;box below.</li>
 	<li>Create a new page called 'Boat listing'&nbsp;(or similar), and add the shortcode [sb_listing] to it.</li>
-	<li>Enter the page_id of this page in the 'SmartBroker listing page ID'&nbsp;box below.</li></ol>";
+	<li>Enter the page_id of this page in the 'SmartBroker listing page ID'&nbsp;box below.</li>
+	<li>Fill in the 'Server address' and 'Server authentication token' fields below.</li>
+	</ol>
+	<h3>Shortcodes</h3>
+	<p>In addition to the shortcodes [sb_search_page_v2] and [sb_listing] (see above), the following shortcodes can
+	be used anywhere within your site:</p>
+	<ol>
+<li>[sb_featured] - a scrolling carousel feature highlighting some of your listings</li>
+<li>[sb_search_box_v2] - a stand-alone listings search box (similar to that found on the left hand side of the search page)</li>
+<li>[sb_search_box_small] - a simple size-type search box</li>
+<li>[sb_search_by_ref] - a small search-by-reference-number box</li>
+</ol>
+	
+	<h3>Options</h3>
+	<p><b>Sliders</b></p>
+<p>The following options can be set for any page/insert that uses sliders:</p>
+
+<ol><li>size_min - the lowest value available on the size slider, in feet (default: 10, integers only)</li>
+<li>size_max - the highest value available on the size slider, in feet (default: 100, integers only)</li>
+<li>size_low - the pre-set value of the lower size slider, in feet (default: 28, integers only)</li>
+<li>size_high - the pre-set value of the upper size slider, in feet (default: 45, integers only)</li></ol>
+
+<ol>
+<li>price_min - the lowest value available on the price slider, in the primary currency (as set in settings page) (default: 200, integers only)</li>
+<li>price_max - the highest value available on the price slider, in the primary currency (as set in settings page) (default: 2000000, integers only)</li>
+<li>price_low - the pre-set value of the lower price slider, in GBP (default: 30,000, integers only)</li>
+<li>price_high - the pre-set value of the upper price slider, in GBP (default: 150,000, integers only)</li>
+</ol>
+<p>For example, the following shortcode will produced a size slider with an available range of 20-70 feet, pre-set to the range 25-30 feet:</p>
+<p><i>[sb_search_box_v2 size_min=\"20\" size_max=\"70\" size_low=\"15\" size_high=\"30\"]</i></p>
+<p><b>Take care setting the _min and _max values. It's not possible to search outside these limits, so make sure they include all your listings.</b></p>
+<p><b>Other Options</b></p>
+<p>For [sb_search_page_v2] and [sb_search_box_v2], the example note for the keyword search box can be customised using:</p>
+<ol><li>keyword_examples (default: \"e.g. roller furling, fridge\")</li></ol>
+<p>Finally, you can set the number of results returned per page on [sb_seach_page_v2] using the shortcode:</p>
+<ol><li>results_per_page (default: 10)</li></ol>
+<p>A fully customised search page v2 will look like:</p>
+<p><i>[sb_search_page_v2 size_min=\"10\" size_max=\"70\" size_low=\"15\" size_high=\"30\" price_min=\"100\" 
+price_max=\"10000000\" price_low=\"30000\" price_high=\"80000\" keyword_examples=\"e.g. bow thruster\" results_per_page=\"20\"]</i></p>
+
+	<p>Further support for this plugin is available in the <a href='http://www.smart-broker.co.uk/?page_id=300'>Installation Guide</a>.";
 	echo '<form method="post" action="options.php"> ';
 	settings_fields('sb_plugin_options');
 	do_settings_sections('sb_plugin');
@@ -239,6 +344,8 @@ function sb_styles() {
 	wp_enqueue_style('sb_prettyphoto_css');
 	wp_register_style('sb_jcarousel_css', plugins_url('css/jcarousel.css', __FILE__));
 	wp_enqueue_style('sb_jcarousel_css');
+	wp_register_style('sb_responsive_css', plugins_url('css/responsive.css', __FILE__));
+	wp_enqueue_style('sb_responsive_css');
 	}
 
 #########################################################
@@ -325,7 +432,10 @@ function sb_listing_func(){
 	
 	//format VAT message
 	$vat_paid = $xml->boat->vat_included;
-	if ($vat_paid == '1') {$vat_message = $sb_config['tax_label']." paid";}
+	if ($sb_config['hide_tax_label'] == 'on') {
+		$vat_message = '';
+		}
+	elseif ($vat_paid == '1') {$vat_message = $sb_config['tax_label']." paid";}
 	else {$vat_message = $sb_config['tax_label']." not paid";}
 	
 	//add currency conversion if not in primary currency
@@ -356,12 +466,15 @@ function sb_listing_func(){
 		$e = substr($e,0,-5)."</p>";
 		if (strlen($i) > strlen($j)){$j .= $e;} else {$i .= $e;}
 		}
-	$cats = "<table><tr><td>$i</td><td>$j</td></tr></table>";
+	$cats = "<div class='smartbroker_section smartbroker_group'>
+				<div class='smartbroker_col smartbroker_span_1_of_2'>$i</div>
+				<div class='smartbroker_col smartbroker_span_1_of_2'>$j</div>
+			</div>";
 	
 	//sort photos out
 	function build_photo($link, $path, $desc, $cat) {
         global $sb_config;
-        return "<a href='".$sb_config['server_address'].$link."' rel='prettyPhoto[$cat]' title='".$desc."'>
+        return "<a href='".$sb_config['server_address'].$link."' rel='sb_prettyPhoto[$cat]' title='".$desc."'>
         <img src='".$sb_config['server_address'].$path."' alt='' />
         </a>";
         }
@@ -483,7 +596,7 @@ function sb_listing_func(){
 		
 	$brokers_notes = nl2br($xml->boat->brokers_notes);
 	if ($brokers_notes == '') {
-		$brokers_notes = "<p><em>(There are no broker's notes available for this boat)</em></p>";
+		$brokers_notes = "<em>(There are no broker's notes available for this boat)</em>";
 		}
 	//data required by javascript
 	$a = "<div style='display: none;' id='server_address_address'>".$sb_config['server_address']."</div>";
@@ -492,321 +605,74 @@ function sb_listing_func(){
 	$a .= "
 	<div class='sb_wrapper'>
 	<h2><span id='sb_boat_builder_and_model'>".$xml->boat->builder." ".$xml->boat->model."</span>".$admin_link."</h2>
-	<table><tr><td style='width: 300px; vertical-align: top;'>
-	<div id='sb_primary_image'>
-		<img src='".$sb_config['server_address']."/images/boats/$boat_id/medium/".str_replace("/","-",$xml->boat->model)."-".$xml->boat->primary_photo.".jpg' title='42'  style='padding: 0px;'
-		alt='".$xml->boats->model."' width='300px'/>		 
-	</div>
-	<div id='sb_key_facts_container'>
-		$prov_message
-		<div id='sb_key_facts_head' class='ui-corner-top ui-widget-header ui-widget'><p>Key facts</p></div>
-		<div class='ui-widget-content ui-corner-bottom'>
-			<table id='sb_key_facts_table'>	
-				<tr id='ref'><td><p>Boat reference</p></td><td><p><i><b>$boat_id</b></i></p></td></tr>
-				
-				<tr id='status_row'><td><p>Status</p></td><td><p>".$xml->boat->status_text."</p></td></tr>
-				
-				<tr><td><p>Builder</p></td><td><p>".$xml->boat->builder."</p></td></tr>
-				<tr><td><p>Boat model</p></td><td><p>".$xml->boat->model."</p></td></tr>
-				<tr><td><p>Type</p></td><td><p>".$xml->boat->type_description."</p></td></tr>
-				<tr><td><p>LOA</p></td><td><p>".round($xml->boat->length)." ft (".round(floatval($xml->boat->length)/3.28)." m)</p></td></tr>
-				<tr><td><p>Built</p></td><td><p>".$xml->boat->year."</p></td></tr>
-				<tr><td><p>Currently lying</p></td><td><p>".$xml->boat->region.", ".$xml->boat->country_name."</p></td></tr>
-				<tr><td><p>Price</p></td>
-				<td><p>".$curr_symbol.number_format($price)." ".$vat_message.'<br />'.$currency_conversion."</p></td></tr>
-			</table>
+	<div class='smartbroker_section smartbroker_group'>
+	<div class='smartbroker_col smartbroker_span_2_of_5'>
+		<div id='sb_primary_image'>
+			<img src='".$sb_config['server_address']."/images/boats/$boat_id/medium/".str_replace("/","-",$xml->boat->model)."-".$xml->boat->primary_photo.".jpg' title='42'  style='padding: 0px;'
+			alt='".$xml->boats->model."' width='300px'/>		 
+		</div>
+	
+		<div id='sb_key_facts_container'>
+			$prov_message
+			<div id='sb_key_facts_head' class='ui-corner-top ui-widget-header ui-widget'><p>Key facts</p></div>
+			<div class='ui-widget-content ui-corner-bottom'>
+				<table id='sb_key_facts_table'>	
+					<tr id='ref'><td><p>Boat reference</p></td><td><p><i><b>$boat_id</b></i></p></td></tr>
+					
+					<tr id='status_row'><td><p>Status</p></td><td><p>".$xml->boat->status_text."</p></td></tr>
+					
+					<tr><td><p>Builder</p></td><td><p>".$xml->boat->builder."</p></td></tr>
+					<tr><td><p>Boat model</p></td><td><p>".$xml->boat->model."</p></td></tr>
+					<tr><td><p>Type</p></td><td><p>".$xml->boat->type_description."</p></td></tr>
+					<tr><td><p>LOA</p></td><td><p>".round($xml->boat->length)." ft (".round(floatval($xml->boat->length)/3.28)." m)</p></td></tr>
+					<tr><td><p>Built</p></td><td><p>".$xml->boat->year."</p></td></tr>
+					<tr><td><p>Currently lying</p></td><td><p>".$xml->boat->region.", ".$xml->boat->country_name."</p></td></tr>
+					<tr><td><p>Price</p></td>
+					<td><p>".$curr_symbol.number_format($price)." ".$vat_message.'<br />'.$currency_conversion."</p></td></tr>
+				</table>
+			</div>
 		</div>
 	</div>
-	</td><td style='vertical-align: top;'>
+	<div class='smartbroker_col smartbroker_span_3_of_5'>
 		
-	<div id='sb_tabs_container'>
-		<div id='tabs'>
-				<ul id='tab_links'>
-					<li><p><a href='#sb_broker_notes'>Notes</a></p></li>
-					<li><p><a href='#sb_specifications'>Specifications</a></p></li>
-					<li><p><a href='#sb_photos' id='photos_tab'>Photos &amp; videos</a></p></li>
-					<li><p><a href='#sb_find_out_more' id='contact_tab'>Find out more</a></p></li>
-									</ul>
-				<div id='sb_broker_notes'>
-					<p>".$brokers_notes."</p>
-				</div>
-				<div id='sb_specifications'>$cats</div>
-				<div id='sb_photos'>$m</div>
-				<div id='sb_find_out_more'>$find_out_more</div>
-				
-								
+		<div id='sb_tabs_container'>
+			<div id='tabs'>
+					<ul id='tab_links'>
+						<li><p><a href='#sb_broker_notes'>Notes</a></p></li>
+						<li><p><a href='#sb_specifications'>Specifications</a></p></li>
+						<li><p><a href='#sb_photos' id='photos_tab'>Photos &amp; videos</a></p></li>
+						<li><p><a href='#sb_find_out_more' id='contact_tab'>Find out more</a></p></li>
+										</ul>
+					<div id='sb_broker_notes'>
+						<div class='smartbroker_tab_header ui-widget-header ui-corner-top'><p>Broker's notes</p></div>
+						<div class='ui-widget-content ui-corner-bottom'>
+							<p>".$brokers_notes."</p>
+						</div>
+					</div>
+					<div id='sb_specifications'>
+						<div class='smartbroker_tab_header ui-widget-header ui-corner-top'><p>Specifications</p></div>
+						<div class='ui-widget-content ui-corner-bottom'>$cats</div>
+					</div>
+					<div id='sb_photos'>
+						<div class='smartbroker_tab_header ui-widget-header ui-corner-top'><p>Photos &amp; videos</p></div>
+						<div class='ui-widget-content ui-corner-bottom'>$m</div>
+					</div>
+					<div id='sb_find_out_more'>
+						<div class='smartbroker_tab_header ui-widget-header ui-corner-top'><p>Find out more</p></div>
+						<div class='ui-widget-content ui-corner-bottom'>$find_out_more</div>
+					</div>
+					
+									
+			</div>
 		</div>
-	</div>
-	</td></tr></table>";
+	</div> <!--end of span_3_of_5 -->
+	</div> <!-- end of col group -->";
 	
 	if ($sb_config['disclaim'] != '') {
 		$a .= "<p class='ui-priority-secondary'>$sb_config[disclaim]</p>";
 		}
 	
 	$a .= "</div> <!--end sb_wrapper -->";
-	return $a;
-	}
-
-function sb_search_page_func($atts){
-	extract( shortcode_atts( array(
-		'size_low' => '28',
-		'size_high' => '45',
-		'size_min' => '10',
-		'size_max' => '100',
-		'price_low' => '30000',
-		'price_high' => '150000',
-		'price_min' => '200',
-		'price_max' =>'2000000',
-	), $atts ) );
-	global $sb_config;
-	
-	$xml_file = $sb_config['server_address']."/system/wp_plugin/listings.php?auth=$sb_config[auth]";
-	$xml = sb_load_xml($xml_file);
-	
-	$sb_config['eur_rate'] = $xml['EUR'];
-	$sb_config['usd_rate'] = $xml['USD'];
-	$sb_config['countries'] = Array();
-	function search_result_item($boat) {
-		global $sb_config;
-		
-		$link = "/?page_id=".$sb_config['listing_page']."&boat_id=".$boat->boat_id;
-		$img_link = $sb_config['server_address']."/images/boats/".$boat->boat_id."/small/".str_replace("/","-",$boat->model)."-".$boat->photo_id.".jpg";
-		$desc = $boat->builder." ".$boat->model;
-		
-		if ($boat->vat_paid == '1') {$vat_message = $sb_config['tax_label']." paid";} else {$vat_message = $sb_config['tax_label']." not paid";}
-		$length = round($boat->LOA)."ft (".round($boat->LOA/3.28)."m)";
-		
-		//format currency
-		$currency = $boat->currency;
-		if ($currency == "GBP") {
-			$curr_symbol = "&pound;";
-			$rate = 1;
-			} elseif ($currency == "EUR") {
-			$curr_symbol = "&euro;";
-			$rate = $sb_config['eur_rate'];
-			} elseif ($currency == "USD") {
-			$curr_symbol = "$";
-			$rate = $sb_config['usd_rate'];
-			}
-		$price = number_format(floatval($boat->price));
-		$currency_conversion = currency_conversion(floatval($boat->price), $currency, $sb_config['usd_rate'], $sb_config['eur_rate']);
-		if ($currency_conversion != '') {
-			$currency_conversion = '<p>'.$currency_conversion.'</p>';
-			}
-				
-		//data dump for javascript manipulation
-		$data_dump = "<div style='display: none' class='result_type'>".$boat->type."</div>\r";
-		$data_dump .= "<div style='display: none' class='result_loa'>".$boat->LOA."</div>\r";
-		$data_dump .= "<div style='display: none' class='result_year'>".$boat->year."</div>\r";
-		$data_dump .= "<div style='display: none' class='result_price_gbp'>".round(floatval($boat->price)/floatval($rate))."</div>\r";
-		$data_dump .= "<div style='display: none' class='result_region'>".$boat->region."</div>\r";
-		$data_dump .= "<div style='display: none' class='result_country'>".strtolower($boat->country_code)."</div>\r";
-		$data_dump .= "<div style='display: none' class='result_fuel'>".$boat->fuel."</div>\r";
-		
-		
-		$c = strval($boat->country_code);
-		$cn = strval($boat->country_name);
-		if (!(array_key_exists($c,$sb_config['countries']))) {
-			$sb_config['countries'][$c] = $cn;
-			}
-		
-		
-		return "
-		<tr class='sb_search_result' style='display: none;'>
-		<td>
-			$data_dump
-			<a href='$link' style='display: block; width: 130px; height: 90px;'>
-			<img src='$img_link' alt='$desc'
-			title='$desc' style='padding: 5px; height: 80px; width: 120px;'>
-			</a>
-		</td>
-		<td style='text-align: left; vertical-align: middle;'>
-			<h3><a href='$link'>$desc</a></h3>
-			<p>$length, built $boat->year, lying $boat->region, $boat->country.</p>
-		</td>
-		<td style='text-align: center; vertical-align: middle;'>
-			<p>$curr_symbol $price</p>$currency_conversion
-			<p>$vat_message</p>
-		</td>
-		<td style='text-align: center; vertical-align: middle;'>
-		</td></tr>";
-		}
-	
-	$search_results = '';
-	foreach ($xml->boat as $boat) {
-		$search_results .= search_result_item($boat);
-		}
-	
-	$n = date('Y');
-	$years = '';
-	do {
-		$years .= "<option value='$n'>$n</option>\n";
-		$n=$n-1;
-		}
-		while($n > 1984);
-	
-	
-	asort($sb_config['countries']);
-	$country_options = '';
-	foreach ($sb_config['countries'] as $key => $val) {
-		$c = strtolower($key);
-		$country_options .= "<option value='$c'>$val</option>";
-		}
-		
-	
-	//data required by javascript
-	$a = "<div style='display: none;' id='size_min'>".intval($size_min)."</div>\r\n";
-	$a .= "<div style='display: none;' id='size_max'>".intval($size_max)."</div>\r\n";
-	$a .= "<div style='display: none;' id='price_min'>".intval($price_min)."</div>\r\n";
-	$a .= "<div style='display: none;' id='price_max'>".intval($price_max)."</div>\r\n\r\n";
-	$a .= "<div style='display: none;' id='sb_server_address'>".$sb_config['server_address']."</div>";
-	$a .= "<div style='display: none;' id='sb_listing_page'>".$sb_config['listing_page']."</div>";
-	$a .= "<div style='display: none;' id='sb_currency_1'>".$sb_config['currency_1']."</div>";
-	$a .= "<div style='display: none;' id='sb_currency_1_symbol'>".get_symbol($sb_config['currency_1'])."</div>";
-	$a .= "<div style='display: none;' id='sb_currency_2'>".$sb_config['currency_2']."</div>";
-	$a .= "<div style='display: none;' id='sb_currency_2_symbol'>".get_symbol($sb_config['currency_2'])."</div>";
-	$a .= "<div class='eur_rate' style='display:none;'>".$sb_config['eur_rate']."</div>";
-	$a .= "<div class='usd_rate' style='display:none;'>".$sb_config['usd_rate']."</div>";
-	if (array_key_exists('country', $_GET)) {
-		$a .= "<div style='display: none;' id='country_get'>$_GET[country]</div>\n";
-		}
-	if (array_key_exists('region', $_GET)) {
-		$a .= "<div style='display: none;' id='region_get'>$_GET[region]</div>\n";
-		}
-	if (array_key_exists('size_low', $_GET)) {
-		$a .= "<div style='display: none;' id='size_low_get'>$_GET[size_low]</div>\n";
-		}
-	if (array_key_exists('size_high', $_GET)) {
-		$a .= "<div style='display: none;' id='size_high_get'>$_GET[size_high]</div>\n";
-		}
-	if (array_key_exists('price_low', $_GET)) {
-		$a .= "<div style='display: none;' id='price_low_get'>$_GET[price_low]</div>\n";
-		}
-	if (array_key_exists('price_high', $_GET)) {
-		$a .= "<div style='display: none;' id='price_high_get'>$_GET[price_high]</div>\n";
-		}
-	if (array_key_exists('built', $_GET)) {
-		$a .= "<div style='display: none;' id='built_get'>$_GET[built]</div>\n";
-		}
-	if (array_key_exists('type', $_GET)) {
-		$a .= "<div style='display: none;' id='type_get'>$_GET[type]</div>\n";
-		}
-	if (array_key_exists('fuel', $_GET)) {
-		$a .= "<div style='display: none;' id='fuel_get'>$_GET[fuel]</div>\n";
-		}
-	if (array_key_exists('country', $_GET)) {
-		$a .= "<div style='display: none;' id='country_get'>$_GET[country]</div>\n";
-		}
-	$a .= "<div class='sb_wrapper'><table style='width: 100%; vertical-align: top;'><tr><td class='sb_search_box' style='width: 40%; vertical-align: top;'>
-	<div class='ui-widget ui-widget-header ui-corner-top header'><p>Search for boats</p></div>
-	<div class='ui-widget ui-widget-content ui-corner-bottom content' style='display: block !important;'>
-
-		<form method='get' id='boat_search' action=''>
-		<input type='hidden' name='page_id' value='".$sb_config['search_page']."'/>
-		<p>Boat type&nbsp;
-		<select name='type'>
-			<option value='any' selected='selected'>(show all types)</option>
-			<optgroup label='&nbsp;Sail'>
-				<option value='sail' class='bold'>(all sail)</option>
-				<option value='1' title='Sailing yacht with accommodation and weighted keel'>Sail cruiser</option>
-				<option value='2' title='Sailing yacht with keel but no accommodation'>Sail dayboat</option>
-				<option value='3' title='Sail boat without ballast or accommodation'>Sailing dinghy</option>
-				<option value='4' title='Sailing catamaran with accommodation'>Cruising sail catamaran</option>
-				<option value='5' title='Sailing catamaran with no accomodation'>Day sailing catamaran</option>
-			</optgroup>
-			<optgroup label='&nbsp;Power'>
-				<option value='power' class='bold'>(all power)</option>
-				<option value='6' title='Fibreglass or metal hulled boat with inflatable collar; no cabin'>Open RIB</option>
-				<option value='7' title='Fibreglass or metal hull power boat with inflatable collar and cabin'>Closed RIB</option>
-				<option value='8' title='Power boat with no accomodation'>Power day boat</option>
-				<option value='9' title='Fast cruising power boat with cabin'>Cruising power boat - planing</option>
-				<option value='10' title='Displacement power boat with cabin'>Cruising power boat - displacement</option>
-				<option value='11' title='Jetdrive personal watercraft (PWC)'>Jetski</option>
-			</optgroup>
-		</select>
-	</p>
-		
-		
-		<p>Boat size: <span class='sizedesc'></span></p>
-		<div class='slider_container' title='Drag handles to set boat size'><div class='slider_size slider'></div></div>
-		<p><br/>Price: <span class='pricedesc'></span></p>
-		<div class='slider_container' title='Drag handles to set boat price'><div class='slider_price slider'></div></div>
-		<p><br/>Show boats located in: <select id='country' name='country' title='Boats are available in the countries listed.'>
-		<option value='any'>(show all)</option>
-		$country_options
-		</select>&nbsp;<span class='ui-icon ui-icon-info search_icon' title='Boats are available in the countries listed.'>&nbsp;</span></p>
-		<div id='advanced_search_container'>
-			<div id='advanced_search_handle'><h3><a>Advanced search options </a>
-			<span class='ui-icon ui-icon-circle-triangle-s search_icon' id='advanced_search_icon'>
-			&nbsp;</span></h3></div>
-			
-			<div id='advanced_search'>
-			
-				<!--<p><span id='country_label'>Select region: </span><select name='region' id='region' style='width: 120px;' disabled='disabled'>
-				<option>&nbsp;</option>
-				</select>
-				<span id='country_warning'><small><i>&nbsp;(select country first)</i></small></span>
-				</p>-->
-				
-				<p>Only show boats built after <select name='built'>
-				<option value='any'>(show all)</option>
-				$years
-				</select>
-				</p>
-				
-				<p>Main engine fuel <select name='fuel'>
-					<option value='any' selected='selected'>(show all)</option>
-					<option value='diesel'>Diesel</option>
-					<option value='petrol'>Petrol</option>
-				</select></p>
-				
-			</div>
-		</div>
-
-		<div style='display: none;'>
-			<input type='hidden' name='price_low' class='price_low' value='".intval($price_low)."'/>
-			<input type='hidden' name='price_high' class='price_high' value='".intval($price_high)."'/>
-			<input type='hidden' name='size_low' class='size_low' value='".intval($size_low)."'/>
-			<input type='hidden' name='size_high' class='size_high' value='".intval($size_high)."'/>
-			<input type='hidden' name='order' value='phl' />
-		</div>
-		<div><button type='submit' class='button'><p>Search</p></button></div>
-		</form>
-		</div>
-	
-	<div class='ui-widget ui-widget-header ui-corner-top header' style='margin-top: .5em;'>
-	<p>Find by reference number</p></div>
-	<div class='ui-widget ui-widget-content ui-corner-bottom content' style='padding: 0em .5em; display: block !important;'>
-		<form method='get' action='' target='_parent'>
-		<input type='hidden' name='page_id' value='".$sb_config['listing_page']."'/>
-		<table><tr><td style='vertical-align: middle;'><p>Boat reference:</p></td>
-		<td style='vertical-align: middle;'><p><input type='text' name='boat_id' size='10' value='' /></p></td>
-		<td style='vertical-align: middle;'><button class='button' type='submit'><p>Go</p></button></td>
-		</tr></table>
-		</form>
-	</div>
-	
-	</td>
-	<td class='sb_search_results_wrapper' style='width: 60%; vertical-align: top;'>
-	<div class='ui-widget ui-widget-header ui-corner-top header'><p>Search results</p></div>
-	<div class='ui-widget ui-widget-content ui-corner-bottom content' id='sb_search_results' style='display: block !important;'>
-	<input type='hidden' id='sb_current_page' />  
-	<input type='hidden' id='sb_show_per_page' />
-	<div id='sb_top_text' style='padding: 10px;'></div>
-	<table>
-	<tr id='sb_no_results'><td colspan='4'><p><em>No results match your search.</em><br /><br />Quick searches:</p>
-	<p>Show all: <a href='?page_id=".$sb_config['search_page']."&type=sail&country=any&built=any&fuel=any&price_low=1&price_high=1000000&size_low=10&size_high=120&order=phl'>
-	 Sail</a> | 
-	<a href='?page_id=".$sb_config['search_page']."&type=power&country=any&built=any&fuel=any&price_low=1&price_high=1000000&size_low=10&size_high=120&order=phl'>
-	Power</a> | 
-	<a href='?page_id=".$sb_config['search_page']."&type=all&country=any&built=any&fuel=any&price_low=1&price_high=1000000&size_low=10&size_high=120&order=phl'>
-	Either</a></p></td></tr>
-	$search_results</table>
-	<div style='text-align: center;'><p><span id='sb_page_tag'></span> <span id='sb_page_navigation' style='font-family: Verdana,Geneva,Arial,Helvetica,sans-serif;'></span></p></div>
-	</div>
-	</td></tr></table>
-	
-	</div>";
 	return $a;
 	}
 
@@ -821,9 +687,15 @@ function sb_featured_func() {
 		global $sb_config;
 		$img_link = $sb_config['server_address']."/images/boats/".$boat->boat_id."/small/".str_replace("/","-",$boat->model)."-".$boat->photo_id.".jpg";
 		$desc = $boat->builder." ".$boat->model;
-		$link = "/?page_id=".$sb_config['listing_page']."&boat_id=".$boat->boat_id;
+		$link = "/?page_id=".$sb_config['listing_page']."&boat_id=".$boat->boat_id.'#'.$sb_config['listing_default_tab'];
 		$model = $boat->model;
-		if ($boat->vat_paid == '1') {$vat_message = $sb_config['tax_label']." paid";} else {$vat_message = $sb_config['tax_label']." not paid";}
+			if ($sb_config['hide_tax_label'] == 'on') {
+				$vat_message = '';
+				} elseif ($boat->vat_paid == '1') {
+				$vat_message = $sb_config['tax_label']." paid";
+				} else {
+				$vat_message = $sb_config['tax_label']." not paid";
+				}
 		//format currency
 		$currency = $boat->currency;
 		$curr_symbol = get_symbol($currency);
@@ -863,127 +735,6 @@ function sb_featured_func() {
 	</div>
 	</li>
 	</ul>
-	</div>";
-	return $a;
-	}
-
-function sb_search_box_func($atts) {
-	extract( shortcode_atts( array(
-		'size_low' => '28',
-		'size_high' => '45',
-		'price_low' => '30000',
-		'price_high' => '150000',
-	), $atts ) );
-	global $sb_config;
-	$xml_file = $sb_config['server_address']."/system/wp_plugin/search_box_data.php?auth=$sb_config[auth]";
-	$xml = sb_load_xml($xml_file);
-	$sb_config['euro_rate'] = $xml['EUR'];
-	$sb_config['dollar_rate'] = $xml['USD'];
-	
-	$n = date('Y');
-	$years = '';
-	do {
-		$years .= "<option value='$n'>$n</option>\n";
-		$n=$n-1;
-		}
-		while($n > 1984);
-	
-	$boat = $xml->boat;
-	$sb_config['countries'] = Array();
-	foreach($boat as $b) {
-		$c = strval($b->country_code);
-		$cn = strval($b->country_name);
-		if (!(array_key_exists($c,$sb_config['countries']))) {
-			$sb_config['countries'][$c] = $cn;
-			}
-		}
-		
-	asort($sb_config['countries']);
-	$country_options = '';
-	foreach ($sb_config['countries'] as $key => $val) {
-		$c = strtolower($key);
-		$country_options .= "<option value='$c'>$val</option>";
-		}
-		
-	$a = "
-	<div class='sb_wrapper' style='max-width: 400px;'>
-	<div class='ex_rate' style='display:none;'>".$sb_config['euro_rate']."</div>
-
-	<div class='ui-widget ui-widget-header ui-corner-top header'><p>Search for boats</p></div>
-	<div class='ui-widget ui-widget-content ui-corner-bottom content' style='padding: .5em;'>
-
-		<form method='get' action='/' id='sb_search_box'>
-		<input type='hidden' name='page_id' value='".$sb_config['search_page']."'/>
-		<p>Boat type&nbsp;
-		<select name='type'>
-			<option value='any' selected='selected'>(show all types)</option>
-			<optgroup label='&nbsp;Sail'>
-				<option value='sail' class='bold'>(all sail)</option>
-				<option value='1' title='Sailing yacht with accommodation and weighted keel'>Cruiser</option>
-				<option value='2' title='Sailing yacht with keel but no accommodation'>Dayboat</option>
-				<option value='3' title='Sail boat without ballast or accommodation'>Dinghy</option>
-				<option value='4' title='Sailing catamaran with accommodation'>Cruising catarmaran</option>
-				<option value='5' title='Sailing catamaran with no accomodation'>Day sail catarmaran</option>
-			</optgroup>
-			<optgroup label='&nbsp;Power'>
-				<option value='power' class='bold'>(all power)</option>
-				<option value='6' title='Fibreglass or metal hulled boat with inflatable collar; no cabin'>Open RIB</option>
-				<option value='7' title='Fibreglass or metal hull power boat with inflatable collar and cabin'>Closed RIB</option>
-				<option value='8' title='Power boat with no accomodation'>Day boat</option>
-				<option value='9' title='Fast cruising power boat with cabin'>Cruiser - planing</option>
-				<option value='10' title='Displacement power boat with cabin'>Cruiser - displacement</option>
-				<option value='11' title='Jetdrive personal watercraft (PWC)'>Jetski</option>
-			</optgroup>
-		</select>
-	</p>
-		
-		
-		<p>Boat size: <span class='sizedesc'></span></p>
-		<div class='slider_container' title='Drag handles to set boat size'><div class='slider_size slider'></div></div>
-		<p><br/>Price: <span class='pricedesc'></span></p>
-		<div class='slider_container' title='Drag handles to set boat price'><div class='slider_price slider'></div></div>
-		<p><br/>Show boats located in: <select class='country' name='country' title='Boats are available in the countries listed.'>
-		<option value='any'>(show all)</option>
-		$country_options
-		</select>&nbsp;<span class='ui-icon ui-icon-info search_icon' title='Boats are available in the countries listed.'>&nbsp;</span></p>
-		<div>
-			<div class='advanced_search_handle'><h3><a>Advanced options</a>
-			<span class='ui-icon ui-icon-circle-triangle-s search_icon advanced_search_icon'>
-			&nbsp;</span></h3></div>
-			
-			<div class='advanced_search'>
-			
-				<!--<p><span id='country_label'>Select region: </span><select name='region' id='region' style='width: 120px;' disabled='disabled'>
-				<option>&nbsp;</option>
-				</select>
-				<span id='country_warning'><small><i>&nbsp;(select country first)</i></small></span>
-				</p>-->
-				
-				<p>Only show boats built after <select name='built'>
-				<option value='any'>(show all)</option>
-				$years
-				</select>
-				</p>
-				
-				<p>Main engine fuel <select name='fuel'>
-					<option value='any' selected='selected'>(show all)</option>
-					<option value='diesel'>Diesel</option>
-					<option value='petrol'>Petrol</option>
-				</select></p>
-				
-			</div>
-		</div>
-
-		<div style='display: none;'>
-			<input type='hidden' name='price_low' class='price_low' value='".intval($price_low)."' />
-			<input type='hidden' name='price_high' class='price_high' value='".intval($price_high)."' />
-			<input type='hidden' name='size_low' class='size_low' value='".intval($size_low)."' />
-			<input type='hidden' name='size_high' class='size_high' value='".intval($size_high)."' />
-			<input type='hidden' name='order' value='phl' />
-		</div>
-		<div><button type='submit' class='button'><p>Search</p></button></div>
-		</form>
-		</div>
 	</div>";
 	return $a;
 	}

@@ -26,7 +26,9 @@ function sb_search_page_v2_func($atts) {
 	$fields_xml = load_fields_xml();
 	
 	//add sliders
-	echo "<div class='sb_wrapper'><table style='width: 100%; vertical-align: top;'><tr><td class='sb_search_box' style='width: 40%; vertical-align: top;'>
+	echo "<div class='sb_wrapper'>
+		<div class='smartbroker_section smartbroker_group'>
+		<div class='smartbroker_col smartbroker_span_2_of_5'>
 		<div class='ui-widget ui-widget-header ui-corner-top header'><p>Search for boats</p></div>
 		<div class='ui-widget ui-widget-content ui-corner-bottom content' style='display: block !important;'>
 		<form method='get' action='/' id='boat_search_v2'><input type='hidden' name='page_id' value='".$post->ID."' />";
@@ -66,9 +68,7 @@ function sb_search_page_v2_func($atts) {
 		</tr></table>
 		</form>
 	</div>";
-	echo "</td>
-	
-			<td class='sb_search_results_wrapper' style='width: 60%; vertical-align: top;'>
+	echo "</div><div class='smartbroker_col smartbroker_span_3_of_5'>
 	<div class='ui-widget ui-widget-header ui-corner-top header'><p>Search results</p></div>
 	<div class='ui-widget ui-widget-content ui-corner-bottom content' id='sb_search_results' style='display: block !important;'>
 	<table>";
@@ -92,7 +92,7 @@ function sb_search_page_v2_func($atts) {
 		//echo "<p>&nbsp;No results found</p>";
 		echo blank_slate_row();
 		}
-	echo "</table></td></tr></table></div>";
+	echo "</table></div></div></div></div>";
 	
 		
 	//data required by javascript
@@ -205,11 +205,16 @@ function create_built_after_dropdown() {
 function search_v2_result_item($boat) {
 		global $sb_config;
 		
-		$link = "/?page_id=".$sb_config['listing_page']."&boat_id=".$boat->boat_id;
+		$link = "/?page_id=".$sb_config['listing_page']."&boat_id=".$boat->boat_id.'#'.$sb_config['listing_default_tab'];
 		$img_link = $sb_config['server_address']."/images/boats/".$boat->boat_id."/small/".str_replace("/","-",$boat->model)."-".$boat->photo_id.".jpg";
 		$desc = $boat->builder." ".$boat->model;
 		
-		if ($boat->vat_paid == '1') {$vat_message = $sb_config['tax_label']." paid";} else {$vat_message = $sb_config['tax_label']." not paid";}
+		if ($sb_config['hide_tax_label'] == 'on') {
+			$vat_message = '';}
+			elseif ($boat->vat_paid == '1') {
+			$vat_message = $sb_config['tax_label']." paid";}
+			else {$vat_message = $sb_config['tax_label']." not paid";}
+			
 		$length = round($boat->LOA)."ft (".round($boat->LOA/3.28)."m)";
 		
 		//format currency
@@ -240,7 +245,7 @@ function search_v2_result_item($boat) {
 		</td>
 		<td style='text-align: left; vertical-align: middle;'>
 			<h3><a href='$link'>$desc</a></h3>
-			<p>$length, built $boat->year, lying $boat->region, $boat->country.</p>
+			<p>$length, built $boat->year, lying $boat->region $boat->country</p>
 		</td>
 		<td style='text-align: center; vertical-align: middle;'>
 			<p>$curr_symbol $price$currency_conversion<br/>$vat_message</p>

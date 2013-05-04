@@ -28,7 +28,7 @@ delete jQuery.fn.slider;
 		$(this).removeClass('ui-state-hover');
 		});
 	
-	$("a[rel^='prettyPhoto']").prettyPhoto();
+	$("a[rel^='sb_prettyPhoto']").prettyPhoto();
 	
 	var euroRate = $('.eur_rate').first().html();
 	var usdRate = $('.usd_rate').first().html();

@@ -3,7 +3,7 @@ Contributors: phuvf
 Tags: yachts, boats, brokerage, brokers
 Donate link: http://www.smart-broker.co.uk
 Requires at least: 3.3.0
-Tested up to: 3.4.1
+Tested up to: 3.5.1
 Stable tag: 2.1
 
 This plugin embeds yacht listings from the SmartBroker service into your WordPress site. Requires a SmartBroker subscription.
@@ -36,11 +36,6 @@ Then:
 * Create a page for the SmartBroker boat listings - and add the shortcode `[sb_listing]` to it
 * Update `page-id` values for *SmartBroker search page v2 ID* and  *SmartBroker listing page ID* in `Settings->SmartBroker`
 
-Old, v1 search instructions (only for legacy purposes):
-
-* Create a page for your SmartBroker search - and add the shortcode `[sb_search_page]` to it
-* Create a page for the SmartBroker boat listings - and add the shortcode `[sb_listing]` to it
-* Update `page-id` values for *SmartBroker search page ID* and  *SmartBroker listing page ID* in `Settings->SmartBroker`
 
 > If you want to use a demo server to test your installation, set the server address to `http://demo.smart-broker.co.uk`.
 > This is the address of the server used for the *Live Demo* section of the SmartBroker site.
@@ -49,7 +44,7 @@ Old, v1 search instructions (only for legacy purposes):
 Once you have followed the installation instructions, you can also add the following shortcodes anywhere on your site:
 
 * [sb_featured] - a scrolling carousel feature highlighting some of your listings
-* [sb_search_box] - a stand-alone listings search box (similar to that found on the left hand side of the search page)
+* [sb_search_box_v2] - a stand-alone listings search box (similar to that found on the left hand side of the search page)
 * [sb_search_box_small] - a simple size-type search box
 * [sb_search_by_ref] - a small search-by-reference-number box
 
@@ -69,7 +64,7 @@ The following options can be set for any page/insert that uses sliders
 * price_low - the pre-set value of the lower price slider, in GBP (default: 30,000, integers only)
 * price_high - the pre-set value of the upper price slider, in GBP (default: 150,000, integers only)
 
-For example, the following shortcode will produced a size slider with an available range of 20-70 feet, pre-set to the range 15-30 feet:
+For example, the following shortcode will produced a size slider with an available range of 20-70 feet, pre-set to the range 25-30 feet:
 
 *[sb_search_box size_min="20" size_max="70" size_low="15" size_high="30"]*
 
@@ -77,13 +72,13 @@ Take care setting the _min and _max values - it's not possible to search outside
 
 For [sb_search_page_v2] and [sb_search_box_v2], the example note for the keyword search box can be customised using:
 
-* keyword_examples - defaults to "e.g. roller furling, fridge"
+* keyword_examples (default: "e.g. roller furling, fridge")
 
 Finally, you can set the number of results returned per page on [sb_seach_page_v2] using the shortcode:
 
-* results_per_page - defaults to 10
+* results_per_page (default: 10)
 
-A fully custonised search page v2 will look like:
+A fully customised search page v2 will look like:
 
 [sb_search_page_v2 size_min="10" size_max="70" size_low="15" size_high="30" price_min="100" price_max="10000000" price_low="30000" price_high="80000" keyword_examples="e.g. bow thruster" results_per_page="20"]
 
@@ -109,6 +104,16 @@ A brief overview of the service is available at [http://www.smart-broker.co.uk](
 6. A search-by-reference number box, using theme 'ui-darkness'
 
 == Changelog ==
+= 3.0 =
+* Removed references to sb_search_page as now using sb_search_page_v2
+* Removed reference to sb_search_box as now using sb_search_box_v2
+* Changed to responsive grid layout for search_v2 and listings page
+* Updated prettyPhoto and added custom class to help avoid clashes with other prettyPhoto installations
+* Theme setting will now default to ui-lightness if no valid theme found
+* Added ability to set default tab when opening a listing (see option 'Listing default tab')
+* Added option to hide vat messge completely
+* Improved documentation of settings page
+
 = 2.1 =
 * Changed from using $xml->count() to count($xml) as $xml->count() only available in PHP >= 5.3
 * Renamed JavaScript UI function 'slider' to 'sb_slider' to avoid potential conflicts with theme scripts
