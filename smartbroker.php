@@ -84,12 +84,20 @@ add_shortcode('sb_search_page_v2', 'sb_search_page_v2_func');
  
 //code to hide listing page link
 add_action('wp_head', 'hide_listing_page');
+add_action('wp_head', 'add_smartbroker_custom_css');
 
 function hide_listing_page() {
 	global $sb_config;
 	echo "<style>.page-item-".$sb_config['listing_page']." {display: none;}
 	body.page-id-".$sb_config['listing_page']." .recent-posts {display: none;}
 	body.page-id-".$sb_config['search_page']." .recent-posts {display: none;}</style>";
+	}
+	
+function add_smartbroker_custom_css () {
+	global $sb_config;
+	echo "<style>\r\n/*Added by SmartBroker plugin*/\r\n";
+	echo $sb_config['css'];
+	echo "</style>";
 	}
 
 function sb_plugin_admin_init(){
@@ -100,6 +108,7 @@ function sb_plugin_admin_init(){
 	add_settings_section('sb_tax_settings', 'Tax settings', 'sb_tax_section_text', 'sb_plugin');
 	add_settings_section('sb_currency_settings', 'Currency settings', 'sb_currency_section_text', 'sb_plugin');
 	add_settings_section('sb_contact_settings', 'Contact settings', 'sb_contact_section_text', 'sb_plugin');
+	add_settings_section('sb_css_settings', 'Custom CSS settings', 'sb_css_section_text', 'sb_plugin');
 	
 	add_settings_field('sb_server_address', 'SmartBroker server address', 'sb_server_address_string', 'sb_plugin', 'sb_server_settings');
 	add_settings_field('sb_auth', 'Server authentication token', 'sb_auth_string', 'sb_plugin', 'sb_server_settings');
@@ -121,6 +130,8 @@ function sb_plugin_admin_init(){
 	add_settings_field('sb_disclaimer', 'Standard disclaimer', 'sb_disclaim_string', 'sb_plugin', 'sb_contact_settings');
 	add_settings_field('sb_tracking', 'Enable SmartBroker tracking', 'sb_tracking_string', 'sb_plugin', 'sb_contact_settings');
 	
+	add_settings_field('sb_css', 'Custom CSS', 'sb_css_string', 'sb_plugin', 'sb_css_settings');
+	
 	}
 
 function sb_server_section_text() {echo "";}
@@ -129,6 +140,7 @@ function sb_page_section_text() {echo "";}
 function sb_currency_section_text() {echo "";}
 function sb_theme_section_text() {echo "";}
 function sb_contact_section_text() {echo "";}
+function sb_css_section_text() {echo "";}
 	
 function sb_server_address_string() {
 	global $sb_config;
@@ -242,6 +254,12 @@ function sb_theme_string() {
 	<p>Choose from: <i>ui-lightness, ui-darkness, smoothness, start, redmond, sunny, overcast, le-frog, flick, pepper-grinder,
 	eggplant, dark-hive, cupertino, south-street, blitzer, humanity, hot-sneaks, excite-bike, vader, dot-luv, mint-choc, black-tie, swanky-purse</i>.</p>
 	<p>Will default to <i>ui-lightness</i> if no valid theme found.</p>";
+	}
+	
+function sb_css_string() {
+	global $sb_config;
+	echo "<textarea id='sb_css' name='sb_plugin_options[css]' cols='100' rows='5'>$sb_config[css]</textarea>
+	<p>Add CSS to the <i>div.sb_wrapper</i> element to style only SmartBroker elements.</p>";
 	}
 	
 function my_plugin_menu() {
@@ -446,7 +464,7 @@ function sb_listing_func(){
 	$prov = $xml->boat->approved;
 	$prov_message = '';
 	if (!$prov) {
-		$prov_message = "<p style='text-align: center;'><i>This listing contains some provisional information - details may change.</i></p>";
+		$prov_message = "<p style='text-align: center;'><i>".lang('this_listing_contains_some_provisional_information_details may change')."</i></p>";
 		}
 		
 	// compile cats
@@ -712,7 +730,7 @@ function sb_featured_func() {
 				<img class='tooltip_img corner iradius5 ishadow5 inverse' src='$img_link'
 				alt='$model' title='$model' height='85' width='127.5' style='padding: ;'/>
 			</a>
-			<p><a href='$link'>$desc</a> (1980)</p>
+			<p><a href='$link'>$desc</a></p>
 			<p>$curr_symbol $price $conversion</p>
 			<p>$vat_message</p>
 		</div>
@@ -729,7 +747,7 @@ function sb_featured_func() {
 	<li>
 	<div class='ui-widget ui-widget-header ui-corner-all featured-card' style='height: 250px; margin: 5px; padding: 10px;'>
 		<p style='padding-top: 3em;'>
-			<a href='/?page_id=".$sb_config['search_page']."'>Search for your perfect boat 
+			<a href='/?page_id=".$sb_config['search_page_v2']."'>Search for your perfect boat 
 			<span class='sb_icon ui-icon ui-icon-circle-triangle-e'>&nbsp;</span></a>
 		</p>
 	</div>
