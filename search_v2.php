@@ -1,4 +1,4 @@
-<?
+<?php
 include_once "pagination.php";
 function sb_search_page_v2_func($atts) {
 	
