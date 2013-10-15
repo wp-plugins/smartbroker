@@ -146,77 +146,64 @@ function sb_css_section_text() {echo "";}
 function sb_server_address_string() {
 	global $sb_config;
 	echo "<input id='server_address' name='sb_plugin_options[server_address]' size='40' type='text' value='".$sb_config['server_address']."' />
-	<p>";
-	echo __("e.g. <i>http://mybrokerage.smart-broker.co.uk</i> - always include the <i>'http://'</i> part.",'smartbroker');
-	echo "</p><p>";
-	echo __("Use <em>http://demo.smart-broker.co.uk</em> if you don't yet have a SmartBroker system and just wish to test your site with placeholder data.",'smartbroker');
+	<p>e.g. <i>http://mybrokerage.smart-broker.co.uk</i> - always include the <i>'http://'</i> part.</p>
+	<p>Use <em>http://demo.smart-broker.co.uk</em> if you don't yet have a SmartBroker system and just wish to test your site with placeholder data.</p>";
 	}
 	
 function sb_auth_string() {
 	global $sb_config;
 	echo "<input id='sb_auth' name='sb_plugin_options[auth]' size='40' type='text' value='".$sb_config['auth']."' />
-	<p>";
-	echo __("This is available by logging into your SmartBroker system and going to Admin Console->Configuration. The token is listed at the bottom of the Advanced Config box - note that you'll need to be a superuser to see this.</p><p>If you are using the <em>demo.smart-broker.co.uk</em> server, the authentication token is <em>vjrxhvmkq67wb14639v5</em>",'smartbroker');
-	echo "</p>";
+	<p>This is available by logging into your SmartBroker system and going to Admin Console->Configuration.
+	The token is listed at the bottom of the Advanced Config box - note that you'll need to be a
+	superuser to see this.</p><p>If you are using the <em>demo.smart-broker.co.uk</em> server,
+	the authentication token is <em>vjrxhvmkq67wb14639v5</em></p>";
 	}
 	
 function sb_search_page_string() {
 	global $sb_config;
 	echo "<input id='search_page' name='sb_plugin_options[search_page]' size='10' type='text' value='".$sb_config['search_page']."' />
-	<p>";
-	echo __("This is the id number of the WordPress page that contains the shortcode [sb_search_page].",'smartbroker');
-	echo "</p>";
+	<p>This is the id number of the WordPress page that contains the shortcode [sb_search_page].</p>";
 	}
 
 function sb_search_page_v2_string() {
 	global $sb_config;
 	echo "<input id='search_page_v2' name='sb_plugin_options[search_page_v2]' size='10' type='text' value='".$sb_config['search_page_v2']."' />
-	<p>";
-	echo __("This is the id number of the WordPress page that contains the shortcode [sb_search_page_v2].",'smartbroker');
-	echo "</p>";
+	<p>This is the id number of the WordPress page that contains the shortcode [sb_search_page_v2].</p>";
 	}
 
 function sb_listing_page_string() {
 	global $sb_config;
 	echo "<input id='listing_page' name='sb_plugin_options[listing_page]' size='10' type='text' value='".$sb_config['listing_page']."' />
-	<p>";
-	echo __("This is the id number of the WordPress page that contains the shortcode [sb_listing].",'smartbroker');
-	echo "</p>";
+	<p>This is the id number of the WordPress page that contains the shortcode [sb_listing].</p>";
 	}
 
 function sb_listing_default_tab_string() {
 	global $sb_config;
 	echo "<input id='listing_default_tab' name='sb_plugin_options[listing_default_tab]' size='40' type='text' value='".$sb_config['listing_default_tab']."' />
-	<p>";
-	echo __("The default tab to automatically open when viewing a listing. Choose from:<i>sb_brokers_notes, sb_specifications, sb_photos</i> or <i>sb_find_out_more</i>.",'smartbroker');
-	echo "</p><p>";
-	echo __("Defaults to <i>#sb_brokers_notes</i>.</p>",'smartbroker');
+	<p>The default tab to automatically open when viewing a listing. Choose from:<i>sb_brokers_notes, sb_specifications, sb_photos</i> or <i>sb_find_out_more</i>.</p>
+	<p>Defaults to <i>#sb_brokers_notes</i>.</p>";
 	}
 
 function sb_currency_1_string() {
 	global $sb_config;
 	echo "<input id='currency_1' name='sb_plugin_options[currency_1]' size='10' type='text' value='".$sb_config['currency_1']."' />
-	<p>";
-	echo __("The primary currency for the plug-in to run. Choose from GBP, EUR or USD. A currency coversion will be included for any listings not in this currency.<br/><br/>Will default to EUR if left blank.",'smartbroker');
-	echo "</p>";
+	<p>The primary currency for the plug-in to run. Choose from GBP, EUR or USD.
+	A currency coversion will be included for any listings not in this currency.<br/><br/>Will default to EUR if left blank.</p>";
 	}
 	
 function sb_currency_2_string() {
 	global $sb_config;
 	echo "<input id='currency_2' name='sb_plugin_options[currency_2]' size='10' type='text' value='".$sb_config['currency_2']."' />
-	<p>";
-	echo __("The secondary currency for the plug-in to run. Choose from GBP, EUR or USD, and don't use the same value as the primary currency. This is used on the search sliders, where two currencies are displayed while sliding.<br/><br/>Will default to GBP if left blank.",'smartbroker');
-	echo "</p>";
+	<p>The secondary currency for the plug-in to run. Choose from GBP, EUR or USD, and don't use the same value as the primary currency.
+	This is used on the search sliders, where two currencies are displayed while sliding.<br/><br/>Will default to GBP if left blank.</p>";
 	}
 	
 function sb_tax_label_string() {
 	global $sb_config;
 	echo "<input id='tax_label' name='sb_plugin_options[tax_label]' size='10' type='text' value='".$sb_config['tax_label']."' />
-	<p>";
-	echo __("The sales tax label to use in the plugin. Typcial values would by VAT (in the UK) or BTW (in the Netherlands).<br/><br/>
+	<p>The sales tax label to use in the plugin. Typcial values would by VAT (in the UK) or BTW (in the Netherlands).<br/><br/>
 	This string is used in the phrases 'VAT paid' and 'VAT not paid'.<br/><br/>
-	Will default to 'VAT' if left blank.",'smartbroker');
-	echo "</p>";
+	Will default to 'VAT' if left blank.</p>";
 	}
 
 function sb_hide_tax_label_string() {
@@ -226,33 +213,25 @@ function sb_hide_tax_label_string() {
 		$a = "checked='checked'";
 		}
 	echo "<input type='checkbox' id='hide_tax_label' name='sb_plugin_options[hide_tax_label]' $a />
-	<p>";
-	echo __("Hide the tax label (e.g. 'VAT paid', 'VAT not paid') completely.",'smartbroker');
-	echo "</p>";
+	<p>Hide the tax label (e.g. 'VAT paid', 'VAT not paid') completely.</p>";
 	}
 	
 function sb_email_string() {
 	global $sb_config;
 	echo "<input id='email' name='sb_plugin_options[email]' size='30' type='text' value='".$sb_config['email']."' />
-	<p>";
-	echo __("The email address that <b>1:</b> Enquiries will be sent to <b>2:</b> Visitors will be asked to use to email your business",'smartbroker');
-	echo "</p>";
+	<p>The email address that <b>1:</b> Enquiries will be sent to <b>2:</b> Visitors will be asked to use to email your business</p>";
 	}
 
 function sb_phone_string() {
 	global $sb_config;
 	echo "<input id='phone' name='sb_plugin_options[phone]' size='30' type='text' value='".$sb_config['phone']."' />
-	<p>";
-	echo __("The phone number for your business.",'smartbroker');
-	echo "</p>";
+	<p>The phone number for your business.</p>";
 	}
 	
 function sb_disclaim_string() {
 	global $sb_config;
 	echo "<textarea id='sb_disclaim' name='sb_plugin_options[disclaim]' cols='100' rows='5'>$sb_config[disclaim]</textarea>
-	<p>";
-	echo __("The standard disclaimer that is appending to every boat listing.",'smartbroker');
-	echo "</p>";
+	<p>The standard disclaimer that is appending to every boat listing.</p>";
 	}
 	
 function sb_tracking_string() {
@@ -262,8 +241,7 @@ function sb_tracking_string() {
 		$a = "checked='checked'";
 		}
 	echo "<input type='checkbox' id='tracking' name='sb_plugin_options[sb_tracking]' $a />
-	<p>";
-	echo __("<b>Warning</b> - enabling tracking will send user details (names and email addresses) for both administrators and subscribers
+	<p><b>Warning</b> - enabling tracking will send user details (names and email addresses) for both administrators and subscribers
 	to SmartBroker servers.<br />Make sure you have permission from your users before enabling this option - 
 	this may be an issue if you install SmartBroker onto an established site with existing registered users.<br />
 	Users who register after the installation of SmartBroker should provide permission for tracking during sign-up
@@ -272,8 +250,7 @@ function sb_tracking_string() {
 	<p>If user tracking is turned <b>on</b>, users will need to register/login to see boat photos &amp; videos (apart from the main illustration).</p>
 	<p>If user tracking is turned <b>off</b>, all boat photos &amp; videos are available to all users.</p>
 	<p>If you are using user-tracking, you may wish to consider something like the 
-	<a href='http://wordpress.org/extend/plugins/simplemodal-login/'>SimpleModal Login plugin</a> to make the registration/login process neater for your guests.",'smartbroker');
-	echo "</p>";
+	<a href='http://wordpress.org/extend/plugins/simplemodal-login/'>SimpleModal Login plugin</a> to make the registration/login process neater for your guests.</p>";
 	}
 
 function sb_theme_string() {
@@ -281,20 +258,16 @@ function sb_theme_string() {
 	echo "<input id='theme' name='sb_plugin_options[theme]' size='10' type='text' value='".$sb_config['theme']."' /><br/>
 	<p>";
 	echo __("For applicable theme names and examples, please go to <a href='http://jqueryui.com/themeroller/#themeGallery'>http://jqueryui.com/themeroller/#themeGallery</a>",'smartbroker');
-	echo "</p><p>";
-	echo __("Choose from: <i>ui-lightness, ui-darkness, smoothness, start, redmond, sunny, overcast, le-frog, flick, pepper-grinder,
-	eggplant, dark-hive, cupertino, south-street, blitzer, humanity, hot-sneaks, excite-bike, vader, dot-luv, mint-choc, black-tie, swanky-purse</i>.",'smartbroker');
-	echo "</p><p>";
-	echo __("Will default to <i>ui-lightness</i> if no valid theme found.",'smartbroker');
-	echo "</p>";
+	echo "</p>
+	<p>Choose from: <i>ui-lightness, ui-darkness, smoothness, start, redmond, sunny, overcast, le-frog, flick, pepper-grinder,
+	eggplant, dark-hive, cupertino, south-street, blitzer, humanity, hot-sneaks, excite-bike, vader, dot-luv, mint-choc, black-tie, swanky-purse</i>.</p>
+	<p>Will default to <i>ui-lightness</i> if no valid theme found.</p>";
 	}
 	
 function sb_css_string() {
 	global $sb_config;
 	echo "<textarea id='sb_css' name='sb_plugin_options[css]' cols='100' rows='5'>$sb_config[css]</textarea>
-	<p>";
-	echo __("Add CSS to the <i>div.sb_wrapper</i> element to style only SmartBroker elements.",'smartbroker');
-	echo "</p>";
+	<p>Add CSS to the <i>div.sb_wrapper</i> element to style only SmartBroker elements.</p>";
 	}
 	
 function my_plugin_menu() {
@@ -568,15 +541,18 @@ function sb_listing_func(){
 		if (isset($xml->boat->media->technical->media)) {
 			$num_photos = $num_photos + count($xml->boat->media->technical->media->children());
 			}
-		$m = "<p>$num_photos more photos &amp; videos of this boat are available - please <a href='/wp-register.php' title='Register'>register</a> or 
-		<a href='".wp_login_url(get_permalink()."&boat_id=".$_GET['boat_id'])."' title='Login'>log in</a> to see them.</p>";
+		$photos_pt1 = sprintf(__('%s more photos &amp; videos of this boat are available.','smartbroker'), $num_photos);
+		$llnk = wp_login_url(get_permalink()."&boat_id=".$_GET['boat_id']);
+		$photos_pt2 = sprintf(__("Please <a href='/wp-register.php' title='Register'>register</a> or <a href='%s' title='Login'>log in</a> to see them.",'smartbroker'), $llnk);
+		$m = "<p>$photos_pt1 $photos_pt_2</p>";
 		}
 		
 	//sort find out more tab
 	if (is_user_logged_in() OR ($sb_config['sb_tracking'] != 'on')) {
-		$find_out_more = "<p>Interested in this boat? Find out more or arrange a viewing by completeing this form.
-		We'll get back to you with more information and take you thorough the options for viewing and buying this boat.</p>
-		<p>Alternatively, don't forget that you can call us on <b>$sb_config[phone]</b> anytime for a chat.</p>
+		$find_out_more = "<p>".__("Interested in this boat? Find out more or arrange a viewing by completeing this form.
+		We'll get back to you with more information and take you thorough the options for viewing and buying this boat.",'smartbroker')."</p>
+		<p>";
+		printf(__("Alternatively, don't forget that you can call us on <b>%s</b> anytime for a chat.",'smartbroker'),$sb_config[phone])."</p>
 		<hr />
 		
 		<form action='".$sb_config['server_address']."/system/wp_plugin/wp_plugin_enquire.php' method='post'>
@@ -591,24 +567,24 @@ function sb_listing_func(){
 		</tr>
 		
 		<tr>
-		<td><p>Your email address:</p></td>
+		<td><p>".__('Your email address:','smartbroker')."</p></td>
 		<td><p><input type='text' name='cwr' value='$user_email' size='19' /></p></td>
 		</tr>
 		
 		
 		<tr>
-		<td><p>Phone number:</p></td>
+		<td><p>".__('Phone number:','smartbroker')."</p></td>
 		<td><p><input type='text' name='phone' size='15' /></p></td>
 		</tr>
 		
 		<tr>
-		<td><p>Preferred contact method:</p></td>
-		<td><p><input type='radio' name='contact_method' value='phone' checked='checked' />&nbsp;Phone
-			<br /><input type='radio' name='contact_method' value='email' />&nbsp;Email</p></td>
+		<td><p>".__('Preferred contact method:','smartbroker')."</p></td>
+		<td><p><input type='radio' name='contact_method' value='phone' checked='checked' />&nbsp;".__('Phone','smartbroker')."
+			<br /><input type='radio' name='contact_method' value='email' />&nbsp;".__('Email','smartbroker')."</p></td>
 		</tr>
 		
 		<tr>
-		<td style='vertical-align: top;'><p>Notes:</p></td>
+		<td style='vertical-align: top;'><p>".__('Notes:','smartbroker')."</p></td>
 		<td><p><textarea name='notes' rows='5' cols='30'></textarea></p></td>
 		</tr>
 		
@@ -618,26 +594,28 @@ function sb_listing_func(){
 		<input type='hidden' name='admin_email' value='".$sb_config['email']."' />
 		<input type='hidden' name='path' value='http://".$_SERVER['SERVER_NAME']."/?page_id=".$sb_config['listing_page']."' />
 		</td>
-		<td><button type='submit' class='button'><p>Send enquiry</p></button></td>
+		<td><button type='submit' class='button'><p>".__('Send enquiry','smartbroker')."</p></button></td>
 		</tr>
 		
 		</table></form>";
 		if (array_key_exists('enquiry_success',$_GET)) {
 			if ($_GET['enquiry_success'] == 'true') {
-				$m = "Thankyou for your enquiry. We will be in touch soon.";
+				$m = __("Thankyou for your enquiry. We will be in touch soon.",'smartbroker');
 				$s = 'ui-state-highlight';
 				} elseif ($_GET['enquiry_success'] == 'false') {
-				$m = "I'm afraid there has been a technical fault - your enquiry could not be sent to our system. Please call us on 123456 instead.";
+				$m = sprintf(__("I'm afraid there has been a technical fault - your enquiry could not be sent to our system. Please call us on %s instead.",'smartbroker'),$sb_config[phone]);
 				$s = 'ui-state-error';
 				}
 			$find_out_more .= "<div class='ui-widget $s ui-corner-all'>
 			<p><span class='ui-icon ui-icon-info' style='float: left; margin-right: 5px;'></span>$m</p></div>";
 			}
 		} else {
-		$find_out_more = "<p>To find out more about this yacht, please <a href='/wp-register.php' title='Register'>register</a> or 
-		<a href='".wp_login_url(get_permalink()."&boat_id=".$_GET['boat_id'])."' title='Login'>log in</a>.<br/>
-		Registration is free and takes seconds.</p>
-		<p>Don't forget you can call us on $sb_config[phone] anytime for a chat.";
+		$find_out_more = "<p>";
+		$llnk = wp_login_url(get_permalink()."&boat_id=".$_GET['boat_id']);
+		$find_out_more .= sprintf(__("To find out more about this yacht, please <a href='/wp-register.php' title='Register'>register</a> or 
+		<a href='%s' title='Login'>log in</a>.<br/>Registration is free and takes seconds.",'smartbroker'), $llnk);
+		$find_out_more .= "</p><p>";
+		$find_out_more .= sprintf(__("Don't forget you can call us on %s anytime for a chat.",'smartbroker'),$sb_config[phone]);
 		}
 	
 	$admin_link = '';
@@ -649,7 +627,7 @@ function sb_listing_func(){
 		
 	$brokers_notes = nl2br($xml->boat->brokers_notes);
 	if ($brokers_notes == '') {
-		$brokers_notes = "<em>(There are no broker's notes available for this boat)</em>";
+		$brokers_notes = "<em>".__("(There are no broker's notes available for this boat)",'smartbroker')."</em>";
 		}
 	//data required by javascript
 	$a = "<div style='display: none;' id='server_address_address'>".$sb_config['server_address']."</div>";
@@ -670,17 +648,17 @@ function sb_listing_func(){
 			<div id='sb_key_facts_head' class='ui-corner-top ui-widget-header ui-widget'><p>Key facts</p></div>
 			<div class='ui-widget-content ui-corner-bottom'>
 				<table id='sb_key_facts_table'>	
-					<tr id='ref'><td><p>Boat reference</p></td><td><p><i><b>$boat_id</b></i></p></td></tr>
+					<tr id='ref'><td><p>".__("Boat reference",'smartbroker')."</p></td><td><p><i><b>$boat_id</b></i></p></td></tr>
 					
-					<tr id='status_row'><td><p>Status</p></td><td><p>".$xml->boat->status_text."</p></td></tr>
+					<tr id='status_row'><td><p>".__('Status','smartbroker')."</p></td><td><p>".$xml->boat->status_text."</p></td></tr>
 					
-					<tr><td><p>Builder</p></td><td><p>".$xml->boat->builder."</p></td></tr>
-					<tr><td><p>Boat model</p></td><td><p>".$xml->boat->model."</p></td></tr>
-					<tr><td><p>Type</p></td><td><p>".$xml->boat->type_description."</p></td></tr>
-					<tr><td><p>LOA</p></td><td><p>".round($xml->boat->length)." ft (".round(floatval($xml->boat->length)/3.28)." m)</p></td></tr>
-					<tr><td><p>Built</p></td><td><p>".$xml->boat->year."</p></td></tr>
-					<tr><td><p>Currently lying</p></td><td><p>".$xml->boat->region.", ".$xml->boat->country_name."</p></td></tr>
-					<tr><td><p>Price</p></td>
+					<tr><td><p>".__('Builder','smartbroker')."</p></td><td><p>".$xml->boat->builder."</p></td></tr>
+					<tr><td><p>".__('Boat model','smartbroker')."</p></td><td><p>".$xml->boat->model."</p></td></tr>
+					<tr><td><p>".__('Type','smartbroker')."</p></td><td><p>".$xml->boat->type_description."</p></td></tr>
+					<tr><td><p>".__('LOA','smartbroker')."</p></td><td><p>".round($xml->boat->length)." ft (".round(floatval($xml->boat->length)/3.28)." m)</p></td></tr>
+					<tr><td><p>".__('Built','smartbroker')."</p></td><td><p>".$xml->boat->year."</p></td></tr>
+					<tr><td><p>".__('Currently lying','smartbroker')."</p></td><td><p>".$xml->boat->region.", ".$xml->boat->country_name."</p></td></tr>
+					<tr><td><p>".__('Price','smartbroker')."</p></td>
 					<td><p>".$curr_symbol.number_format($price)." ".$vat_message.'<br />'.$currency_conversion."</p></td></tr>
 				</table>
 			</div>
@@ -691,27 +669,27 @@ function sb_listing_func(){
 		<div id='sb_tabs_container'>
 			<div id='tabs'>
 					<ul id='tab_links'>
-						<li><p><a href='#sb_broker_notes'>Notes</a></p></li>
-						<li><p><a href='#sb_specifications'>Specifications</a></p></li>
-						<li><p><a href='#sb_photos' id='photos_tab'>Photos &amp; videos</a></p></li>
-						<li><p><a href='#sb_find_out_more' id='contact_tab'>Find out more</a></p></li>
+						<li><p><a href='#sb_broker_notes'>".__('Notes','smartbroker')."</a></p></li>
+						<li><p><a href='#sb_specifications'>".__('Specifications','smartbroker')."</a></p></li>
+						<li><p><a href='#sb_photos' id='photos_tab'>".__('Photos &amp; videos','smartbroker')."</a></p></li>
+						<li><p><a href='#sb_find_out_more' id='contact_tab'>".__('Find out more','smartbroker')."</a></p></li>
 										</ul>
 					<div id='sb_broker_notes'>
-						<div class='smartbroker_tab_header ui-widget-header ui-corner-top'><p>Broker's notes</p></div>
+						<div class='smartbroker_tab_header ui-widget-header ui-corner-top'><p>".__("Broker's notes",'smartbroker')."</p></div>
 						<div class='ui-widget-content ui-corner-bottom'>
 							<p>".$brokers_notes."</p>
 						</div>
 					</div>
 					<div id='sb_specifications'>
-						<div class='smartbroker_tab_header ui-widget-header ui-corner-top'><p>Specifications</p></div>
+						<div class='smartbroker_tab_header ui-widget-header ui-corner-top'><p>".__('Specifications','smartbroker')."</p></div>
 						<div class='ui-widget-content ui-corner-bottom'>$cats</div>
 					</div>
 					<div id='sb_photos'>
-						<div class='smartbroker_tab_header ui-widget-header ui-corner-top'><p>Photos &amp; videos</p></div>
+						<div class='smartbroker_tab_header ui-widget-header ui-corner-top'><p>".__('Photos &amp; videos','smartbroker')."</p></div>
 						<div class='ui-widget-content ui-corner-bottom'>$m</div>
 					</div>
 					<div id='sb_find_out_more'>
-						<div class='smartbroker_tab_header ui-widget-header ui-corner-top'><p>Find out more</p></div>
+						<div class='smartbroker_tab_header ui-widget-header ui-corner-top'><p>".__('Find out more','smartbroker')."</p></div>
 						<div class='ui-widget-content ui-corner-bottom'>$find_out_more</div>
 					</div>
 					
@@ -745,9 +723,9 @@ function sb_featured_func() {
 			if ($sb_config['hide_tax_label'] == 'on') {
 				$vat_message = '';
 				} elseif ($boat->vat_paid == '1') {
-				$vat_message = $sb_config['tax_label']." paid";
+				$vat_message = $sb_config['tax_label']." ".__('paid','smartbroker');
 				} else {
-				$vat_message = $sb_config['tax_label']." not paid";
+				$vat_message = $sb_config['tax_label']." ".__('not paid','smartbroker');
 				}
 		//format currency
 		$currency = $boat->currency;
@@ -782,7 +760,7 @@ function sb_featured_func() {
 	<li>
 	<div class='ui-widget ui-widget-header ui-corner-all featured-card' style='height: 250px; margin: 5px; padding: 10px;'>
 		<p style='padding-top: 3em;'>
-			<a href='/?page_id=".$sb_config['search_page_v2']."'>Search for your perfect boat 
+			<a href='/?page_id=".$sb_config['search_page_v2']."'>".__('Search for your perfect boat','smartbroker')." 
 			<span class='sb_icon ui-icon ui-icon-circle-triangle-e'>&nbsp;</span></a>
 		</p>
 	</div>
@@ -804,9 +782,9 @@ function sb_search_box_small_func($atts) {
 	<form action='/' method='get'>
 	<input type='hidden' name='page_id' value='".$sb_config['search_page_v2']."'/>
 	<p>Size: <input type='text' size='5' name='sl' value='".intval($size_low)."'/> - <input type='text' size='5' name='sh' value='".intval($size_high)."' /> ft</p>
-	<p>Type: <input type='radio' name='type' value='s' /> Sail 
-	<input type='radio' name='type' value='p' /> Power 
-	<input type='radio' name='type' value='a' checked='checked' /> All</p>
+	<p>Type: <input type='radio' name='type' value='s' /> ".__('Sail','smartbroker')." 
+	<input type='radio' name='type' value='p' /> ".__('Power','smartbroker')." 
+	<input type='radio' name='type' value='a' checked='checked' /> ".__('All','smartbroker')."</p>
 	<div><button type='submit' class='button'><p>Search</p></button></div>
 	</form>
 	</div></div>";
@@ -817,13 +795,13 @@ function sb_search_by_ref_func() {
 	global $sb_config;
 	$a = "<div class='sb_wrapper' style='max-width: 400px;'>
 	<div class='ui-widget ui-widget-header ui-corner-top header' style='margin-top: .5em;'>
-	<p>Find by reference number</p></div>
+	<p>".__('Find by reference number','smartbroker')."</p></div>
 	<div class='ui-widget ui-widget-content ui-corner-bottom content' style='padding: 0em .5em;'>
 		<form method='get' action='' target='_parent'>
 		<input type='hidden' name='page_id' value='".$sb_config['listing_page']."'/>
 		<table><tr><td style='vertical-align: middle;'><p>Boat reference:</p></td>
 		<td style='vertical-align: middle;'><p><input type='text' name='boat_id' size='10' value='' /></p></td>
-		<td style='vertical-align: middle;'><button class='button' type='submit'><p>Go</p></button></td>
+		<td style='vertical-align: middle;'><button class='button' type='submit'><p>".__('Go','smartbroker')."</p></button></td>
 		</tr></table>
 		</form>
 	</div>

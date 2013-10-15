@@ -29,14 +29,14 @@ function sb_search_page_v2_func($atts) {
 	echo "<div class='sb_wrapper'>
 		<div class='smartbroker_section smartbroker_group'>
 		<div class='smartbroker_col smartbroker_span_2_of_5'>
-		<div class='ui-widget ui-widget-header ui-corner-top header'><p>Search for boats</p></div>
+		<div class='ui-widget ui-widget-header ui-corner-top header'><p>".__('Search for boats','smartbroker')."</p></div>
 		<div class='ui-widget ui-widget-content ui-corner-bottom content' style='display: block !important;'>
 		<form method='get' action='/' id='boat_search_v2'><input type='hidden' name='page_id' value='".$post->ID."' />";
-	echo "<p>Boat type: ".create_type_dropdown($fields_xml)."</p>";
-	echo "<p>Boat size: <span class='sizedesc'></span></p>
-		<div class='slider_container' title='Drag handles to set boat size'><div class='slider_size slider'></div></div><br/>
-		<p>Price: <span class='pricedesc'></span></p>
-		<div class='slider_container' title='Drag handles to set boat price'><div class='slider_price slider'></div></div>";;
+	echo "<p>".__('Boat type:','smartbroker')." ".create_type_dropdown($fields_xml)."</p>";
+	echo "<p>".__('Boat size:','smartbroker')." <span class='sizedesc'></span></p>
+		<div class='slider_container' title='".__('Drag handles to set boat size','smartbroker')."'><div class='slider_size slider'></div></div><br/>
+		<p>".__('Price:','smartbroker')." <span class='pricedesc'></span></p>
+		<div class='slider_container' title='".__('Drag handles to set boat price','smartbroker')."'><div class='slider_price slider'></div></div>";;
 	//receiving inputs for slider values
 	echo "<input type='hidden' name='pl' class='price_low' value='".intval($data['pl'])."'/>\r\n";
 	echo "<input type='hidden' name='ph' class='price_high' value='".intval($data['ph'])."'/>\r\n";
@@ -50,26 +50,26 @@ function sb_search_page_v2_func($atts) {
 	
 	//currency input field (uses primmary currency from sb_config)
 	
-	echo "<p><br/>Keywords: <input name='lk' value=\"".stripslashes($_GET['lk'])."\"></input>
+	echo "<p><br/>".__('Keywords:','smartbroker')." <input name='lk' value=\"".stripslashes($_GET['lk'])."\"></input>
 	<br/><em>".$keyword_examples."</em></p>";
 	
-	echo "<p>Builder: ".create_builder_dropdown($fields_xml)."&nbsp;<span class='ui-icon ui-icon-info search_icon' title='Available makes are listed'>&nbsp;</span></p>";
-	echo "<p>Currently lying: ".create_country_dropdown($fields_xml)."&nbsp;<span class='ui-icon ui-icon-info search_icon' title='Boats are available in the countries listed.'>&nbsp;</span></p>";
-	echo "<p>Built after: ".create_built_after_dropdown()."</p>";
-	echo "<button type='submit' class='button'/><p>Search</p></button></form></div>
+	echo "<p>".__('Builder:','smartbroker')." ".create_builder_dropdown($fields_xml)."&nbsp;<span class='ui-icon ui-icon-info search_icon' title='Available makes are listed'>&nbsp;</span></p>";
+	echo "<p>".__('Currently lying:','smartbroker')." ".create_country_dropdown($fields_xml)."&nbsp;<span class='ui-icon ui-icon-info search_icon' title='Boats are available in the countries listed.'>&nbsp;</span></p>";
+	echo "<p>".__('Built after:','smartbroker')." ".create_built_after_dropdown()."</p>";
+	echo "<button type='submit' class='button'/><p>".__('Search','smartbroker')."</p></button></form></div>
 	<div class='ui-widget ui-widget-header ui-corner-top header' style='margin-top: .5em;'>
-	<p>Find by reference number</p></div>
+	<p>".__('Find by reference number','smartbroker')."</p></div>
 	<div class='ui-widget ui-widget-content ui-corner-bottom content' style='padding: 0em .5em; display: block !important;'>
 		<form method='get' action='/' target='_parent'>
 		<input type='hidden' name='page_id' value='".$post->ID."'/>
-		<table><tr><td style='vertical-align: middle;'><p>Boat reference:</p></td>
+		<table><tr><td style='vertical-align: middle;'><p>".__('Boat reference:','smartbroker')."</p></td>
 		<td style='vertical-align: middle;'><p><input type='text' name='id' size='10'/></p></td>
-		<td style='vertical-align: middle;'><button class='button' type='submit'><p>Go</p></button></td>
+		<td style='vertical-align: middle;'><button class='button' type='submit'><p>".__('Go','smartbroker')."</p></button></td>
 		</tr></table>
 		</form>
 	</div>";
 	echo "</div><div class='smartbroker_col smartbroker_span_3_of_5'>
-	<div class='ui-widget ui-widget-header ui-corner-top header'><p>Search results</p></div>
+	<div class='ui-widget ui-widget-header ui-corner-top header'><p>".__('Search results','smartbroker')."</p></div>
 	<div class='ui-widget ui-widget-content ui-corner-bottom content' id='sb_search_results' style='display: block !important;'>
 	<table>";
 	
@@ -82,7 +82,8 @@ function sb_search_page_v2_func($atts) {
 	$end_row = $start_row + $returned_rows - 1;
 	
 	if ($total_rows > 0) {
-		echo "<p>&nbsp;$total_rows results found - showing results $start_row to $end_row.</p><table id='results'>";
+		$results_string = sprintf(__('%s results found - showing results %s to %s.','smartbroker'),$total_rows, $start_row, $end_row);
+		echo "<p>&nbsp;$results_string</p><table id='results'>";
 		foreach ($xml->boat as $boat) {
 			echo search_v2_result_item($boat);
 			}
@@ -212,8 +213,8 @@ function search_v2_result_item($boat) {
 		if ($sb_config['hide_tax_label'] == 'on') {
 			$vat_message = '';}
 			elseif ($boat->vat_paid == '1') {
-			$vat_message = $sb_config['tax_label']." paid";}
-			else {$vat_message = $sb_config['tax_label']." not paid";}
+			$vat_message = $sb_config['tax_label']." ".__('paid','smartbroker');}
+			else {$vat_message = $sb_config['tax_label']." ".__('not paid','smartbroker');}
 			
 		$length = round($boat->LOA)."ft (".round($boat->LOA/3.28)."m)";
 		
@@ -245,7 +246,7 @@ function search_v2_result_item($boat) {
 		</td>
 		<td style='text-align: left; vertical-align: middle;'>
 			<h3><a href='$link'>$desc</a></h3>
-			<p>$length, built $boat->year, lying $boat->region $boat->country</p>
+			<p>$length, ".__('built','smartbroker')." $boat->year, ".__('lying','smartbroker')." $boat->region $boat->country</p>
 		</td>
 		<td style='text-align: center; vertical-align: middle;'>
 			<p>$curr_symbol $price$currency_conversion<br/>$vat_message</p>
@@ -257,13 +258,13 @@ function search_v2_result_item($boat) {
 	function blank_slate_row() {
 		global $sb_config;
 		global $post;
-		return "<tr><td colspan='4'><p><em>No results match your search.</em><br /><br />Quick searches:</p>
-			<p>Show all: <a href='?page_id=".$post->ID."&tp=s'>
-			 Sail</a> | 
+		return "<tr><td colspan='4'><p><em>".__('No results match your search.','smartbroker')."</em><br /><br />".__('Quick searches:','smartbroker')."</p>
+			<p>".__('Show all:','smartbroker')." <a href='?page_id=".$post->ID."&tp=s'>
+			 ".__('Sail','smartbroker')."</a> | 
 			<a href='?page_id=".$post->ID."&tp=p'>
-			Power</a> | 
+			".__('Power','smartbroker')."</a> | 
 			<a href='?page_id=".$post->ID."&type=all&country=any&built=any&fuel=any&price_low=1&price_high=1000000&size_low=10&size_high=120&order=phl'>
-			Either</a></p></td></tr>";
+			".__('Either','smartbroker')."</a></p></td></tr>";
 		}
 		
 function sb_search_box_v2_func($atts) {
@@ -283,14 +284,14 @@ function sb_search_box_v2_func($atts) {
 	
 	//add sliders
 	$a .= "<div class='sb_wrapper' style='max-width: 400px;'>
-		<div class='ui-widget ui-widget-header ui-corner-top header'><p>Search for boats</p></div>
+		<div class='ui-widget ui-widget-header ui-corner-top header'><p>".__('Search for boats','smartbroker')."</p></div>
 		<div class='ui-widget ui-widget-content ui-corner-bottom content' style='display: block !important;'>
 		<form method='get' action='/' id='boat_search_v2'><input type='hidden' name='page_id' value='".$post->ID."' />";
-	$a .= "<p>Boat type: ".create_type_dropdown($fields_xml)."</p>";
-	$a .= "<p>Boat size: <span class='sizedesc'></span></p>
-		<div class='slider_container' title='Drag handles to set boat size'><div class='slider_size slider'></div></div><br/>
-		<p>Price: <span class='pricedesc'></span></p>
-		<div class='slider_container' title='Drag handles to set boat price'><div class='slider_price slider'></div></div>";;
+	$a .= "<p>".__('Boat type:','smartbroker')." ".create_type_dropdown($fields_xml)."</p>";
+	$a .= "<p>".__('Boat size:','smartbroker')." <span class='sizedesc'></span></p>
+		<div class='slider_container' title='".__('Drag handles to set boat size','smartbroker')."'><div class='slider_size slider'></div></div><br/>
+		<p>".__('Price:','smartbroker')." <span class='pricedesc'></span></p>
+		<div class='slider_container' title='".__('Drag handles to set boat price','smartbroker')."'><div class='slider_price slider'></div></div>";;
 	//receiving inputs for slider values
 	$a .= "<div style='display: none;' id='sb_currency_1'>".$sb_config['currency_1']."</div>\r\n";
 	$a .= "<div style='display: none;' id='sb_currency_1_symbol'>".get_symbol($sb_config['currency_1'])."</div>\r\n";
@@ -311,13 +312,13 @@ function sb_search_box_v2_func($atts) {
 	
 	//currency input field (uses primmary currency from sb_config)
 	
-	$a .= "<p><br/>Keywords: <input name='lk' value=\"".stripslashes($_GET['lk'])."\"></input>
+	$a .= "<p><br/>".__('Keywords:','smartbroker')." <input name='lk' value=\"".stripslashes($_GET['lk'])."\"></input>
 	<br/><em>".$keyword_examples."</em></p>";
 	
-	$a .= "<p>Builder: ".create_builder_dropdown($fields_xml)."&nbsp;<span class='ui-icon ui-icon-info search_icon' title='Available makes are listed'>&nbsp;</span></p>";
-	$a .= "<p>Currently lying: ".create_country_dropdown($fields_xml)."&nbsp;<span class='ui-icon ui-icon-info search_icon' title='Boats are available in the countries listed.'>&nbsp;</span></p>";
-	$a .= "<p>Built after: ".create_built_after_dropdown()."</p>";
-	$a .= "<button type='submit' class='button'/><p>Search</p></button></form></div></div>";
+	$a .= "<p>".__('Builder:','smartbroker')." ".create_builder_dropdown($fields_xml)."&nbsp;<span class='ui-icon ui-icon-info search_icon' title='Available makes are listed'>&nbsp;</span></p>";
+	$a .= "<p>".__('Currently lying:','smartbroker')." ".create_country_dropdown($fields_xml)."&nbsp;<span class='ui-icon ui-icon-info search_icon' title='Boats are available in the countries listed.'>&nbsp;</span></p>";
+	$a .= "<p>".__('Built after:','smartbroker')." ".create_built_after_dropdown()."</p>";
+	$a .= "<button type='submit' class='button'/><p>".__('Search</p></button></form></div></div>";
 	return $a;
 	}
 ?>
