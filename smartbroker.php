@@ -7,6 +7,7 @@ Version: 3.0
 Author: Nick Roberts
 Author URI: http://www.smart-broker.co.uk
 License: GPL2
+Text Domain: smartbroker
 
 Copyright 2012  Nick Roberts  (email: contact@smart-broker.co.uk)
 
@@ -145,59 +146,77 @@ function sb_css_section_text() {echo "";}
 function sb_server_address_string() {
 	global $sb_config;
 	echo "<input id='server_address' name='sb_plugin_options[server_address]' size='40' type='text' value='".$sb_config['server_address']."' />
-	<p>e.g. <i>http://mybrokerage.smart-broker.co.uk</i> - always include the <i>'http://'</i> part.</p>
-	<p>Use <em>http://demo.smart-broker.co.uk</em> if you don't yet have a SmartBroker system and just wish to test your site with placeholder data.";
+	<p>";
+	echo __("e.g. <i>http://mybrokerage.smart-broker.co.uk</i> - always include the <i>'http://'</i> part.",'smartbroker');
+	echo "</p><p>";
+	echo __("Use <em>http://demo.smart-broker.co.uk</em> if you don't yet have a SmartBroker system and just wish to test your site with placeholder data.",'smartbroker');
 	}
 	
 function sb_auth_string() {
 	global $sb_config;
 	echo "<input id='sb_auth' name='sb_plugin_options[auth]' size='40' type='text' value='".$sb_config['auth']."' />
-	<p>This is available by logging into your SmartBroker system and going to Admin Console->Configuration. The token is listed at the bottom of the Advanced Config box - note that you'll need to be a superuser to see this.</p><p>If you are using the <em>demo.smart-broker.co.uk</em> server, the authentication token is <em>vjrxhvmkq67wb14639v5</em></p>";
+	<p>";
+	echo __("This is available by logging into your SmartBroker system and going to Admin Console->Configuration. The token is listed at the bottom of the Advanced Config box - note that you'll need to be a superuser to see this.</p><p>If you are using the <em>demo.smart-broker.co.uk</em> server, the authentication token is <em>vjrxhvmkq67wb14639v5</em>",'smartbroker');
+	echo "</p>";
 	}
 	
 function sb_search_page_string() {
 	global $sb_config;
 	echo "<input id='search_page' name='sb_plugin_options[search_page]' size='10' type='text' value='".$sb_config['search_page']."' />
-	<p>This is the id number of the WordPress page that contains the shortcode [sb_search_page].</p>";
+	<p>";
+	echo __("This is the id number of the WordPress page that contains the shortcode [sb_search_page].",'smartbroker');
+	echo "</p>";
 	}
 
 function sb_search_page_v2_string() {
 	global $sb_config;
 	echo "<input id='search_page_v2' name='sb_plugin_options[search_page_v2]' size='10' type='text' value='".$sb_config['search_page_v2']."' />
-	<p>This is the id number of the WordPress page that contains the shortcode [sb_search_page_v2].</p>";
+	<p>";
+	echo __("This is the id number of the WordPress page that contains the shortcode [sb_search_page_v2].",'smartbroker');
+	echo "</p>";
 	}
 
 function sb_listing_page_string() {
 	global $sb_config;
 	echo "<input id='listing_page' name='sb_plugin_options[listing_page]' size='10' type='text' value='".$sb_config['listing_page']."' />
-	<p>This is the id number of the WordPress page that contains the shortcode [sb_listing].</p>";
+	<p>";
+	echo __("This is the id number of the WordPress page that contains the shortcode [sb_listing].",'smartbroker');
+	echo "</p>";
 	}
 
 function sb_listing_default_tab_string() {
 	global $sb_config;
 	echo "<input id='listing_default_tab' name='sb_plugin_options[listing_default_tab]' size='40' type='text' value='".$sb_config['listing_default_tab']."' />
-	<p>The default tab to automatically open when viewing a listing. Choose from:<i>sb_brokers_notes, sb_specifications, sb_photos</i> or <i>sb_find_out_more</i>.</p>
-	<p>Defaults to <i>#sb_brokers_notes</i>.</p>";
+	<p>";
+	echo __("The default tab to automatically open when viewing a listing. Choose from:<i>sb_brokers_notes, sb_specifications, sb_photos</i> or <i>sb_find_out_more</i>.",'smartbroker');
+	echo "</p><p>";
+	echo __("Defaults to <i>#sb_brokers_notes</i>.</p>",'smartbroker');
 	}
 
 function sb_currency_1_string() {
 	global $sb_config;
 	echo "<input id='currency_1' name='sb_plugin_options[currency_1]' size='10' type='text' value='".$sb_config['currency_1']."' />
-	<p>The primary currency for the plug-in to run. Choose from GBP, EUR or USD. A currency coversion will be included for any listings not in this currency.<br/><br/>Will default to EUR if left blank.</p>";
+	<p>";
+	echo __("The primary currency for the plug-in to run. Choose from GBP, EUR or USD. A currency coversion will be included for any listings not in this currency.<br/><br/>Will default to EUR if left blank.",'smartbroker');
+	echo "</p>";
 	}
 	
 function sb_currency_2_string() {
 	global $sb_config;
 	echo "<input id='currency_2' name='sb_plugin_options[currency_2]' size='10' type='text' value='".$sb_config['currency_2']."' />
-	<p>The secondary currency for the plug-in to run. Choose from GBP, EUR or USD, and don't use the same value as the primary currency. This is used on the search sliders, where two currencies are displayed while sliding.<br/><br/>Will default to GBP if left blank.</p>";
+	<p>";
+	echo __("The secondary currency for the plug-in to run. Choose from GBP, EUR or USD, and don't use the same value as the primary currency. This is used on the search sliders, where two currencies are displayed while sliding.<br/><br/>Will default to GBP if left blank.",'smartbroker');
+	echo "</p>";
 	}
 	
 function sb_tax_label_string() {
 	global $sb_config;
 	echo "<input id='tax_label' name='sb_plugin_options[tax_label]' size='10' type='text' value='".$sb_config['tax_label']."' />
-	<p>The sales tax label to use in the plugin. Typcial values would by VAT (in the UK) or BTW (in the Netherlands).<br/><br/>
+	<p>";
+	echo __("The sales tax label to use in the plugin. Typcial values would by VAT (in the UK) or BTW (in the Netherlands).<br/><br/>
 	This string is used in the phrases 'VAT paid' and 'VAT not paid'.<br/><br/>
-	Will default to 'VAT' if left blank.</p>";
+	Will default to 'VAT' if left blank.",'smartbroker');
+	echo "</p>";
 	}
 
 function sb_hide_tax_label_string() {
@@ -207,25 +226,33 @@ function sb_hide_tax_label_string() {
 		$a = "checked='checked'";
 		}
 	echo "<input type='checkbox' id='hide_tax_label' name='sb_plugin_options[hide_tax_label]' $a />
-	<p>Hide the tax label (e.g. 'VAT paid', 'VAT not paid') completely.</p>";
+	<p>";
+	echo __("Hide the tax label (e.g. 'VAT paid', 'VAT not paid') completely.",'smartbroker');
+	echo "</p>";
 	}
 	
 function sb_email_string() {
 	global $sb_config;
 	echo "<input id='email' name='sb_plugin_options[email]' size='30' type='text' value='".$sb_config['email']."' />
-	<p>The email address that <b>1:</b> Enquiries will be sent to <b>2:</b> Visitors will be asked to use to email your business</p>";
+	<p>";
+	echo __("The email address that <b>1:</b> Enquiries will be sent to <b>2:</b> Visitors will be asked to use to email your business",'smartbroker');
+	echo "</p>";
 	}
 
 function sb_phone_string() {
 	global $sb_config;
 	echo "<input id='phone' name='sb_plugin_options[phone]' size='30' type='text' value='".$sb_config['phone']."' />
-	<p>The phone number for your business.</p>";
+	<p>";
+	echo __("The phone number for your business.",'smartbroker');
+	echo "</p>";
 	}
 	
 function sb_disclaim_string() {
 	global $sb_config;
 	echo "<textarea id='sb_disclaim' name='sb_plugin_options[disclaim]' cols='100' rows='5'>$sb_config[disclaim]</textarea>
-	<p>The standard disclaimer that is appending to every boat listing.</p>";
+	<p>";
+	echo __("The standard disclaimer that is appending to every boat listing.",'smartbroker');
+	echo "</p>";
 	}
 	
 function sb_tracking_string() {
@@ -235,7 +262,8 @@ function sb_tracking_string() {
 		$a = "checked='checked'";
 		}
 	echo "<input type='checkbox' id='tracking' name='sb_plugin_options[sb_tracking]' $a />
-	<p><b>Warning</b> - enabling tracking will send user details (names and email addresses) for both administrators and subscribers
+	<p>";
+	echo __("<b>Warning</b> - enabling tracking will send user details (names and email addresses) for both administrators and subscribers
 	to SmartBroker servers.<br />Make sure you have permission from your users before enabling this option - 
 	this may be an issue if you install SmartBroker onto an established site with existing registered users.<br />
 	Users who register after the installation of SmartBroker should provide permission for tracking during sign-up
@@ -244,22 +272,29 @@ function sb_tracking_string() {
 	<p>If user tracking is turned <b>on</b>, users will need to register/login to see boat photos &amp; videos (apart from the main illustration).</p>
 	<p>If user tracking is turned <b>off</b>, all boat photos &amp; videos are available to all users.</p>
 	<p>If you are using user-tracking, you may wish to consider something like the 
-	<a href='http://wordpress.org/extend/plugins/simplemodal-login/'>SimpleModal Login plugin</a> to make the registration/login process neater for your guests.";
+	<a href='http://wordpress.org/extend/plugins/simplemodal-login/'>SimpleModal Login plugin</a> to make the registration/login process neater for your guests.",'smartbroker');
+	echo "</p>";
 	}
 
 function sb_theme_string() {
 	global $sb_config;
 	echo "<input id='theme' name='sb_plugin_options[theme]' size='10' type='text' value='".$sb_config['theme']."' /><br/>
-	<p>For applicable theme names and examples, please go to <a href='http://jqueryui.com/themeroller/#themeGallery'>http://jqueryui.com/themeroller/#themeGallery</a></p>
-	<p>Choose from: <i>ui-lightness, ui-darkness, smoothness, start, redmond, sunny, overcast, le-frog, flick, pepper-grinder,
-	eggplant, dark-hive, cupertino, south-street, blitzer, humanity, hot-sneaks, excite-bike, vader, dot-luv, mint-choc, black-tie, swanky-purse</i>.</p>
-	<p>Will default to <i>ui-lightness</i> if no valid theme found.</p>";
+	<p>";
+	echo __("For applicable theme names and examples, please go to <a href='http://jqueryui.com/themeroller/#themeGallery'>http://jqueryui.com/themeroller/#themeGallery</a>",'smartbroker');
+	echo "</p><p>";
+	echo __("Choose from: <i>ui-lightness, ui-darkness, smoothness, start, redmond, sunny, overcast, le-frog, flick, pepper-grinder,
+	eggplant, dark-hive, cupertino, south-street, blitzer, humanity, hot-sneaks, excite-bike, vader, dot-luv, mint-choc, black-tie, swanky-purse</i>.",'smartbroker');
+	echo "</p><p>";
+	echo __("Will default to <i>ui-lightness</i> if no valid theme found.",'smartbroker');
+	echo "</p>";
 	}
 	
 function sb_css_string() {
 	global $sb_config;
 	echo "<textarea id='sb_css' name='sb_plugin_options[css]' cols='100' rows='5'>$sb_config[css]</textarea>
-	<p>Add CSS to the <i>div.sb_wrapper</i> element to style only SmartBroker elements.</p>";
+	<p>";
+	echo __("Add CSS to the <i>div.sb_wrapper</i> element to style only SmartBroker elements.",'smartbroker');
+	echo "</p>";
 	}
 	
 function my_plugin_menu() {
@@ -439,8 +474,8 @@ function sb_listing_func(){
 	
 	$boats_returned = count($xml->children());
 	if ($boats_returned != '1') {
-		return "<p>I'm sorry, we can't find the boat you requested.</p>
-		<p><a href='/?page_id=".$sb_config['search_page_v2']."'>Go to the search page</a></p>";
+		return "<p>".__("I'm sorry, we can't find the boat you requested.",'smartbroker')."</p>
+		<p><a href='/?page_id=".$sb_config['search_page_v2']."'>".__('Go to the search page','smartbroker')."</a></p>";
 		exit;
 		}
 	
@@ -453,8 +488,8 @@ function sb_listing_func(){
 	if ($sb_config['hide_tax_label'] == 'on') {
 		$vat_message = '';
 		}
-	elseif ($vat_paid == '1') {$vat_message = $sb_config['tax_label']." paid";}
-	else {$vat_message = $sb_config['tax_label']." not paid";}
+	elseif ($vat_paid == '1') {$vat_message = $sb_config['tax_label']." ".__('paid','smartbroker');}
+	else {$vat_message = $sb_config['tax_label']." ".__('not paid','smartbroker');}
 	
 	//add currency conversion if not in primary currency
 	$price = floatval($xml->boat->asking_price);
@@ -464,7 +499,7 @@ function sb_listing_func(){
 	$prov = $xml->boat->approved;
 	$prov_message = '';
 	if (!$prov) {
-		$prov_message = "<p style='text-align: center;'><i>".lang('this_listing_contains_some_provisional_information_details may change')."</i></p>";
+		$prov_message = "<p style='text-align: center;'><i>".__('This listing contains some provisional information: details may change','smartbroker')."</i></p>";
 		}
 		
 	// compile cats
