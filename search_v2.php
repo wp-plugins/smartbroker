@@ -318,7 +318,7 @@ function sb_search_box_v2_func($atts) {
 	$a .= "<p>".__('Builder:','smartbroker')." ".create_builder_dropdown($fields_xml)."&nbsp;<span class='ui-icon ui-icon-info search_icon' title='Available makes are listed'>&nbsp;</span></p>";
 	$a .= "<p>".__('Currently lying:','smartbroker')." ".create_country_dropdown($fields_xml)."&nbsp;<span class='ui-icon ui-icon-info search_icon' title='Boats are available in the countries listed.'>&nbsp;</span></p>";
 	$a .= "<p>".__('Built after:','smartbroker')." ".create_built_after_dropdown()."</p>";
-	$a .= "<button type='submit' class='button'/><p>".__('Search</p></button></form></div></div>";
+	$a .= "<button type='submit' class='button'/><p>".__('Search','smartbroker')."</p></button></form></div></div>";
 	return $a;
 	}
 ?>

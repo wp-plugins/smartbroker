@@ -257,7 +257,7 @@ function sb_theme_string() {
 	global $sb_config;
 	echo "<input id='theme' name='sb_plugin_options[theme]' size='10' type='text' value='".$sb_config['theme']."' /><br/>
 	<p>";
-	echo __("For applicable theme names and examples, please go to <a href='http://jqueryui.com/themeroller/#themeGallery'>http://jqueryui.com/themeroller/#themeGallery</a>",'smartbroker');
+	echo "For applicable theme names and examples, please go to <a href='http://jqueryui.com/themeroller/#themeGallery'>http://jqueryui.com/themeroller/#themeGallery</a>";
 	echo "</p>
 	<p>Choose from: <i>ui-lightness, ui-darkness, smoothness, start, redmond, sunny, overcast, le-frog, flick, pepper-grinder,
 	eggplant, dark-hive, cupertino, south-street, blitzer, humanity, hot-sneaks, excite-bike, vader, dot-luv, mint-choc, black-tie, swanky-purse</i>.</p>
@@ -552,7 +552,7 @@ function sb_listing_func(){
 		$find_out_more = "<p>".__("Interested in this boat? Find out more or arrange a viewing by completeing this form.
 		We'll get back to you with more information and take you thorough the options for viewing and buying this boat.",'smartbroker')."</p>
 		<p>";
-		printf(__("Alternatively, don't forget that you can call us on <b>%s</b> anytime for a chat.",'smartbroker'),$sb_config[phone])."</p>
+		sprintf(__("Alternatively, don't forget that you can call us on <b>%s</b> anytime for a chat.",'smartbroker'),$sb_config[phone])."</p>
 		<hr />
 		
 		<form action='".$sb_config['server_address']."/system/wp_plugin/wp_plugin_enquire.php' method='post'>
