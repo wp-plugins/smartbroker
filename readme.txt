@@ -106,10 +106,9 @@ A brief overview of the service is available at [http://www.smart-broker.co.uk](
 == Changelog ==
 == Changelog ==
 = 3.1.1 =
-* Changed from '<?' to '<?php' opening tags for systems that don't support short opening tags
+* Changed from '<?' to '<?php' openings for systems that don't support short opening tags
 
 = 3.1 =
-* Changed from '<?' to '<?php' opening tags for systems that don't support short opening tags
 * Adding l18n codes to aide translations
 * Fixed broken link on [sb_featured]
 * Small CSS edits
