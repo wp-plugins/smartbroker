@@ -1,4 +1,4 @@
-<?
+<?php
 function pagination_links($total_rows, $start = 1, $length = 5) {
 	$old_page = $_GET;
 		
