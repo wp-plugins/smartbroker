@@ -31,7 +31,7 @@ function sb_search_page_v2_func($atts) {
 		<div class='smartbroker_col smartbroker_span_2_of_5'>
 		<div class='ui-widget ui-widget-header ui-corner-top header'><p>".__('Search for boats','smartbroker')."</p></div>
 		<div class='ui-widget ui-widget-content ui-corner-bottom content' style='display: block !important;'>
-		<form method='get' action='/' id='boat_search_v2'><input type='hidden' name='page_id' value='".$post->ID."' />";
+		<form method='get' action='".site_url('/')."' id='boat_search_v2'><input type='hidden' name='page_id' value='".$post->ID."' />";
 	echo "<p>".__('Boat type:','smartbroker')." ".create_type_dropdown($fields_xml)."</p>";
 	echo "<p>".__('Boat size:','smartbroker')." <span class='sizedesc'></span></p>
 		<div class='slider_container' title='".__('Drag handles to set boat size','smartbroker')."'><div class='slider_size slider'></div></div><br/>
@@ -60,7 +60,7 @@ function sb_search_page_v2_func($atts) {
 	<div class='ui-widget ui-widget-header ui-corner-top header' style='margin-top: .5em;'>
 	<p>".__('Find by reference number','smartbroker')."</p></div>
 	<div class='ui-widget ui-widget-content ui-corner-bottom content' style='padding: 0em .5em; display: block !important;'>
-		<form method='get' action='/' target='_parent'>
+		<form method='get' action='".site_url('/')."' target='_parent'>
 		<input type='hidden' name='page_id' value='".$post->ID."'/>
 		<table><tr><td style='vertical-align: middle;'><p>".__('Boat reference:','smartbroker')."</p></td>
 		<td style='vertical-align: middle;'><p><input type='text' name='id' size='10'/></p></td>
@@ -206,7 +206,7 @@ function create_built_after_dropdown() {
 function search_v2_result_item($boat) {
 		global $sb_config;
 		
-		$link = "/?page_id=".$sb_config['listing_page']."&boat_id=".$boat->boat_id.'#'.$sb_config['listing_default_tab'];
+		$link = site_url("/?page_id=".$sb_config['listing_page']."&boat_id=".$boat->boat_id.'#'.$sb_config['listing_default_tab']);
 		$img_link = $sb_config['server_address']."/images/boats/".$boat->boat_id."/small/".str_replace("/","-",$boat->model)."-".$boat->photo_id.".jpg";
 		$desc = $boat->builder." ".$boat->model;
 		
@@ -286,7 +286,7 @@ function sb_search_box_v2_func($atts) {
 	$a .= "<div class='sb_wrapper' style='max-width: 400px;'>
 		<div class='ui-widget ui-widget-header ui-corner-top header'><p>".__('Search for boats','smartbroker')."</p></div>
 		<div class='ui-widget ui-widget-content ui-corner-bottom content' style='display: block !important;'>
-		<form method='get' action='/' id='boat_search_v2'><input type='hidden' name='page_id' value='".$post->ID."' />";
+		<form method='get' action='".site_url('/')."' id='boat_search_v2'><input type='hidden' name='page_id' value='".$post->ID."' />";
 	$a .= "<p>".__('Boat type:','smartbroker')." ".create_type_dropdown($fields_xml)."</p>";
 	$a .= "<p>".__('Boat size:','smartbroker')." <span class='sizedesc'></span></p>
 		<div class='slider_container' title='".__('Drag handles to set boat size','smartbroker')."'><div class='slider_size slider'></div></div><br/>

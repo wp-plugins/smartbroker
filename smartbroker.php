@@ -3,7 +3,7 @@
 Plugin Name: SmartBroker
 Plugin URI: http://www.smart-broker.co.uk
 Description: A plugin to insert SmartBroker data into a Wordpress site
-Version: 3.1.1
+Version: 3.1.2
 Author: Nick Roberts
 Author URI: http://www.smart-broker.co.uk
 License: GPL2
@@ -718,7 +718,7 @@ function sb_featured_func() {
 		global $sb_config;
 		$img_link = $sb_config['server_address']."/images/boats/".$boat->boat_id."/small/".str_replace("/","-",$boat->model)."-".$boat->photo_id.".jpg";
 		$desc = $boat->builder." ".$boat->model;
-		$link = "/?page_id=".$sb_config['listing_page']."&boat_id=".$boat->boat_id.'#'.$sb_config['listing_default_tab'];
+		$link = site_url("/?page_id=".$sb_config['listing_page']."&boat_id=".$boat->boat_id.'#'.$sb_config['listing_default_tab']);
 		$model = $boat->model;
 			if ($sb_config['hide_tax_label'] == 'on') {
 				$vat_message = '';
@@ -779,7 +779,7 @@ function sb_search_box_small_func($atts) {
 	$a = "<div class='sb_wrapper' style='max-width: 400px;'>
 	<div class='ui-widget ui-widget-header ui-corner-top header' style='margin-top: .5em;'><p>Quick search</p></div>
 	<div class='ui-widget ui-widget-content ui-corner-bottom content' style='padding: .5em;'>
-	<form action='/' method='get'>
+	<form action='".site_url('/')."' method='get'>
 	<input type='hidden' name='page_id' value='".$sb_config['search_page_v2']."'/>
 	<p>Size: <input type='text' size='5' name='sl' value='".intval($size_low)."'/> - <input type='text' size='5' name='sh' value='".intval($size_high)."' /> ft</p>
 	<p>Type: <input type='radio' name='type' value='s' /> ".__('Sail','smartbroker')." 
@@ -797,7 +797,7 @@ function sb_search_by_ref_func() {
 	<div class='ui-widget ui-widget-header ui-corner-top header' style='margin-top: .5em;'>
 	<p>".__('Find by reference number','smartbroker')."</p></div>
 	<div class='ui-widget ui-widget-content ui-corner-bottom content' style='padding: 0em .5em;'>
-		<form method='get' action='' target='_parent'>
+		<form method='get' action='".site_url('/')."' target='_parent'>
 		<input type='hidden' name='page_id' value='".$sb_config['listing_page']."'/>
 		<table><tr><td style='vertical-align: middle;'><p>Boat reference:</p></td>
 		<td style='vertical-align: middle;'><p><input type='text' name='boat_id' size='10' value='' /></p></td>
