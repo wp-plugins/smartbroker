@@ -379,20 +379,23 @@ function sb_styles() {
 #########################################################
 
 function sb_load_xml($xml_file) {
+	$lang = get_bloginfo('language');
+		if ($lang == '') {$lang = 'en_GB';}
+	$xml_file = $xml_file."&lang=".$lang;
 	libxml_use_internal_errors(true);
-	echo "\n\r\n\r<!-- xml file: $xml_file -->\n\r\n\r";
+	echo "\n<!-- xml file: $xml_file -->\n";
 	$data = FALSE;
 	if (ini_get('allow_url_fopen')) {
-		echo "\n\n<!-- SmartBroker: Loading XML via file_get_contents-->\n\n";
+		echo "<!-- SmartBroker: Loading XML via file_get_contents-->\n";
 		$data = file_get_contents($xml_file);
 		if ($data == FALSE) {
-			echo "\n\n<!-- SmartBroker: Loading XML via file_get_contents FAIL -->\n\n";
+			echo "<!-- SmartBroker: Loading XML via file_get_contents fail -->\n";
 			} else {
-			echo "\n\n<!-- SmartBroker: Loading XML via file_get_contents SUCCESS: ".strlen($data)." bytes loaded-->\n\n";
+			echo "<!-- SmartBroker: Loading XML via file_get_contents success: ".strlen($data)." bytes loaded-->\n";
 			}
 		}
 	if (($data == FALSE) AND (function_exists("curl_exec"))) {
-		echo "\n\n<!-- SmartBroker: Loading XML via cURL-->\n\n";
+		echo "\n<!-- SmartBroker: Loading XML via cURL-->\n";
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
@@ -403,12 +406,12 @@ function sb_load_xml($xml_file) {
 		$data = curl_exec($ch);
 		curl_close($ch);
 		if ($data == FALSE) {
-			echo "\n\n<!-- SmartBroker: Loading XML via cURL FAIL -->\n\n";
+			echo "<!-- SmartBroker: Loading XML via cURL fail -->\n";
 			} else {
-			echo "\n\n<!-- SmartBroker: Loading XML via cURL SUCCESS: ".strlen($data)." bytes loaded-->\n\n";
+			echo "<!-- SmartBroker: Loading XML via cURL success: ".strlen($data)." bytes loaded-->\n";
 			}
 		} elseif ($data == FALSE) {
-		echo "\n\n<!-- SmartBroker: No way of loading data! -->\n\n";
+		echo "<!-- SmartBroker: No way of loading data! -->\n";
 		}
 	$sxe = simplexml_load_string($data);
 	if (!$sxe) {
@@ -420,7 +423,7 @@ function sb_load_xml($xml_file) {
 		echo "</pre><p>Data dump: </p>";
 		var_dump($data);
 		} else {
-		echo "\n\n<!-- SmartBroker: Data conversion to XML SUCCESS -->\n\n";
+		echo "<!-- SmartBroker: Data conversion to XML success -->\n\n";
 		}
 	return $sxe;
 	}
@@ -441,6 +444,7 @@ function sb_listing_func(){
 	$site_id = $site_id[0];
 	$site_id = explode("/",$site_id);
 	$site_id = end($site_id);
+	
 	$xml_file = "https://www.smart-broker.co.uk/secure_feed.php?auth=$sb_config[auth]&ver=1.2&site_id=$site_id&action=boat&boat_id=$boat_id".$tracking_code;
 	$xml = sb_load_xml($xml_file);
 
