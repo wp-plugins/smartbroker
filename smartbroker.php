@@ -549,7 +549,7 @@ function sb_listing_func(){
 		
 	//sort find out more tab
 	if (is_user_logged_in() OR ($sb_config['sb_tracking'] != 'on')) {
-		$find_out_more = "<p>".__("Interested in this boat? Find out more or arrange a viewing by completeing this form.
+		$find_out_more = "<p>".__("Interested in this boat? Find out more or arrange a viewing by completing this form.
 		We'll get back to you with more information and take you thorough the options for viewing and buying this boat.",'smartbroker')."</p>
 		<p>";
 		sprintf(__("Alternatively, don't forget that you can call us on <b>%s</b> anytime for a chat.",'smartbroker'),$sb_config[phone])."</p>
