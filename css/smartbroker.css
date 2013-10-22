@@ -43,7 +43,7 @@ div.sb_wrapper time, div.sb_wrapper mark, div.sb_wrapper audio, div.sb_wrapper v
 	vertical-align: baseline;
 	background: none;
 }
-/* HTML5 display-role reset for older browsers */
+/* HTML5 display-role reset for older browsers 
 article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section {
 	display: block;
@@ -67,7 +67,7 @@ table {
 	border-spacing: 0;
 }
 
-button[type='submit'] p {margin: .1em;}
+button[type='submit'] p {margin: .1em;}*/
 
 #sb_primary_image img {margin-bottom: .5em;}
 
