@@ -63,7 +63,35 @@
 .smartbroker_span_1_of_5 {
   	width: 18.72%;
 }
+/*  GRID OF THREE   ============================================================================= */
 
+	
+.smartbroker_span_3_of_3 {
+	width: 100%; 
+}
+
+.smartbroker_span_2_of_3 {
+	width: 66.13%; 
+}
+
+.smartbroker_span_1_of_3 {
+	width: 32.26%; 
+}
+
+
+/*  GO FULL WIDTH AT LESS THAN 600 PIXELS */
+
+@media only screen and (max-width: 600px) {
+	.smartbroker_span_3_of_3 {
+		width: 100%; 
+	}
+	.smartbroker_span_2_of_3 {
+		width: 100%; 
+	}
+	.smartbroker_span_1_of_3 {
+		width: 100%;
+	}
+}
 /*  GRID OF TWO   ============================================================================= */
 
 

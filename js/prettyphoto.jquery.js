@@ -18,8 +18,8 @@
 			show_title: true, /* true/false */
 			allow_resize: true, /* Resize the photos bigger than viewport. true/false */
 			allow_expand: true, /* Allow the user to expand a resized image. true/false */
-			default_width: 500,
-			default_height: 344,
+			default_width: 800,
+			default_height: 500,
 			counter_separator_label: '/', /* The separator for the gallery counter 1 "of" 2 */
 			theme: 'dark_square', /* light_rounded / dark_rounded / light_square / dark_square / facebook */
 			horizontal_padding: 20, /* The padding on each side of the picture */
@@ -29,7 +29,7 @@
 			modal: false, /* If set to true, only the close button will close the window */
 			deeplinking: true, /* Allow prettyPhoto to update the url to enable deeplinking. */
 			overlay_gallery: true, /* If set to true, a gallery will overlay the fullscreen image on mouse over */
-			overlay_gallery_max: 30, /* Maximum number of pictures in the overlay gallery */
+			overlay_gallery_max: 100, /* Maximum number of pictures in the overlay gallery */
 			keyboard_shortcuts: true, /* Set to false if you open forms inside prettyPhoto */
 			changepicturecallback: function(){}, /* Called everytime an item is shown/changed */
 			callback: function(){}, /* Called when prettyPhoto is closed */
@@ -56,11 +56,11 @@
 										<div class="sb_pp_details"> \
 											<div class="sb_pp_nav"> \
 												<a href="#" class="sb_pp_arrow_previous">Previous</a> \
-												<p class="currentTextHolder">0/0</p> \
+												<p class="currentTextHolder" style="line-height: 15px;">0/0</p> \
 												<a href="#" class="sb_pp_arrow_next">Next</a> \
 											</div> \
 											<p class="sb_pp_description"></p> \
-											<div class="sb_pp_social">{sb_pp_social}</div> \
+											<!--<div class="sb_pp_social">{sb_pp_social}</div>--> \
 											<a class="sb_pp_close" href="#">Close</a> \
 										</div> \
 									</div> \
@@ -766,6 +766,7 @@
 					}else{
 						classname = '';
 						img_src = sb_pp_images[i];
+						img_src = img_src.replace('/large/','/small/');
 					}
 					toInject += "<li class='"+classname+"'><a href='#'><img src='" + img_src + "' width='50' alt='' /></a></li>";
 				};

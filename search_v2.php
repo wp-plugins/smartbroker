@@ -4,16 +4,17 @@ function sb_search_page_v2_func($atts) {
 	
 	global $sb_config, $post;
 	extract( shortcode_atts( array(
-		'size_low' => '28',
-		'size_high' => '45',
-		'size_min' => '10',
-		'size_max' => '100',
-		'price_low' => '30000',
-		'price_high' => '150000',
-		'price_min' => '200',
-		'price_max' =>'2000000',
-		'results_per_page' => '10',
-		'keyword_examples' => "e.g. roller furling, fridge"
+			'size_low' => '28',
+			'size_high' => '45',
+			'size_min' => '10',
+			'size_max' => '100',
+			'price_low' => '30000',
+			'price_high' => '150000',
+			'price_min' => '200',
+			'price_max' =>'2000000',
+			'results_per_page' => '10',
+			'keyword_examples' => "e.g. roller furling, fridge",
+			'layout' => 'original'
 		), $atts ) );
 	
 	if (array_key_exists('sl', $_GET) AND ($_GET['sl'] != '')) {$data['sl'] = intval($_GET['sl']);} else {$data['sl'] = $size_low;}	
@@ -22,6 +23,10 @@ function sb_search_page_v2_func($atts) {
 	if (array_key_exists('ph', $_GET) AND ($_GET['ph'] != '')) {$data['ph'] = intval($_GET['ph']);} else {$data['ph'] = $price_high;}	
 	
 	$data['ln'] = $results_per_page;
+	
+	if ($layout == 'clean') {
+		return sb_search_page_clean_func($atts);
+		}
 	
 	$fields_xml = load_fields_xml();
 	
@@ -277,10 +282,15 @@ function sb_search_box_v2_func($atts) {
 		'price_high' => '150000',
 		'price_min' => '200',
 		'price_max' =>'2000000',
-		'keyword_examples' => "e.g. roller furling, fridge"
+		'keyword_examples' => "e.g. roller furling, fridge",
+		'layout' => 'original'
 	), $atts ) );
 	global $sb_config;
 	$fields_xml = load_fields_xml();
+	
+	if ($layout == 'clean') {
+		return sb_search_box_clean_func($atts);
+		}
 	
 	//add sliders
 	$a .= "<div class='sb_wrapper' style='max-width: 400px;'>

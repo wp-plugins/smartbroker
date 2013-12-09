@@ -4,7 +4,8 @@ Tags: yachts, boats, brokerage, brokers
 Donate link: http://www.smart-broker.co.uk
 Requires at least: 3.3.0
 Tested up to: 3.6.1
-Stable tag: 3.1.3
+Stable tag: 4.0
+License: GPLv2 or later
 
 This plugin embeds yacht listings from the SmartBroker service into your WordPress site. Requires a SmartBroker subscription.
 
@@ -23,34 +24,53 @@ If you're installing this plugin for testing purposes, there's a demo server wit
 
 == Installation ==
 
-Either install the plugin via Admin->Plugins->Add New, or  
+Getting a SmartBroker system up and running requires three elements to work together:
 
-* Upload `smartbroker.zip` to the `/wp-content/plugins/` directory
-* Un-zip the file. This will create the smartbroker directory and all the necessary sub-directories
+1. A WordPress-powered website that you're going to use to present your brokerage business on the web
+2. The SmartBroker WordPress plugin
+3. A SmartBroker server which will store your listing data (this is also where you go to add and maintain you listings)
 
-Then:
+= 1 - The WordPress site = 
 
-* Activate the plugin through the 'Plugins' menu in WordPress
-* Set the address of your SmartBroker server in `Settings->SmartBroker`
-* Create a page for your SmartBroker search - and add the shortcode `[sb_search_page_v2]` to it
-* Create a page for the SmartBroker boat listings - and add the shortcode `[sb_listing]` to it
-* Update `page-id` values for *SmartBroker search page v2 ID* and  *SmartBroker listing page ID* in `Settings->SmartBroker`
+If you're reading this, you've probably already got a WordPress site up-and running. If not, it's a common option available with many hosting packages. Ask you hosting provider if it's included in
+current package, or alternatively, we can provide a WordPress site for you, hosted at a domain of your choice - just drop us an email.
 
+= 2 - The SmartBroker Plugin =
+
+Install the plugin by logging into your WordPress site and going to *Admin* -> *Plugins* -> *Add New*
+
+To complete the installation:
+
+* Activate the plugin (if required) through the *Plugins* menu in WordPress
+* Set the SmartBroker server address and authentication token in *Settings* -> *SmartBroker*
 
 > If you want to use a demo server to test your installation, set the server address to `http://demo.smart-broker.co.uk`.
 > This is the address of the server used for the *Live Demo* section of the SmartBroker site.
 > The authentication token for this server is *vjrxhvmkq67wb14639v5*.
 
-Once you have followed the installation instructions, you can also add the following shortcodes anywhere on your site:
+* Create a page for your SmartBroker search - and add the shortcode `[sb_search_page_v2]` to it
+* Create a page for the SmartBroker boat listings - and add the shortcode `[sb_listing]` to it
+* Update `page-id` values for *SmartBroker search page v2 ID* and  *SmartBroker listing page ID* in *Settings* -> *SmartBroker*
 
-* [sb_featured] - a scrolling carousel feature highlighting some of your listings
-* [sb_search_box_v2] - a stand-alone listings search box (similar to that found on the left hand side of the search page)
+> Depending on how you set up your perma-links in WordPress, the page-id values may not be obvious.
+> The easiest way to check this number is to edit the page in question, and then look at the
+> address bar in your browser. The URL will be of the form 
+> *http://www.example.com/wp-admin/post.php?post=123&action=edit*.
+> Here the page-id is listed as *post=123*. Use just the number 123 in the settings page.
+
+Once you have followed the installation instructions, you've got a fully working SmartBroker system!
+
+To search for boats, go to your search page, where your shortcode should now be replaced by a search box.
+
+In additon to the search and listings pages, you can also add the following shortcodes anywhere on your site to help prompt visitors to search for boats:
+
+* [sb_search_box_v2] - a stand-alone listings search box (similar to that found on the search page)
 * [sb_search_box_small] - a simple size-type search box
 * [sb_search_by_ref] - a small search-by-reference-number box
 
-**Options**
+= Options =
 
-Sliders
+**Sliders**
 
 The following options can be set for any page/insert that uses sliders
 
@@ -64,17 +84,17 @@ The following options can be set for any page/insert that uses sliders
 * price_low - the pre-set value of the lower price slider, in GBP (default: 30,000, integers only)
 * price_high - the pre-set value of the upper price slider, in GBP (default: 150,000, integers only)
 
-For example, the following shortcode will produced a size slider with an available range of 20-70 feet, pre-set to the range 25-30 feet:
+For example, the following shortcode will produced a size slider with an available range of 10-70 feet, pre-set to the range 15-30 feet:
 
-*[sb_search_box size_min="20" size_max="70" size_low="15" size_high="30"]*
+*[sb_search_box size_min="10" size_max="70" size_low="15" size_high="30"]*
 
-Take care setting the _min and _max values - it's not possible to search outside these limits, so make sure they include all your listings.
+> Take care setting the _min and _max values - it's not possible to search outside these size/price limits, so make sure they include all your listings.
 
 For [sb_search_page_v2] and [sb_search_box_v2], the example note for the keyword search box can be customised using:
 
 * keyword_examples (default: "e.g. roller furling, fridge")
 
-Finally, you can set the number of results returned per page on [sb_seach_page_v2] using the shortcode:
+You can set the number of results returned per page on [sb_seach_page_v2] using the shortcode:
 
 * results_per_page (default: 10)
 
@@ -82,11 +102,39 @@ A fully customised search page v2 will look like:
 
 [sb_search_page_v2 size_min="10" size_max="70" size_low="15" size_high="30" price_min="100" price_max="10000000" price_low="30000" price_high="80000" keyword_examples="e.g. bow thruster" results_per_page="20"]
 
-**Theming**
+= Themeing =
 
-This plugin uses the *jQuery UI* themeing framework, and the full set of themes are available to use. For theme samples, please go to the [jQuery UI theme gallery](http://jqueryui.com/themeroller/#themegallery "The jQuery UI theme gallery").
+As of plugin v4.0, two themeing options are available, *Classic* and *Clean*.
 
-The theme is set in Admin->Settings->SmartBroker.
+**Clean Theme**
+
+The clean theme, which is new in plugin v4.0, doesn't use any external themeing and relies instead on the existing WordPress theme. It is also responsive (so works better on small-screens) and
+touch-friendly.
+
+For any new SmartBroker system, we'd recommend using the Clean theme.
+
+> To use the clean theme, add the option *layout='clean'* to your shortcodes: For example, [sb_search_page_v2 layout='clean']
+
+This will work for [sb_listing_page_v2], [sb_search_page_v2], [sb_search_box_v2], [sb_search_box_small] and [sb_search_by_ref].
+
+When using the clean theme, the *Theme Settings* section is ignored in *Admin* -> *Settings* -> *SmartBroker*.
+ 
+**Classic Theme**
+
+This theme uses the *jQuery UI* themeing framework, and the full set of themes are available to use.
+For theme samples, please go to the [jQuery UI theme gallery](http://jqueryui.com/themeroller/#themegallery "The jQuery UI theme gallery").
+
+The theme you choose to use is then set in Admin->Settings->SmartBroker.
+
+= Getting your listings from your SmartBroker server to your WordPress site =
+
+Listings held of your SmartBroker server are automatically fed to your WordPress site live - once you add a boat to your server, it's immediately available on your site.
+However, a couple of basic details need to be complete before a listing will appear correctly:
+
+* The listing must have a length (sometimes listed as *LOA*)
+* The listing must have a price
+* The listing must have at least one exterior photo (called the *primary photo*)
+* The listing must not be listed as *offline*
 
 == Frequently Asked Questions ==
 
@@ -104,6 +152,11 @@ A brief overview of the service is available at [http://www.smart-broker.co.uk](
 6. A search-by-reference number box, using theme 'ui-darkness'
 
 == Changelog ==
+= 4.0 =
+* Added 'Clean' theme options to integrate more easily with WP themes
+* Update of Readme.txt to help first-time users
+* Removed support for [sb_featured]
+
 = 3.1.3 =
 * Small bug fix - occasionally 'Find out more' form would not display correctly
 

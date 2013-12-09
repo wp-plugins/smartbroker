@@ -21,54 +21,84 @@ left: 2px;
 #sb_power_icon {display: block; width: 150px; height: 65px; background: url('../images/power.gif') no-repeat; margin: 30px auto;}
 #sb_specifications {vertical-align: top;}
 
-//optional css reset
-div.sb_wrapper div, div.sb_wrapper span, div.sb_wrapper applet, div.sb_wrapper object, div.sb_wrapper iframe,
-div.sb_wrapper h1, div.sb_wrapper h2, div.sb_wrapper h3, div.sb_wrapper h4, div.sb_wrapper h5, div.sb_wrapper h6, div.sb_wrapper p, div.sb_wrapper blockquote, div.sb_wrapper pre,
-div.sb_wrapper a, div.sb_wrapper abbr, div.sb_wrapper acronym, div.sb_wrapper address, div.sb_wrapper big, div.sb_wrapper cite, div.sb_wrapper code,
-div.sb_wrapper del, div.sb_wrapper dfn, div.sb_wrapper em, div.sb_wrapper img, div.sb_wrapper ins, div.sb_wrapper kbd, div.sb_wrapper q, div.sb_wrapper s, div.sb_wrapper samp,
-div.sb_wrapper small, div.sb_wrapper strike, div.sb_wrapper strong, div.sb_wrapper sub, div.sb_wrapper sup, div.sb_wrapper tt, div.sb_wrapper var,
-div.sb_wrapper b, div.sb_wrapper u, div.sb_wrapper i, div.sb_wrapper center,
-div.sb_wrapper dl, div.sb_wrapper dt, div.sb_wrapper dd, div.sb_wrapper ol, div.sb_wrapper ul, div.sb_wrapper li,
-div.sb_wrapper fieldset, div.sb_wrapper form, div.sb_wrapper label, div.sb_wrapper legend,
-div.sb_wrapper table, div.sb_wrapper caption, div.sb_wrapper tbody, div.sb_wrapper tfoot, div.sb_wrapper thead, div.sb_wrapper tr, div.sb_wrapper th, div.sb_wrapper td,
-div.sb_wrapper article, div.sb_wrapper aside, div.sb_wrapper canvas, div.sb_wrapper details, div.sb_wrapper embed, div.sb_wrapper 
-div.sb_wrapper figure, div.sb_wrapper figcaption, div.sb_wrapper footer, div.sb_wrapper header, div.sb_wrapper hgroup, div.sb_wrapper 
-div.sb_wrapper menu, div.sb_wrapper nav, div.sb_wrapper output, div.sb_wrapper ruby, div.sb_wrapper section, div.sb_wrapper summary,
-div.sb_wrapper time, div.sb_wrapper mark, div.sb_wrapper audio, div.sb_wrapper video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
-	background: none;
-}
-/* HTML5 display-role reset for older browsers 
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-	display: block;
-}
-body {
-	line-height: 1;
-}
-ol, ul {
-	list-style: none;
-}
-blockquote, q {
-	quotes: none;
-}
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
-}
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
-
-button[type='submit'] p {margin: .1em;}*/
 
 #sb_primary_image img {margin-bottom: .5em;}
 
 .jcarousel-container-horizontal {box-sizing: content-box;}
+.sb_wide_only {display: block;}
+.sb_narrow_only {display: none;}
+
+/* ------------------------------------------------------------------------------------------
+/* Clean theme */
+
+.sb_wrapper.sb_theme_clean p{
+	font-size: inherit;
+	}
+	
+#sb_clean_images {
+	float: right;
+	max-width: 55%;
+	padding-left: .5em;
+	}
+
+#sb_clean_images img {padding: 0;}
+
+#sb_clean_thumb_window {
+	max-height: 160px;
+	overflow: hidden;
+	}
+	
+.sb_clean_vt_holder {
+	display: none;
+	}
+	
+#sb_clean_thumb_window .sb_clean_thumb {
+	height: 80px;
+	width: 24%;
+	background: #EEEEEE;
+	float: left;
+	margin: 0.5%;
+	}
+	
+.sb_clean_thumb a {
+	height: 80px;
+	width: 100%;
+	display: block;
+	vertical-align: middle;
+	text-align: center;
+	}
+	
+.sb_clean_thumb img {max-height: 80px;}
+	
+@media only screen and (max-width: 600px) {
+	#sb_clean_images {
+		float: none;
+		min-width: 100%;
+		padding-left: 0em;
+		}
+	
+	.sb_narrow_only {display: block;}
+	.sb_wide_only {display: none;}
+}
+
+@media print {
+	.sb_no_print {display: none !important;}
+	}
+	
+.sb_clearfix:before,
+.sb_clearfix:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.sb_clearfix:after {
+    clear: both;
+}
+
+/**
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+.sb_clearfix {
+    *zoom: 1;
+}
