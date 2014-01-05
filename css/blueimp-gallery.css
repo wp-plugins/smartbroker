@@ -1,0 +1,244 @@
+@charset "UTF-8";
+/*
+ * blueimp Gallery CSS 2.11.1
+ * https://github.com/blueimp/Gallery
+ *
+ * Copyright 2013, Sebastian Tschan
+ * https://blueimp.net
+ *
+ * Licensed under the MIT license:
+ * http://www.opensource.org/licenses/MIT
+ */
+
+.sb_blueimp-gallery,
+.sb_blueimp-gallery > .sb_slides > .sb_slide > .sb_slide-content {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  /* Prevent artifacts in Mozilla Firefox: */
+  -moz-backface-visibility: hidden;
+}
+.sb_blueimp-gallery > .sb_slides > .sb_slide > .sb_slide-content {
+  margin: auto;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  opacity: 1;
+}
+.sb_blueimp-gallery {
+  position: fixed;
+  z-index: 999999;
+  overflow: hidden;
+  background: #000;
+  background: rgba(0, 0, 0, 0.9);
+  opacity: 0;
+  display: none;
+  direction: ltr;
+  -ms-touch-action: none;
+  touch-action: none;
+}
+.sb_blueimp-gallery-carousel {
+  position: relative;
+  z-index: auto;
+  margin: 1em auto;
+  /* Set the carousel width/height ratio to 16/9: */
+  padding-bottom: 56.25%;
+  box-shadow: 0 0 10px #000;
+  -ms-touch-action: pan-y;
+  touch-action: pan-y;
+}
+.sb_blueimp-gallery-display {
+  display: block;
+  opacity: 1;
+}
+.sb_blueimp-gallery > .sb_slides {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+.sb_blueimp-gallery-carousel > .sb_slides {
+  position: absolute;
+}
+.sb_blueimp-gallery > .sb_slides > .sb_slide {
+  position: relative;
+  float: left;
+  height: 100%;
+  text-align: center;
+  -webkit-transition-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1.000); 
+     -moz-transition-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1.000); 
+      -ms-transition-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1.000); 
+       -o-transition-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1.000); 
+          transition-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1.000);
+}
+.sb_blueimp-gallery,
+.sb_blueimp-gallery > .sb_slides > .sb_slide > .sb_slide-content {
+  -webkit-transition: opacity 0.5s linear;
+     -moz-transition: opacity 0.5s linear;
+      -ms-transition: opacity 0.5s linear;
+       -o-transition: opacity 0.5s linear;
+          transition: opacity 0.5s linear;
+}
+.sb_blueimp-gallery > .sb_slides > .sb_slide-loading {
+  background: url(../images/loading.gif) center no-repeat;
+  background-size: 64px 64px;
+}
+.sb_blueimp-gallery > .sb_slides > .sb_slide-loading > .sb_slide-content {
+  opacity: 0;
+}
+.sb_blueimp-gallery > .sb_slides > .sb_slide-error {
+  background: url(../images/error.png) center no-repeat;
+}
+.sb_blueimp-gallery > .sb_slides > .sb_slide-error > .sb_slide-content {
+  display: none;
+}
+.sb_blueimp-gallery > .sb_prev,
+.sb_blueimp-gallery > .sb_next {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  width: 40px;
+  height: 40px;
+  margin-top: -23px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 60px;
+  font-weight: 100;
+  line-height: 30px;
+  color: #fff;
+  text-decoration: none;
+  text-shadow: 0 0 2px #000;
+  text-align: center;
+  background: #222;
+  background: rgba(0, 0, 0, 0.5);
+  -webkit-box-sizing: content-box;
+     -moz-box-sizing: content-box;
+          box-sizing: content-box;
+  border: 3px solid #fff;
+  -webkit-border-radius: 23px;
+     -moz-border-radius: 23px;
+          border-radius: 23px;
+  opacity: 0.5;
+  cursor: pointer;
+  display: none;
+}
+.sb_blueimp-gallery > .sb_next {
+  left: auto;
+  right: 15px;
+}
+.sb_blueimp-gallery > .sb_close,
+.sb_blueimp-gallery > .sb_title {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  margin: 0 40px 0 0;
+  font-size: 20px;
+  line-height: 30px;
+  color: #fff;
+  text-shadow: 0 0 2px #000;
+  opacity: 0.8;
+  display: none;
+}
+.sb_blueimp-gallery > .sb_close {
+  padding: 15px;
+  right: 15px;
+  left: auto;
+  margin: -15px;
+  font-size: 30px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.sb_blueimp-gallery > .sb_play-pause {
+  position: absolute;
+  right: 15px;
+  bottom: 15px;
+  width: 15px;
+  height: 15px;
+  background: url(../images/play-pause.png) 0 0 no-repeat;
+  cursor: pointer;
+  opacity: 0.5;
+  display: none;
+}
+.sb_blueimp-gallery-playing > .sb_play-pause {
+  background-position: -15px 0;
+}
+.sb_blueimp-gallery > .sb_prev:hover,
+.sb_blueimp-gallery > .sb_next:hover,
+.sb_blueimp-gallery > .sb_close:hover,
+.sb_blueimp-gallery > .sb_title:hover,
+.sb_blueimp-gallery > .sb_play-pause:hover {
+  color: #fff;
+  opacity: 1;
+}
+.sb_blueimp-gallery-controls > .sb_prev,
+.sb_blueimp-gallery-controls > .sb_next,
+.sb_blueimp-gallery-controls > .sb_close,
+.sb_blueimp-gallery-controls > .sb_title,
+.sb_blueimp-gallery-controls > .sb_play-pause {
+  display: block;
+  /* Fix z-index issues (controls behind slide element) on Android: */
+  -webkit-transform: translateZ(0);
+     -moz-transform: translateZ(0);
+      -ms-transform: translateZ(0);
+       -o-transform: translateZ(0);
+          transform: translateZ(0);
+}
+.sb_blueimp-gallery-single > .sb_prev,
+.sb_blueimp-gallery-left > .sb_prev,
+.sb_blueimp-gallery-single > .sb_next,
+.sb_blueimp-gallery-right > .sb_next,
+.sb_blueimp-gallery-single > .sb_play-pause {
+  display: none;
+}
+.sb_blueimp-gallery > .sb_slides > .sb_slide > .sb_slide-content,
+.sb_blueimp-gallery > .sb_prev,
+.sb_blueimp-gallery > .sb_next,
+.sb_blueimp-gallery > .sb_close,
+.sb_blueimp-gallery > .sb_play-pause {
+  -webkit-user-select: none;
+   -khtml-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+/* Replace PNGs with SVGs for capable browsers (excluding IE<9) */
+body:last-child .sb_blueimp-gallery > .sb_slides > .sb_slide-error {
+  background-image: url(../images/error.svg);
+}
+body:last-child .sb_blueimp-gallery > .sb_play-pause {
+  width: 20px;
+  height: 20px;
+  background-size: 40px 20px;
+  background-image: url(../images/play-pause.svg);
+}
+body:last-child .sb_blueimp-gallery-playing > .sb_play-pause {
+  background-position: -20px 0;
+}
+
+/* IE7 fixes */
+*+html .sb_blueimp-gallery > .sb_slides > .sb_slide {
+  min-height: 300px;
+}
+*+html .sb_blueimp-gallery > .sb_slides > .sb_slide > .sb_slide-content {
+  position: relative;
+}
+
+.sb_blueimp-gallery > .sb_featured_description {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  color: #fff;
+  width: 100%;
+  background: rgba(0,0,0,.5);
+  margin: 0;
+  padding: .5em;
+  font-weight: bold;
+	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
+	box-sizing: border-box;
+}
+.sb_blueimp-gallery-controls > .sb_featured_description {
+  display: block;
+}

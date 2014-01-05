@@ -3,8 +3,8 @@ Contributors: phuvf
 Tags: yachts, boats, brokerage, brokers
 Donate link: http://www.smart-broker.co.uk
 Requires at least: 3.3.0
-Tested up to: 3.6.1
-Stable tag: 4.0
+Tested up to: 3.8
+Stable tag: 6.0
 License: GPLv2 or later
 
 This plugin embeds yacht listings from the SmartBroker service into your WordPress site. Requires a SmartBroker subscription.
@@ -33,107 +33,95 @@ Getting a SmartBroker system up and running requires three elements to work toge
 = 1 - The WordPress site = 
 
 If you're reading this, you've probably already got a WordPress site up-and running. If not, it's a common option available with many hosting packages. Ask you hosting provider if it's included in
-current package, or alternatively, we can provide a WordPress site for you, hosted at a domain of your choice - just drop us an email.
+current package, or alternatively, we can provide a WordPress site for you, hosted at a domain of your choice - just drop an email to <contact@smart-broker.co.uk>.
 
-= 2 - The SmartBroker Plugin =
+= 2 - Install and set up the SmartBroker Plugin =
 
 Install the plugin by logging into your WordPress site and going to *Admin* -> *Plugins* -> *Add New*
+
+Search for *SmartBroker*, and then follow the instructions to install the plugin.
 
 To complete the installation:
 
 * Activate the plugin (if required) through the *Plugins* menu in WordPress
-* Set the SmartBroker server address and authentication token in *Settings* -> *SmartBroker*
+* Go to *Admin* -> *Settings* -> *SmartBroker* to configure the plugin
+* Set the *SmartBroker server address* to the address of your SmartBroker system (always include the *http://* part)
 
 > If you want to use a demo server to test your installation, set the server address to `http://demo.smart-broker.co.uk`.
-> This is the address of the server used for the *Live Demo* section of the SmartBroker site.
-> The authentication token for this server is *vjrxhvmkq67wb14639v5*.
 
-* Create a page for your SmartBroker search - and add the shortcode `[sb_search_page_v2]` to it
-* Create a page for the SmartBroker boat listings - and add the shortcode `[sb_listing]` to it
-* Update `page-id` values for *SmartBroker search page v2 ID* and  *SmartBroker listing page ID* in *Settings* -> *SmartBroker*
+* The *SmartBroker search page ID* and *SmartBroker listing page ID* should already be set by the plugin. various options are available to customise these pages - see *Shortcode options* below for details.
 
-> Depending on how you set up your perma-links in WordPress, the page-id values may not be obvious.
-> The easiest way to check this number is to edit the page in question, and then look at the
-> address bar in your browser. The URL will be of the form 
-> *http://www.example.com/wp-admin/post.php?post=123&action=edit*.
-> Here the page-id is listed as *post=123*. Use just the number 123 in the settings page.
+* Set the display currency (if in doubt, start with 'EUR').
 
 Once you have followed the installation instructions, you've got a fully working SmartBroker system!
 
-To search for boats, go to your search page, where your shortcode should now be replaced by a search box.
+To search your listings, go to your search page.
 
-In additon to the search and listings pages, you can also add the following shortcodes anywhere on your site to help prompt visitors to search for boats:
+> Note that depending on the configuration of your menus in WordPress, the search page may not be immediately visible. If necessary, have a look through the 'Pages' section of your site for a page named 'Search' and add this to your menu system.
 
-* [sb_search_box_v2] - a stand-alone listings search box (similar to that found on the search page)
-* [sb_search_box_small] - a simple size-type search box
-* [sb_search_by_ref] - a small search-by-reference-number box
+= 2 - Adding featured listings to your site =
 
-= Options =
+To add a slideshow of featured listings to your site, add the shortcode *[sb_featured]* to any WordPress page or post.
 
-**Sliders**
+>If none of your listings have the status 'Featured', the featured listings slideshow will select 5 random listings to show.
 
-The following options can be set for any page/insert that uses sliders
+= 4 - Adding the SmartBroker search widget =
 
-* size_min - the lowest value available on the size slider, in feet (default: 10, integers only)
-* size_max - the highest value available on the size slider, in feet (default: 100, integers only)
-* size_low - the pre-set value of the lower size slider, in feet (default: 28, integers only)
-* size_high - the pre-set value of the upper size slider, in feet (default: 45, integers only)
+The SmartBroker plugin includes a customisable widget, *SmartBroker search*. To use this widet, go to *Admin* -> *Appearance* -> *Widgets* and add the *SmartBroker search* widget to the relevant sidebar.
+You can also set default size and price variable for this widget.
 
-* price_min - the lowest value available on the price slider, in the primary currency (as set in settings page) (default: 200, integers only)
-* price_max - the highest value available on the price slider, in the primary currency (as set in settings page) (default: 2000000, integers only)
-* price_low - the pre-set value of the lower price slider, in GBP (default: 30,000, integers only)
-* price_high - the pre-set value of the upper price slider, in GBP (default: 150,000, integers only)
+= 5 - Shortcode options =
 
-For example, the following shortcode will produced a size slider with an available range of 10-70 feet, pre-set to the range 15-30 feet:
+> Shortcode options are added in the following format: [sb_search_page option_name_1='option_value_1' option_name_2='option_value_2' ... ]
 
-*[sb_search_box size_min="10" size_max="70" size_low="15" size_high="30"]*
+**Price and size defaults**
 
-> Take care setting the _min and _max values - it's not possible to search outside these size/price limits, so make sure they include all your listings.
+Size units (commonly *ft* or *m*) are based on the settings in your SmartBroker system
 
-For [sb_search_page_v2] and [sb_search_box_v2], the example note for the keyword search box can be customised using:
+* size_low - the default value of the lower size input (integers only)
+* size_high - the default value of the upper size input (integers only)
+
+Price units are based on the *Currency* setting in *Admin* -> *Settings* -> *SmartBroker*
+
+* price_low - the default value of the lower price input (integers only)
+* price_high - the default value of the upper price input (integers only)
+
+The maximum and minimum values of the *size* and *price* selectors are set automatically by SmartBroker, based on the range of values available in your live listings.
+
+> For example, the following shortcode will pre-set to the size range 15-30 feet (assuming your SmartBroker system has the *LOA* item dimension set to *ft*):
+> *[sb_search_box size_low='15' size_high='30']*
+
+For [sb_search_page], the example note for the keyword search box can be customised using:
 
 * keyword_examples (default: "e.g. roller furling, fridge")
 
-You can set the number of results returned per page on [sb_seach_page_v2] using the shortcode:
+You can set the number of results returned per page on [sb_seach_page] using the shortcode:
 
 * results_per_page (default: 10)
 
-A fully customised search page v2 will look like:
+A fully customised search page will look like:
 
-[sb_search_page_v2 size_min="10" size_max="70" size_low="15" size_high="30" price_min="100" price_max="10000000" price_low="30000" price_high="80000" keyword_examples="e.g. bow thruster" results_per_page="20"]
+**[sb_search_page size_low="15" size_high="30"price_low="30000" price_high="80000" keyword_examples="e.g. bow thruster" results_per_page="20"]**
 
-= Themeing =
+= 6 - Themeing =
 
-As of plugin v4.0, two themeing options are available, *Classic* and *Clean*.
+All the themeing of the plugin is handled by the main WordPress theme, so font and colours should match existing pages. However, some tweaking may be necessary to get the pages looking just how you'd like
+them to.
 
-**Clean Theme**
+All SmartBroker elements are including with a wrapper (#sb_wrapper). This allows you to style just the plugin elements without touching the existing site.
 
-The clean theme, which is new in plugin v4.0, doesn't use any external themeing and relies instead on the existing WordPress theme. It is also responsive (so works better on small-screens) and
-touch-friendly.
+To add custom CSS rules to your plugin, go to *Admin* -> *Settings* -> *SmartBroker* and edit the *Custom CSS* element.
 
-For any new SmartBroker system, we'd recommend using the Clean theme.
+If you're a SmartBroker subscriber, we can help you with any visual edits or tweaks you may need - please <a href='mailto: contact@smart-broker.co.uk'>get in touch</a>.
 
-> To use the clean theme, add the option *layout='clean'* to your shortcodes: For example, [sb_search_page_v2 layout='clean']
-
-This will work for [sb_listing_page_v2], [sb_search_page_v2], [sb_search_box_v2], [sb_search_box_small] and [sb_search_by_ref].
-
-When using the clean theme, the *Theme Settings* section is ignored in *Admin* -> *Settings* -> *SmartBroker*.
- 
-**Classic Theme**
-
-This theme uses the *jQuery UI* themeing framework, and the full set of themes are available to use.
-For theme samples, please go to the [jQuery UI theme gallery](http://jqueryui.com/themeroller/#themegallery "The jQuery UI theme gallery").
-
-The theme you choose to use is then set in Admin->Settings->SmartBroker.
-
-= Getting your listings from your SmartBroker server to your WordPress site =
+= 7 - Getting your listings from your SmartBroker server to your WordPress site =
 
 Listings held of your SmartBroker server are automatically fed to your WordPress site live - once you add a boat to your server, it's immediately available on your site.
 However, a couple of basic details need to be complete before a listing will appear correctly:
 
 * The listing must have a length (sometimes listed as *LOA*)
 * The listing must have a price
-* The listing must have at least one exterior photo (called the *primary photo*)
+* The listing must have a primary photo
 * The listing must not be listed as *offline*
 
 == Frequently Asked Questions ==
@@ -144,14 +132,17 @@ A brief overview of the service is available at [http://www.smart-broker.co.uk](
 
 == Screenshots ==
 
-1. The search box and results page using theme 'start'.
-2. A sample boat listing with broker's notes, specifications, photos, videos and contact form, using theme 'start'.
-3. The featured boats shortcode using theme 'ui-darkness'.
-4. A drop-in search box, using theme 'ui-darkness'.
-5. A small search box, using theme 'ui-darkness'.
-6. A search-by-reference number box, using theme 'ui-darkness'
+1. The search box and results page
+2. A sample boat listing with broker's notes, specifications, photos, videos and contact form
+3. The featured boats shortcode
+4. Adding the SmartBroker search widget to a sidebar (with default size and price values)
+5. A sample homepage showing the featured boats shortcode as well as the search widget
+6. SmartBroker Server v6: Editing a listing
 
 == Changelog ==
+= 6.0 =
+* Update to match SmartBroker server v6. Note that this version of the plugin will not work with server versions prior to v6. Do not update your plugin without checking your server version first.
+
 = 4.0 =
 * Added 'Clean' theme options to integrate more easily with WP themes
 * Update of Readme.txt to help first-time users
@@ -236,6 +227,9 @@ A brief overview of the service is available at [http://www.smart-broker.co.uk](
 * Initial release
 
 == Upgrade Notice ==
+= 6.0 =
+This update is required if using SmartBroker server v6, and will not work with server versions prior to v6. Do not update your plugin without first checking your server version.
+
 = 1.2 =
 This upgrade is required to update links to new SmartBroker file structure.
 
