@@ -3,7 +3,7 @@
 Plugin Name: SmartBroker
 Plugin URI: http://www.smart-broker.co.uk
 Description: A plugin to insert SmartBroker data into a Wordpress site
-Version: 4.0
+Version: 6.0
 Author: Nick Roberts
 Author URI: http://www.smart-broker.co.uk
 License: GPL2
