@@ -47,9 +47,9 @@ To complete the installation:
 * Go to *Admin* -> *Settings* -> *SmartBroker* to configure the plugin
 * Set the *SmartBroker server address* to the address of your SmartBroker system (always include the *http://* part)
 
-> If you want to use a demo server to test your installation, set the server address to `http://demo.smart-broker.co.uk`.
+> If you don't have a SmartBroker server yet, use the default `http://demo.smart-broker.co.uk`
 
-* The *SmartBroker search page ID* and *SmartBroker listing page ID* should already be set by the plugin. various options are available to customise these pages - see *Shortcode options* below for details.
+* The *SmartBroker search page ID* and *SmartBroker listing page ID* should already be set by the plugin. Various options are available to customise these pages - see *Shortcode options* below for details.
 
 * Set the display currency (if in doubt, start with 'EUR').
 
@@ -57,7 +57,7 @@ Once you have followed the installation instructions, you've got a fully working
 
 To search your listings, go to your search page.
 
-> Note that depending on the configuration of your menus in WordPress, the search page may not be immediately visible. If necessary, have a look through the 'Pages' section of your site for a page named 'Search' and add this to your menu system.
+> Note that depending on the configuration of your menus in WordPress, the search page may not be immediately visible. If necessary, have a look through the 'Pages' section of your site for a page named 'Search' and add this to your menu system. 
 
 = 2 - Adding featured listings to your site =
 
@@ -70,13 +70,15 @@ To add a slideshow of featured listings to your site, add the shortcode *[sb_fea
 The SmartBroker plugin includes a customisable widget, *SmartBroker search*. To use this widet, go to *Admin* -> *Appearance* -> *Widgets* and add the *SmartBroker search* widget to the relevant sidebar.
 You can also set default size and price variable for this widget.
 
+> If you're using the search widget in a sidebar, you may wish to change the template for the 'Search' page - otherwise you'll end up with two search boxes on one page. Edit the search page and look for a fullwidth template in the *Page Attributes* section.
+
 = 5 - Shortcode options =
 
-> Shortcode options are added in the following format: [sb_search_page option_name_1='option_value_1' option_name_2='option_value_2' ... ]
+*Shortcode options are added in the following format: [sb_search_page option_name_1='option_value_1' option_name_2='option_value_2' ... ]*
 
 **Price and size defaults**
 
-Size units (commonly *ft* or *m*) are based on the settings in your SmartBroker system
+Size units (commonly *ft* or *m*) are based on the settings in on SmartBroker server.
 
 * size_low - the default value of the lower size input (integers only)
 * size_high - the default value of the upper size input (integers only)
@@ -103,9 +105,9 @@ A fully customised search page will look like:
 
 **[sb_search_page size_low="15" size_high="30"price_low="30000" price_high="80000" keyword_examples="e.g. bow thruster" results_per_page="20"]**
 
-= 6 - Themeing =
+= 6 - Theming =
 
-All the themeing of the plugin is handled by the main WordPress theme, so font and colours should match existing pages. However, some tweaking may be necessary to get the pages looking just how you'd like
+All the theming of the plugin is handled by the main WordPress theme, so font and colours should match existing pages. However, some tweaking may be necessary to get the pages looking just how you'd like
 them to.
 
 All SmartBroker elements are including with a wrapper (#sb_wrapper). This allows you to style just the plugin elements without touching the existing site.
