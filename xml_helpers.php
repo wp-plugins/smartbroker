@@ -48,7 +48,7 @@ function sb_load_xml($xml_file) {
 			}
 		if ($data == 'Error: ID not valid') {
 			$error_msg =  "<h3>Well, this is embarrassing...</h3>
-			<p>I'm afraid we can't find the listing you're looking for. Maybe <a href='?page_id=".$sb_config['sb_search_page']."' >search again</a>?</p>";
+			<p>I'm afraid we can't find the listing you're looking for. Maybe <a href='?page_id=".$sb_config['search_page']."' >search again</a>?</p>";
 			}
 		
 		

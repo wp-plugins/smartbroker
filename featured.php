@@ -29,7 +29,7 @@ function sb_featured_func($atts) {
 			}		
 	
 		$a .= "<a href='".$sb_config['server_address']."/images/boats/".$b->boat_id."/large/".$b->photo_id.".jpg' data-description='$desc'
-		data-link='/?page_id=$sb_config[sb_listing_page]&boat_id=".$b->boat_id."'></a>";
+		data-link='/?page_id=$sb_config[listing_page]&boat_id=".$b->boat_id."'></a>";
 	
 		$n++;
 		}
