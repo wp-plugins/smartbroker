@@ -3,13 +3,13 @@
 Plugin Name: SmartBroker
 Plugin URI: http://www.smart-broker.co.uk
 Description: A plugin to insert SmartBroker data into a Wordpress site
-Version: 6.0.1
+Version: 6.0.2
 Author: Nick Roberts
 Author URI: http://www.smart-broker.co.uk
 License: GPL2
 Text Domain: smartbroker
 
-Copyright 2012  Nick Roberts  (email: contact@smart-broker.co.uk)
+Copyright 2013  Nick Roberts  (email: contact@smart-broker.co.uk)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License, version 2, as 
@@ -34,6 +34,7 @@ include_once("pagination.php");
 include_once("dropdowns.php");
 include_once("featured.php");
 include_once("sb_widgets.php");
+include_once("white_label_settings.php");
 
 //Default config variables
 $sb_config= get_option('sb_plugin_options');
@@ -41,7 +42,7 @@ if ($sb_config['currency_1'] == '') {
 	$sb_config['currency_1'] = 'EUR';
 	}
 if	($sb_config['server_address'] == '') {
-	$sb_config['server_address'] = 'http://demo.smart-broker.co.uk';
+	$sb_config['server_address'] = $sb_white_label['default_server'];
 	}
 
 $sb_config['video_link'] = '<iframe class="video" width="200" height="115"
@@ -54,15 +55,16 @@ register_activation_hook(__FILE__, 'make_pages');
 //actions we're going to use
 add_action('admin_menu', 'sb_plugin_menu');
 function sb_plugin_menu() {
-	add_options_page('SmartBroker Options', 'SmartBroker', 'manage_options', 'smartbroker', 'sb_plugin_options');
+	global $sb_white_label;
+	add_options_page($sb_white_label['name'].' Options', $sb_white_label['name'], 'manage_options', 'smartbroker', 'sb_plugin_options');
 	}
 	
 add_action('admin_init', 'sb_plugin_admin_init');
 	
 //the shortcodes we use
-add_shortcode('sb_listing', 'sb_listing_func' );
-add_shortcode('sb_search_page', 'sb_search_page_func');
-add_shortcode('sb_featured', 'sb_featured_func');
+add_shortcode($sb_white_label['sc_prefix'].'listing', 'sb_listing_func' );
+add_shortcode($sb_white_label['sc_prefix'].'search_page', 'sb_search_page_func');
+add_shortcode($sb_white_label['sc_prefix'].'featured', 'sb_featured_func');
  
 //code to hide listing page link (located in utility_functions.php)
 add_action('wp_head', 'hide_listing_page');

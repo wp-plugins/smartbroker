@@ -51,7 +51,7 @@ function sb_search_page_func($atts) {
 		$a .=  "<!-- end sb_wrapper -->"; //end sb_wrapper
 			
 	
-	echo $a;
+	return $a;
 	}
 	
 function blank_slate_row() {

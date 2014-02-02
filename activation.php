@@ -2,15 +2,17 @@
 function make_pages() {
 	global $wpdb, $sb_config;
 	
+	include('white_label_settings.php');
+	
 	$sb_config= get_option('sb_plugin_options');
 	if ($sb_config['currency_1'] == '') {
 		$sb_config['currency_1'] = 'EUR';
 		}
 	if	($sb_config['server_address'] == '') {
-		$sb_config['server_address'] = 'http://demo.smart-broker.co.uk';
+		$sb_config['server_address'] = $sb_white_label['default_server'];
 		}
 	
-	$the_query = new WP_Query( 's=sb_listing' );
+	$the_query = new WP_Query( 's='.$sb_white_label['sc_prefix'].'listing' );
 	if ( $the_query->found_posts > 0 ) {
 		$listing_page_id =  $the_query->posts[0]->ID; //just get first page found
 		} else {
@@ -19,8 +21,8 @@ function make_pages() {
 			'post_author'=>'1',
 			'post_date'=>date('Y-m-d H:i:s'),
 			'post_date_gmt'=>date('Y-m-d H:i:s'),
-			'post_content'=>"<!-- page created by SmartBroker plugin.-->
-[sb_listing]",
+			'post_content'=>"<!-- page created by ".$sb_white_label['name']." plugin.-->
+[".$sb_white_label['sc_prefix']."listing]",
 			'post_title'=>'Listing page',
 			'post_status'=>'publish',
 			'comment_status'=>'closed',
@@ -36,7 +38,7 @@ function make_pages() {
 		$listing_page_id = $wpdb->insert_id;
 		}
 	
-	$the_query = new WP_Query( 's=sb_search' );
+	$the_query = new WP_Query( 's='.$sb_white_label['sc_prefix'].'search' );
 	if ( $the_query->found_posts > 0 ) {
 		$search_page_id =  $the_query->posts[0]->ID; //just get first page found
 		} else {
@@ -45,8 +47,8 @@ function make_pages() {
 			'post_author'=>'1',
 			'post_date'=>date('Y-m-d H:i:s'),
 			'post_date_gmt'=>date('Y-m-d H:i:s'),
-			'post_content'=>"<!-- page created by SmartBroker plugin. You may wish to set this page to be full-width (with no sidebar), or you may end up with two search boxes on one page -->
-[sb_search_page]",
+			'post_content'=>"<!-- page created by ".$sb_white_label['name']." plugin. You may wish to set this page to be full-width (with no sidebar), or you may end up with two search boxes on one page -->
+[".$sb_white_label['sc_prefix']."search_page]",
 			'post_title'=>'Search',
 			'post_status'=>'publish',
 			'comment_status'=>'closed',

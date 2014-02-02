@@ -142,6 +142,9 @@ A brief overview of the service is available at [http://www.smart-broker.co.uk](
 6. SmartBroker Server v6: Editing a listing
 
 == Changelog ==
+= 6.0.2 =
+* Added options to allow white-labelling of system. See file 'white_label_settings.php' for details.
+
 = 6.0 =
 * Update to match SmartBroker server v6. Note that this version of the plugin will not work with server versions prior to v6. Do not update your plugin without checking your server version first.
 
