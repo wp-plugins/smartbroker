@@ -62,7 +62,13 @@ function sb_currency_1_string() {
 function sb_css_string() {
 	global $sb_config, $sb_white_label;
 	echo "<textarea id='sb_css' name='sb_plugin_options[css]' cols='100' rows='5'>$sb_config[css]</textarea>
-	<p>Add CSS to the <i>div.".$sb_white_label['sc_prefix']."wrapper</i> element to style only ".$sb_white_label['name']." elements.</p>";
+	<p>Add CSS to the <i>div.".$sb_white_label['sc_prefix']."wrapper</i> element to style only ".$sb_white_label['name']." elements.</p>
+	<p>Common examples:</p>
+	<p><code>div.sb_wrapper.sb_year_message {display: none;}<br/>
+	div.sb_wrapper.sb_lying_message {display: none;}<br/>
+	div.sb_wrapper.sb_price_message {display: none;}</code></p>
+	<p>will completely hide the build year, location and price data for search results and listings.</p>
+	";
 	}
 	
 function sb_plugin_options() {

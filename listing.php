@@ -43,8 +43,8 @@ function sb_listing_func(){
 		$value = floatval($xml->boat->asking_price);
 		//Tax label
 		$vat_paid = $xml->boat->vat_included;
-		if ($vat_paid == '1') {$vat_message = $xml->config->tax_label." ".__('paid','smartbroker');}
-		else {$vat_message = $xml->config->tax_label." ".__('not paid','smartbroker');}
+		if ($vat_paid == '1') {$vat_message = $xml->config->tax_label." ".$xml->config->tax_paid_label;}
+		else {$vat_message = $xml->config->tax_label." ".$xml->config->tax_not_paid_label;}
 		if ($sb_config['hide_tax_label'] == 'on') {$vat_message = '';}
 		if	($xml->boat->suffix == 1) {
 			$price = number_format($value,0).'&nbsp;'.$curr_symbol.' '.$vat_message;
@@ -146,9 +146,9 @@ function sb_listing_func(){
 			<div class='sb_no_print'>$m</div>";
 		//key facts
 		$kf = "<div class='sb_wide_only'><h1 style='clear: left;'><span id='sb_boat_builder_and_model'>".$xml->boat->builder." ".$xml->boat->model."</span>".$admin_link."</h1></div>
-		<h2 style='clear: left;'>$label".$price."
-		<br /><small>".$currency_conversion."</small></h2>
-		<p>".__('Built','smartbroker').': '.$xml->boat->year.'<br/>'.__('Currently lying','smartbroker').': '.$xml->boat->region.", ".$xml->boat->country_name."</p>";
+		<h2 style='clear: left;'><span class='sb_price_message'>$label".$price."
+		<br /><small>".$currency_conversion."</small></span></h2>
+		<p><span class='sb_year_message'>".__('Built','smartbroker').': '.$xml->boat->year."</span><span class='sb_lying_message'><br/>".__('Currently lying','smartbroker').': '.$xml->boat->region.", ".$xml->boat->country_name."</span></p>";
 		if ($xml->boat->approved == 'false') {
 			$kf .= $prov_message;
 			}

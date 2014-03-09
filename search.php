@@ -64,11 +64,15 @@ function search_result_item($boat) {
 		
 		$desc = $boat->builder." ".$boat->model;
 		
-		if ($sb_config['hide_tax_label'] == 'on') {
-			$vat_message = '';}
-			elseif ($boat->vat_paid == '1') {
-			$vat_message = $sb_config['tax_label']." ".__('paid','smartbroker');}
-			else {$vat_message = $sb_config['tax_label']." ".__('not paid','smartbroker');}
+		if (isset($boat->vat_message))  {
+			$vat_message = $boat->vat_message;
+			} else {
+			if ($boat->vat_paid == '1') {
+				$vat_message = "VAT ".__('paid','smartbroker');}
+				else {
+				$vat_message = "VAT ".__('not paid','smartbroker');
+				}
+			}
 			
 		$status_message = '';
 		$featured = false;
@@ -109,8 +113,10 @@ function search_result_item($boat) {
 				<div style='padding-left: .5em; display: block;'>
 					<h3 style='clear: right; margin-top: .5em;'><a href='$link'>$desc</a></h3>
 					
-					<p>$length, ".__('built','smartbroker')." $boat->year, ".__('lying','smartbroker')." $boat->region $boat->country<br/>
-						$price_message</p>
+					<p>$length
+					<span class='sb_year_message'>, ".__('built','smartbroker')." $boat->year</span>
+					<span class='sb_lying_message'>, ".__('lying','smartbroker')." $boat->region $boat->country</span>
+					<span class='sb_price_message'><br/>$price_message</span></p>
 					
 					<input type='button' value='View boat details' onclick='window.location=\"$link\"' style='margin-bottom: .5em;'/>
 				</div>
@@ -125,7 +131,10 @@ function search_result_item($boat) {
 				<div style='display: inline-block;'>
 				<h3 style='clear: right; margin-top: .5em;'><a href='$link'>$desc</a>$status_message</h3>
 				
-				<p>$length, ".__('built','smartbroker')." $boat->year, ".__('lying','smartbroker')." $boat->region $boat->country $price_message</p>
+				<p>$length
+				<span class='sb_year_message'>, ".__('built','smartbroker')." $boat->year</span>
+				<span class='sb_lying_message'>, ".__('lying','smartbroker')." $boat->region $boat->country</span>
+				<span class='sb_price_message'>, $price_message</span></p>
 				</div>	
 			</div>";
 			}

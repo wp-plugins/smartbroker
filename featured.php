@@ -22,11 +22,15 @@ function sb_featured_func($atts) {
 			} else {
 			$desc .= $b->symbol.number_format(intval($b->price),0);
 			}
-		if ($b->vat_paid == true) {
-			$desc .= ' '.$b->tax_label.' '.__('paid','smartbroker');			
-			} else {
-			$desc .= ' '.$b->tax_label.' '.__('not paid','smartbroker');	
-			}		
+		if (isset($b->tax_message)) {
+			$desc .= ' '.$b->tax_message;
+			} else{
+			if ($b->vat_paid == true) {
+				$desc .= ' '.$b->tax_label.' '.__('paid','smartbroker');			
+				} else {
+				$desc .= ' '.$b->tax_label.' '.__('not paid','smartbroker');	
+				}
+			}
 	
 		$a .= "<a href='".$sb_config['server_address']."/images/boats/".$b->boat_id."/large/".$b->photo_id.".jpg' data-description='$desc'
 		data-link='/?page_id=$sb_config[listing_page]&boat_id=".$b->boat_id."'></a>";
