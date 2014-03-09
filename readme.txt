@@ -142,6 +142,10 @@ A brief overview of the service is available at [http://www.smart-broker.co.uk](
 6. SmartBroker Server v6: Editing a listing
 
 == Changelog ==
+= 6.0.3 =
+* Added ability to hide price, 'currently lying' and tax-status tags
+* Now loads tax label (e.g. VAT, BTW) and inc/exc text (e.g. Paid, Not paid) from SmartBroker server
+
 = 6.0.2 =
 * Added options to allow white-labelling of system. See file 'white_label_settings.php' for details.
 
