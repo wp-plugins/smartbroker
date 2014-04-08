@@ -41,7 +41,7 @@ if (is_user_logged_in() OR ($sb_config['sb_tracking'] != 'on')) {
 			} else {
 			$s = '';
 			}
-		$find_out_more .= "<divid='sb_response_msg'>
+		$find_out_more .= "<div id='sb_response_msg'>
 		<p><strong>$m</strong></p></div>";
 		}
 	} else {
