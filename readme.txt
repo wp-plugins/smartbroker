@@ -3,8 +3,8 @@ Contributors: phuvf
 Tags: yachts, boats, brokerage, brokers
 Donate link: http://www.smart-broker.co.uk
 Requires at least: 3.3.0
-Tested up to: 3.8
-Stable tag: 6.0.3
+Tested up to: 4.1
+Stable tag: 6.1.0
 License: GPLv2 or later
 
 This plugin embeds yacht listings from the SmartBroker service into your WordPress site. Requires a SmartBroker subscription.
@@ -67,7 +67,7 @@ To add a slideshow of featured listings to your site, add the shortcode *[sb_fea
 
 = 4 - Adding the SmartBroker search widget =
 
-The SmartBroker plugin includes a customisable widget, *SmartBroker search*. To use this widet, go to *Admin* -> *Appearance* -> *Widgets* and add the *SmartBroker search* widget to the relevant sidebar.
+The SmartBroker plugin includes a customisable widget, *SmartBroker search*. To use this widget, go to *Admin* -> *Appearance* -> *Widgets* and add the *SmartBroker search* widget to the relevant sidebar.
 You can also set default size and price variable for this widget.
 
 > If you're using the search widget in a sidebar, you may wish to change the template for the 'Search' page - otherwise you'll end up with two search boxes on one page. Edit the search page and look for a fullwidth template in the *Page Attributes* section.
@@ -75,6 +75,8 @@ You can also set default size and price variable for this widget.
 = 5 - Shortcode options =
 
 *Shortcode options are added in the following format: [sb_search_page option_name_1='option_value_1' option_name_2='option_value_2' ... ]*
+
+Note: All of the following options apply only to the [sb_search_page] shortcode
 
 **Price and size defaults**
 
@@ -101,7 +103,19 @@ You can set the number of results returned per page on [sb_seach_page] using the
 
 * results_per_page (default: 10)
 
-A fully customised search page will look like:
+Normally the plugin will pull results from the SmartBroker server listed in Admin -> Settings -> SmartBroker. However, as of plugin v6.1.0 this can be over-ridden on a search page using the shortcode:
+
+* server_override='http://example.com'
+
+Where http://example.com is the alternate SmartBroker server you'd like to poll.
+
+If your SmartBroker server supports parent types (which is available as a hidden option on all SmartBroker servers above v6.1.0), you can pre-filter search results by specifying a parent_type id:
+
+* parent_type='4'
+
+Where 4 is the ID number of the parent type you'd like to return. This is typically used if the SmartBroker server has a wide variety of listings (commercial, superyachts, leisure boats, river vessels etc.) and you only want a sub-set returned.
+
+An example customised search page will look like:
 
 **[sb_search_page size_low="15" size_high="30"price_low="30000" price_high="80000" keyword_examples="e.g. bow thruster" results_per_page="20"]**
 
@@ -142,6 +156,10 @@ A brief overview of the service is available at [http://www.smart-broker.co.uk](
 6. SmartBroker Server v6: Editing a listing
 
 == Changelog ==
+= 6.1.0 =
+* Added ability to pre-filter search results by parent_type
+* Added ability to override default SmartBroker server for specific search pages
+
 = 6.0.3 =
 * Added ability to hide price, 'currently lying' and tax-status tags
 * Now loads tax label (e.g. VAT, BTW) and inc/exc text (e.g. Paid, Not paid) from SmartBroker server

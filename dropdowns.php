@@ -4,7 +4,7 @@ function create_country_dropdown($xml) {
 	foreach ($xml->countries->country as $country) {
 		$s = '';
 		$code = strtolower($country->code);
-		if ($_GET['cn'] == $code) {
+		if (array_key_exists('cn', $_GET) AND ($_GET['cn'] == $code)) {
 			$s = "selected='selected'";
 			}
 		$a .= "<option value='".$code."' $s>".$country->name."</option>";
@@ -15,8 +15,8 @@ function create_country_dropdown($xml) {
 function create_type_dropdown($xml) {
 	$sail_s = '';
 	$power_s = '';
-	if ($_GET['tp'] == 's') {$sail_s = "selected='selected'";}
-	if ($_GET['tp'] == 'p') {$power_s = "selected='selected'";}
+	if (array_key_exists('tp', $_GET) AND ($_GET['tp'] == 's')) {$sail_s = "selected='selected'";}
+	if (array_key_exists('tp', $_GET) AND ($_GET['tp'] == 'p')) {$power_s = "selected='selected'";}
 	$a =  "<select name='tp'>";
 	$a .= "<option value='a'>All boat types</option>";
 	
@@ -30,7 +30,7 @@ function create_type_dropdown($xml) {
 		$s = '';
 		$code = $type->id;
 		$group = $type->om_type;
-		if ($_GET['tp'] == $code) {
+		if (array_key_exists('tp', $_GET) AND ($_GET['tp'] == $code)) {
 			$s = "selected='selected'";
 			}
 		if ($group == 'sail') {
@@ -49,7 +49,7 @@ function create_builder_dropdown($xml) {
 	foreach ($xml->builders->builder as $builder) {
 		$s = '';
 		$code = $builder;
-		if ($_GET['bd'] == $builder) {
+		if (array_key_exists('bd', $_GET) AND ($_GET['bd'] == $builder)) {
 			$s = "selected='selected'";
 			}
 		$a .= "<option value='".$builder."' $s>".$builder."</option>";

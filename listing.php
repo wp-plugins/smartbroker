@@ -2,10 +2,12 @@
 
 function sb_listing_func(){
 	global $sb_config, $user_email, $user_identity, $current_user;
-	//print_r($sb_config);
+	
 	include_once('utility_functions.php');
 	$boat_id = '';
+	//print_r($_GET);
 	if (array_key_exists('boat_id', $_GET)) {$boat_id = $_GET['boat_id'];}
+	if (array_key_exists('server', $_GET)) {$sb_config['server_address'] = urldecode($_GET['server']);}
 	
 	$sb_config['video_link'] = '<div class="sb_clean_thumb" style="display: none;">
 		<a href="http://www.youtube.com/watch?v=%1$s?rel=0&wmode=opaque&modestbranding=1&showinfo=0&theme=light" rel="sb_prettyPhoto[all]" title="Video: %2$s" style="text-decoration: none;">
@@ -30,7 +32,20 @@ function sb_listing_func(){
 	$xml_file = $sb_config['server_address']."/system/wp_plugin/boat.php?boat_id=$boat_id";
 	$xml = sb_load_xml($xml_file);
 	
-	if ($xml !== FALSE) {		
+	if ($xml !== FALSE) {
+
+		//check if we're using a server other than the default, and substitute in the proper config node if required
+		$sb_temp_config= get_option('sb_plugin_options');
+		if ($sb_config['server_address'] != $sb_temp_config['server_address']) {
+			$xml_file = $sb_temp_config['server_address']."/system/wp_plugin/boat.php?boat_id=0";
+			$xml2 = sb_load_xml($xml_file);
+			$domToChange = dom_import_simplexml($xml->config);
+			$domReplace  = dom_import_simplexml($xml2->config);
+			$nodeImport  = $domToChange->ownerDocument->importNode($domReplace, TRUE);
+			$domToChange->parentNode->replaceChild($nodeImport, $domToChange);
+			}
+		
+		
 		//--------------------------------------------
 		// Format price
 		//--------------------------------------------

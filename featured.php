@@ -1,7 +1,7 @@
 <?php
 function sb_featured_func($atts) {
 	global $sb_config;
-	$a .= '<!-- The Gallery as inline carousel, can be positioned anywhere on the page -->
+	$a = '<!-- The Gallery as inline carousel, can be positioned anywhere on the page -->
 		<div id="sb_blueimp-gallery-carousel" class="sb_blueimp-gallery sb_blueimp-gallery-carousel">
 			<div class="sb_slides"></div>
 			<h3 class="sb_slide_title" class="display: none; color: black !important;"></h3>

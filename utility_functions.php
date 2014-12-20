@@ -78,7 +78,7 @@ function make_date_dropdown($year_min, $year_max) {
 	$a =  "<select name='bt'><option value=''>Show all</option>";
 	foreach($years as $y) {
 		$s = '';
-		if ($_GET['bt'] == $y) {$s = "selected='selected'";}
+		if (array_key_exists('bt', $_GET) AND ($_GET['bt'] == $y)) {$s = "selected='selected'";}
 		$a .= "<option value='".$y."' $s>".$y."</option>";
 		}
 	$a .= "</select>";

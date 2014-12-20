@@ -68,9 +68,13 @@ function sb_load_xml($xml_file) {
 	return FALSE;
 	}
 	
-function load_fields_xml() {
+function load_fields_xml($atts) {
 	global $sb_config;
-	$xml_file = $sb_config['server_address']."/system/wp_plugin/search_box_fields.php";
+	$e = '';
+	if (is_array($atts) AND array_key_exists('parent_type', $atts)) {
+		$e = "?pt=".(int) $atts['parent_type'];
+		}
+	$xml_file = $sb_config['server_address']."/system/wp_plugin/search_box_fields.php".$e;
 	$xml = sb_load_xml($xml_file);
 	if ($xml !== FALSE) {
 		foreach($xml->currencies->currency as $c) {
@@ -101,12 +105,16 @@ function load_fields_xml() {
 	
 function load_results_xml($data) {
 	global $sb_config;
+	
 	foreach ($data as $k => $v) {
-		if (intval($_GET[$k]) == 0) {
+		//if (array_key_exists($k, $_GET) AND (intval($_GET[$k]) == 0)) {
 			$_GET[$k] = $v;
-			}
+		//	}
 		}
 	$search_string = http_build_query($_GET);
+	if (!array_key_exists('auth',$sb_config)) {
+		$sb_config['auth'] = '';
+		}
 	$xml_file = $sb_config['server_address']."/system/wp_plugin/search.php?auth=$sb_config[auth]&".$search_string;
 	$xml =  sb_load_xml($xml_file);
 	return $xml;

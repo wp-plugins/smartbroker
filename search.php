@@ -2,17 +2,25 @@
 
 function sb_search_page_func($atts) {
 	global $sb_config, $post, $size_low, $size_high, $price_low, $price_high;
-	
+	if (is_array($atts) AND array_key_exists('server_override', $atts)) {
+		$sb_config['server_address'] = $atts['server_override'];
+		unset($atts['server_override']);
+		}
 	//add search box
 	$a = "<div class='sb_wrapper'>
 			<div class='smartbroker_section smartbroker_group'>
 			<div class='smartbroker_col smartbroker_span_1_of_3'>";
 	
-	$a .= sb_search_box_func($atts);
+	$a .= sb_search_box_func($atts, get_the_ID());
 	
 	$a .= '</div>';
 	$a .= "<div class='smartbroker_col smartbroker_span_2_of_3'>";
-
+	
+	if (is_array($atts) AND array_key_exists('parent_type', $atts)) {
+		$sb_config['data']['pt'] = (int) $atts['parent_type'];
+		}
+	
+		//print_r($sb_config['data']);
 		$xml = load_results_xml($sb_config['data']);
 		if ($xml !== FALSE) {
 			$total_rows = $xml['count'];
@@ -56,11 +64,16 @@ function sb_search_page_func($atts) {
 	
 function blank_slate_row() {
 	global $sb_config;
-	return "No listings found - <a href='?page_id=$sb_config[search_page]'>view all </a>";
+	if (array_key_exists('pt',$sb_config['data'])) {
+		return "No listings found"; //don't link to view all if only filtering by parent category
+		} else {
+		return "No listings found - <a href='?page_id=$sb_config[search_page]'>view all </a>";
+		}
 	}
 	
 function search_result_item($boat) {
 		global $sb_config;
+		
 		
 		$desc = $boat->builder." ".$boat->model;
 		
@@ -83,8 +96,12 @@ function search_result_item($boat) {
 		if ($boat->status == 'Featured') {
 			$featured = true;
 			}
+		if (!array_key_exists('listing_default_tab',$sb_config)) {
+		$sb_config['listing_default_tab'] = '';
+		}
 		
-		$link = site_url("/?page_id=".$sb_config['listing_page']."&boat_id=".$boat->boat_id.'#'.$sb_config['listing_default_tab']);
+		$link = site_url("/?page_id=".$sb_config['listing_page']."&boat_id=".$boat->boat_id.
+		"&server=".urlencode($sb_config['server_address']).'#'.$sb_config['listing_default_tab']);
 		
 		$length = round($boat->LOA).' '.$sb_config['units']['LOA'];
 		
@@ -141,7 +158,7 @@ function search_result_item($boat) {
 		return $a;
 		}
 		
-function sb_search_box_func($atts) {
+function sb_search_box_func($atts, $search_page = '') {
 	global $sb_config, $post, $size_low, $size_high, $price_low, $price_high;
 	extract( shortcode_atts(array(
 			'size_low'=>'none',
@@ -152,14 +169,18 @@ function sb_search_box_func($atts) {
 			'keyword_examples' => "e.g. roller furling, fridge",
 			'layout' => '')
 		, $atts ));
+		
+	if ($search_page == '')	{
+		$search_page = $sb_config['search_page'];
+		}
 
 	$sb_config['data']['ln'] = $results_per_page;
 	
-	$fields_xml = load_fields_xml();
+	$fields_xml = load_fields_xml($atts);
 	
 	if ($fields_xml !== FALSE) {
 		
-		if (!function_exists(find_default)) {
+		if (!function_exists("find_default")) {
 			function find_default($id) {
 				global $sb_config, $size_low, $size_high, $price_low, $price_high;
 				$assoc1 = array('sl'=>'size_low','sh'=>'size_high','pl'=>'price_low','ph'=>'price_high');
@@ -215,7 +236,7 @@ function sb_search_box_func($atts) {
 		$a .=  "<form method='get' action='".site_url('/')."' id='boat_search_v2'>";	
 				
 		//first section - boat type
-		$a .= "<p><input type='hidden' name='page_id' value='".$sb_config['search_page']."'>".__('Boat type:','smartbroker').'<br/>'.create_type_dropdown($fields_xml).'</p>';
+		$a .= "<p><input type='hidden' name='page_id' value='".$search_page."'>".__('Boat type:','smartbroker').'<br/>'.create_type_dropdown($fields_xml).'</p>';
 		
 		//second section - size slider
 		$a .= '<p>'.__('Boat size:','smartbroker').'<br/>';

@@ -1,15 +1,16 @@
 <?php
 if (is_user_logged_in() OR ($sb_config['sb_tracking'] != 'on')) {
+	$sb_temp_config= get_option('sb_plugin_options');
 	$find_out_more = "
 	<p>".nl2br($xml->config->find_out_more_form_intro)."</p>
 	<hr />
 	
-	<form action='".$sb_config['server_address']."/system/wp_plugin/wp_plugin_enquire.php' method='post'>
+	<form action='".$sb_temp_config['server_address']."/system/wp_plugin/wp_plugin_enquire.php' method='post'>
 	<p>Your name:<br/>
 	<input type='text' name='name' value='$user_identity' size='14' /></p>
 	
 	<div id='hpt'>
-	<p>Please leave empty</p><br/>
+	<p>Please leave empty<br/>
 	<input type='email' name='email_address' /></p>
 	</div>
 	
@@ -27,10 +28,12 @@ if (is_user_logged_in() OR ($sb_config['sb_tracking'] != 'on')) {
 	<textarea name='notes' rows='5' cols='30'></textarea></p>
 
 	<input type='hidden' name='boat_id' value='$_GET[boat_id]' />
+	<input type='hidden' name='server' value='$_GET[server]' />
+	<input type='hidden' name='desc' value='".$xml->boat->builder." ".$xml->boat->model."' />
 	<input type='hidden' name='admin_email' value='".$xml->config->email."' />
 	<input type='hidden' name='path' value='http://".$_SERVER['SERVER_NAME']."/?page_id=".$sb_config['listing_page']."' />
 	
-	<button type='submit'>".__('Send enquiry','smartbroker')."</button><br/><br/>
+	<button style='position: relative;' type='submit'>".__('Send enquiry','smartbroker')."</button><br/><br/>
 	
 	</form>";
 	$_GET = stripslashes_deep($_GET);
