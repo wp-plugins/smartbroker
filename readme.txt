@@ -4,7 +4,7 @@ Tags: yachts, boats, brokerage, brokers
 Donate link: http://www.smart-broker.co.uk
 Requires at least: 3.3.0
 Tested up to: 4.1
-Stable tag: 6.1.0
+Stable tag: 6.1.1
 License: GPLv2 or later
 
 This plugin embeds yacht listings from the SmartBroker service into your WordPress site. Requires a SmartBroker subscription.
@@ -156,6 +156,9 @@ A brief overview of the service is available at [http://www.smart-broker.co.uk](
 6. SmartBroker Server v6: Editing a listing
 
 == Changelog ==
+= 6.1.1 =
+* Fixed spaces around commas on listings results
+
 = 6.1.0 =
 * Added ability to pre-filter search results by parent_type
 * Added ability to override default SmartBroker server for specific search pages

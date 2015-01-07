@@ -130,10 +130,7 @@ function search_result_item($boat) {
 				<div style='padding-left: .5em; display: block;'>
 					<h3 style='clear: right; margin-top: .5em;'><a href='$link'>$desc</a></h3>
 					
-					<p>$length
-					<span class='sb_year_message'>, ".__('built','smartbroker')." $boat->year</span>
-					<span class='sb_lying_message'>, ".__('lying','smartbroker')." $boat->region $boat->country</span>
-					<span class='sb_price_message'><br/>$price_message</span></p>
+					<p>$length<span class='sb_year_message'>, ".__('built','smartbroker')." $boat->year</span><span class='sb_lying_message'>, ".__('lying','smartbroker')." ".trim($boat->region.' '.$boat->country)."</span><span class='sb_price_message'><br/>$price_message</span></p>
 					
 					<input type='button' value='View boat details' onclick='window.location=\"$link\"' style='margin-bottom: .5em;'/>
 				</div>
@@ -148,10 +145,8 @@ function search_result_item($boat) {
 				<div style='display: inline-block;'>
 				<h3 style='clear: right; margin-top: .5em;'><a href='$link'>$desc</a>$status_message</h3>
 				
-				<p>$length
-				<span class='sb_year_message'>, ".__('built','smartbroker')." $boat->year</span>
-				<span class='sb_lying_message'>, ".__('lying','smartbroker')." $boat->region $boat->country</span>
-				<span class='sb_price_message'>, $price_message</span></p>
+				<p>$length<span class='sb_year_message'>, ".__('built','smartbroker')." $boat->year</span><span class='sb_lying_message'>, ".__('lying','smartbroker')." ".
+				trim($boat->region.' '.$boat->country)."</span><span class='sb_price_message'>, $price_message</span></p>
 				</div>	
 			</div>";
 			}
