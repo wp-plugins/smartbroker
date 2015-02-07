@@ -3,7 +3,7 @@
 function sb_flush_rules(){
 	$rules = get_option( 'rewrite_rules' );
 
-	if ( ! isset( $rules['boat/([0-9]+)/(\w+)'] ) ) {
+	if ( ! isset( $rules['boats-for-sale/([0-9]+)/(\w+)'] ) ) {
 		global $wp_rewrite;
 	   	$wp_rewrite->flush_rules();
 	}
@@ -15,7 +15,7 @@ function sb_insert_rewrite_rules( $rules )
 {
 	global $sb_config;
 	$newrules = array();
-	$newrules['boat/([0-9]+)/(\w+)'] = 'index.php?page_id='.$sb_config['listing_page'].'&boat_id=$matches[1]&server_address=http%3A%2F%2F$matches[2].smart-broker.co.uk';
+	$newrules['boats-for-sale/([0-9]+)/(\w+)'] = 'index.php?page_id='.$sb_config['listing_page'].'&boat_id=$matches[1]&server_address=http%3A%2F%2F$matches[2].smart-broker.co.uk';
 	return $newrules + $rules;
 }
 

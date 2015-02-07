@@ -105,7 +105,7 @@ function search_result_item($boat) {
 			//get subdomain of server address
 			$elements = explode('.',$sb_config['server_address']);
 			$server_subdomain = substr($elements[0],7);
-			$link = site_url('/boat/'.$boat->boat_id.'/'.urlencode($server_subdomain).'/'.urlencode($desc));
+			$link = site_url('/boats-for-sale/'.$boat->boat_id.'/'.urlencode($server_subdomain).'/'.urlencode($desc));
 			} else {
 			//no pretty links, boo!
 			$link = site_url("/?page_id=".$sb_config['listing_page']."&boat_id=".$boat->boat_id."&server=".urlencode($sb_config['server_address']).'#'.$sb_config['listing_default_tab']);
