@@ -3,7 +3,7 @@
 Plugin Name: SmartBroker
 Plugin URI: http://www.smart-broker.co.uk
 Description: A plugin to insert SmartBroker data into a Wordpress site
-Version: 6.1.1
+Version: 6.1.2
 Author: Nick Roberts
 Author URI: http://www.smart-broker.co.uk
 License: GPL2
@@ -35,6 +35,7 @@ include_once("dropdowns.php");
 include_once("featured.php");
 include_once("sb_widgets.php");
 include_once("white_label_settings.php");
+include_once("rewrite.php");
 
 //Default config variables
 $sb_config= get_option('sb_plugin_options');
@@ -69,6 +70,10 @@ add_shortcode($sb_white_label['sc_prefix'].'featured', 'sb_featured_func');
 //code to hide listing page link (located in utility_functions.php)
 add_action('wp_head', 'hide_listing_page');
 add_action('wp_head', 'add_smartbroker_custom_css');
+
+add_filter( 'rewrite_rules_array','sb_insert_rewrite_rules' );
+add_filter( 'query_vars','sb_insert_query_vars' );
+add_action( 'wp_loaded','sb_flush_rules' );
 
 // Add JS includes to head
 add_action('wp_enqueue_scripts','sb_scripts');
@@ -122,5 +127,21 @@ function sb_set_plugin_meta( $links, $file ) {
 
 add_filter( 'plugin_row_meta', 'sb_set_plugin_meta', 10, 2 );
 
+//register widgets
+/**
+ * Register Widget Area.
+ *
+ */
+function sb_listing_under_photos_widget_init() {
+	register_sidebar(array(
+		'name' => 'Boat listing page under photos',
+		'id' => 'sb_listing_under_photos',
+		'before_widget' => '<div>',
+		'after_widget' => '</div>',
+		'before_title' => '<h2 class="rounded">',
+		'after_title' => '</h2>',
+		));
+	}
+add_action( 'widgets_init', 'sb_listing_under_photos_widget_init' );
 	
 ?>

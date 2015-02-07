@@ -1,13 +1,22 @@
 <?php
 
 function sb_listing_func(){
-	global $sb_config, $user_email, $user_identity, $current_user;
+	global $sb_config, $user_email, $user_identity, $current_user, $wp_query;
 	
 	include_once('utility_functions.php');
 	$boat_id = '';
-	//print_r($_GET);
-	if (array_key_exists('boat_id', $_GET)) {$boat_id = $_GET['boat_id'];}
-	if (array_key_exists('server', $_GET)) {$sb_config['server_address'] = urldecode($_GET['server']);}
+	//var_dump($wp_query->query_vars);
+	
+	if (array_key_exists('boat_id', $_GET)) {
+		$boat_id = $_GET['boat_id'];
+		} else {
+		$boat_id = get_query_var('boat_id'); //used if there's a rewrite in operation
+		}
+	if (array_key_exists('server', $_GET)) {
+		$sb_config['server_address'] = urldecode($_GET['server']);
+		} else {
+		$sb_config['server_address'] = get_query_var('server_address'); //used if there's a rewrite in operation
+		}
 	
 	$sb_config['video_link'] = '<div class="sb_clean_thumb" style="display: none;">
 		<a href="http://www.youtube.com/watch?v=%1$s?rel=0&wmode=opaque&modestbranding=1&showinfo=0&theme=light" rel="sb_prettyPhoto[all]" title="Video: %2$s" style="text-decoration: none;">
@@ -148,6 +157,14 @@ function sb_listing_func(){
 		if ($xml->boat->add_label == 1) {
 			$label = $xml->boat->status_text.'<br/>';
 			}
+		
+		//--------------------------------------------		
+		// Catch widgets into variables
+		//--------------------------------------------
+		ob_start();
+		dynamic_sidebar( 'sb_listing_under_photos' );
+		$wd1 = ob_get_contents();
+		ob_end_clean();
 			
 		//--------------------------------------------
 		// Build image & key facts blocks
@@ -158,7 +175,7 @@ function sb_listing_func(){
 				<img src='$image_link' title='' alt='".$xml->boats->model."'/>
 				</a>	 
 			</div>
-			<div class='sb_no_print'>$m</div>";
+			<div class='sb_no_print'>$m</div>$wd1";
 		//key facts
 		$kf = "<div class='sb_wide_only'><h1 style='clear: left;'><span id='sb_boat_builder_and_model'>".$xml->boat->builder." ".$xml->boat->model."</span>".$admin_link."</h1></div>
 		<h2 style='clear: left;'><span class='sb_price_message'>$label".$price."
