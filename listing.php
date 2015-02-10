@@ -12,9 +12,9 @@ function sb_listing_func(){
 		} else {
 		$boat_id = get_query_var('boat_id'); //used if there's a rewrite in operation
 		}
-	if (array_key_exists('server', $_GET) AND ($_GET['server'] != '')) {
+if (array_key_exists('server', $_GET) AND ($_GET['server'] != '')) {
 		$sb_config['server_address'] = urldecode($_GET['server']);
-		} else {
+		} elseif (get_query_var('server_address','none') != 'none') {
 		$sb_config['server_address'] = get_query_var('server_address'); //used if there's a rewrite in operation
 		}
 	
