@@ -12,7 +12,7 @@ function sb_listing_func(){
 		} else {
 		$boat_id = get_query_var('boat_id'); //used if there's a rewrite in operation
 		}
-	if (array_key_exists('server', $_GET)) {
+	if (array_key_exists('server', $_GET) AND ($_GET['server'] != '')) {
 		$sb_config['server_address'] = urldecode($_GET['server']);
 		} else {
 		$sb_config['server_address'] = get_query_var('server_address'); //used if there's a rewrite in operation
@@ -203,7 +203,7 @@ function sb_listing_func(){
 			</div>
 			$kf
 			<div class='sb_no_print'>
-				<button onclick=\"location.href='#sb_find_out_more';\" \>
+				<button onclick=\"location.href='#sb_find_out_more';\" style='position: relative;' \>
 					".__('Contact us about this boat','smartbroker')."
 				</button>
 				<br/><br/>

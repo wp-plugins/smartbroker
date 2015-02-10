@@ -4,7 +4,7 @@ Tags: yachts, boats, brokerage, brokers
 Donate link: http://www.smart-broker.co.uk
 Requires at least: 3.3.0
 Tested up to: 4.1
-Stable tag: 6.1.2
+Stable tag: 6.1.3
 License: GPLv2 or later
 
 This plugin embeds yacht listings from the SmartBroker service into your WordPress site. Requires a SmartBroker subscription.
@@ -156,6 +156,10 @@ A brief overview of the service is available at [http://www.smart-broker.co.uk](
 6. SmartBroker Server v6: Editing a listing
 
 == Changelog ==
+
+= 6.1.3 =
+* Fixed small bug if URL of listing page contained '&server=' but no server address (now defaults back to original correctly).
+* Added 'position: relative' to 'Contact us' button on listing page as some themes played up badly!
 
 = 6.1.2 =
 * Added pretty URLs. If you're using a Permalink scheme (anything other than 'Default'), links to listings will be re-written similar to (site_url)/boat/131243/ybs/Maxi+1100/ for better SEO.
