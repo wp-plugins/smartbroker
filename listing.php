@@ -203,7 +203,7 @@ function sb_listing_func(){
 			</div>
 			$kf
 			<div class='sb_no_print'>
-				<button onclick=\"location.href='#sb_find_out_more';\" style='position: relative;' \>
+				<button onclick=\"location.href='#sb_find_out_more';\" style='position: relative !important;' \>
 					".__('Contact us about this boat','smartbroker')."
 				</button>
 				<br/><br/>
