@@ -22,6 +22,9 @@ left: 2px;
 #sb_specifications {vertical-align: top;}
 
 
+#results div a.sb_img_standard  {width: 100px;}
+.sb_results_button_link_standard {display: none;}
+
 #sb_primary_image img {margin-bottom: .5em;}
 
 .jcarousel-container-horizontal {box-sizing: content-box;}

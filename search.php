@@ -134,27 +134,28 @@ function search_result_item($boat) {
 				$a = "
 			<div class='sb_listing_item sb_clearfix' style='clear: both; margin-bottom: .2em;'>
 				
-				<a href='$link' style='display: block; float: left; margin-right: 1em;'><img src='$img_link' alt='$desc' title='$desc'></a>
+				<a href='$link' style='display: block; float: left; margin-right: 1em;' class='sb_img_featured'><img src='$img_link' alt='$desc' title='$desc'></a>
 				<div style='padding-left: .5em; display: block;'>
 					<h3 style='clear: right; margin-top: .5em;'><a href='$link'>$desc</a></h3>
 					
 					<p>$length<span class='sb_year_message'>, ".__('built','smartbroker')." $boat->year</span><span class='sb_lying_message'>, ".__('lying','smartbroker')." ".trim($boat->region.' '.$boat->country)."</span><span class='sb_price_message'><br/>$price_message</span></p>
 					
-					<input type='button' value='View boat details' onclick='window.location=\"$link\"' style='margin-bottom: .5em;'/>
+					<input type='button' value='View boat details' onclick='window.location=\"$link\"' style='margin-bottom: .5em;' class='sb_results_button_link_featured'/>
 				</div>
 					
 			</div>";
 			} else {
-			$img_link = $sb_config['server_address']."/images/boats/".$boat->boat_id.'/small/'.$boat->photo_id.".jpg";
+			$img_link = $sb_config['server_address']."/images/boats/".$boat->boat_id.'/medium/'.$boat->photo_id.".jpg";
 			$a = "
 			<div class='sb_listing_item sb_clearfix' style='clear: both;'>
 				
-				<a href='$link' style='display: block; float: left; margin-right: .5em; margin-top: .5em;'><img src='$img_link' alt='$desc' title='$desc'></a>
+				<a href='$link' style='display: block; float: left; margin-right: .5em; margin-top: .5em;' class='sb_img_standard'><img src='$img_link' alt='$desc' title='$desc'></a>
 				<div style='display: inline-block;'>
 				<h3 style='clear: right; margin-top: .5em;'><a href='$link'>$desc</a>$status_message</h3>
 				
 				<p>$length<span class='sb_year_message'>, ".__('built','smartbroker')." $boat->year</span><span class='sb_lying_message'>, ".__('lying','smartbroker')." ".
 				trim($boat->region.' '.$boat->country)."</span><span class='sb_price_message'>, $price_message</span></p>
+				<input type='button' value='View boat details' onclick='window.location=\"$link\"' style='margin-bottom: .5em;' class='sb_results_button_link_standard'/>
 				</div>	
 			</div>";
 			}
