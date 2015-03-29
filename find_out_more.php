@@ -27,8 +27,8 @@ if (is_user_logged_in() OR ($sb_config['sb_tracking'] != 'on')) {
 	<p>".__('Notes:','smartbroker')."<br />
 	<textarea name='notes' rows='5' cols='30'></textarea></p>
 
-	<input type='hidden' name='boat_id' value='$_GET[boat_id]' />
-	<input type='hidden' name='server' value='$_GET[server]' />
+	<input type='hidden' name='boat_id' value='".get_query_var('boat_id',0)."' />
+	<input type='hidden' name='server' value='".get_query_var('server')."' />
 	<input type='hidden' name='desc' value='".$xml->boat->builder." ".$xml->boat->model."' />
 	<input type='hidden' name='admin_email' value='".$xml->config->email."' />
 	<input type='hidden' name='path' value='http://".$_SERVER['SERVER_NAME']."/?page_id=".$sb_config['listing_page']."' />
